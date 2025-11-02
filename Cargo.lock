@@ -1986,6 +1986,7 @@ dependencies = [
  "rattler_conda_types",
  "rattler_networking",
  "rattler_repodata_gateway",
+ "regex",
  "serde",
  "tempfile",
  "tokio",

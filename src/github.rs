@@ -1,30 +1,33 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // © Tobias Hunger <tobias.hunger@gmail.com>
 
-use octocrab::models::repos::Release;
-
-use crate::types::Repository;
+use anyhow::Context;
 
 pub struct Github {
     octocrab: std::sync::Arc<octocrab::Octocrab>,
 }
 
 impl Github {
-    pub fn new() -> Self {
-        Github {
-            octocrab: octocrab::instance(),
-        }
+    pub fn new() -> anyhow::Result<Self> {
+        let octocrab = if let Ok(token) = std::env::var("GITHUB_ACCESS_TOKEN") {
+            octocrab::initialise(
+                octocrab::Octocrab::default()
+                    .user_access_token(token)
+                    .context("failed to se github access token")?,
+            )
+        } else {
+            octocrab::instance()
+        };
+        Ok(Github { octocrab })
     }
 
-    pub async fn query_releases<F>(
+    pub async fn query_releases(
         &self,
-        repository: &Repository,
-        callback: impl Fn(Release) -> F,
-    ) -> Result<(), anyhow::Error>
-    where
-        F: Future<Output = Result<(), anyhow::Error>>,
-    {
+        repository: &crate::types::Repository,
+    ) -> Result<Vec<octocrab::models::repos::Release>, anyhow::Error> {
         use tokio_stream::StreamExt;
+
+        let mut result = Vec::new();
 
         let stream = self
             .octocrab
@@ -37,8 +40,9 @@ impl Github {
 
         tokio::pin!(stream);
         while let Some(release) = stream.try_next().await? {
-            callback(release).await?;
+            result.push(release);
         }
-        Ok(())
+
+        Ok(result)
     }
 }
