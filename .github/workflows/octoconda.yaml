@@ -1,0 +1,43 @@
+name: octoconda
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read # read the contents of the repository
+  id-token: write # trusted publishing
+
+jobs:
+  sync-packages:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Install Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+
+      - name: Install rattler-build (binary)
+        run: |
+          curl -L -o rattler-build "https://github.com/prefix-dev/rattler-build/releases/latest/download/rattler-build-x86_64-unknonw-linux-musl"
+          chmod +x rattler-build
+          sudo mv rattler-build /usr/local/bin/
+        shell: bash
+
+      - name: Run octoconda
+        run: cargo run -- --work-dir=work-dir
+
+      - name: Create packages
+        run: chmod +x "${GITHUB_WORKSPACE}/scripts/package_all.sh" && ( cd "${GITHUB_WORKSPACE}/work-dir" && "${GITHUB_WORKSPACE}/scripts/package_all.sh" )
+
+      - name: Upload packages
+        run: chmod +x "${GITHUB_WORKSPACE}/scripts/upload_all.sh" && ( cd "${GITHUB_WORKSPACE}/work-dir" && "${GITHUB_WORKSPACE}/scripts/upload_all.sh" )

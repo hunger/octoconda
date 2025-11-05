@@ -4,3 +4,7 @@
 # Added by cargo
 
 /target
+work-dir/
+# pixi environments
+.pixi/*
+!.pixi/config.toml

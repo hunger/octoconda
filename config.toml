@@ -1,0 +1,13 @@
+[conda]
+channel = "hu-octoconda-test"
+
+[[packages]]
+repository = "blopker/codebook"
+
+[packages.platforms]
+linux-aarch64 = "-aarch64-unknown-linux-musl.tar.gz$"
+osx-arm64 = "-aarch64-apple-darwin.tar.gz$"
+linux-64 = "-x86_64-unknown-linux-musl.tar.gz$"
+osx-64 = "-x86_64-apple-darwin.tar.gz$"
+win-64 = "-x86_64-pc-windows-msvc.zip$"
+

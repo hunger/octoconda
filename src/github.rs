@@ -24,14 +24,21 @@ impl Github {
     pub async fn query_releases(
         &self,
         repository: &crate::types::Repository,
-    ) -> Result<Vec<octocrab::models::repos::Release>, anyhow::Error> {
+    ) -> Result<
+        (
+            octocrab::models::Repository,
+            Vec<octocrab::models::repos::Release>,
+        ),
+        anyhow::Error,
+    > {
         use tokio_stream::StreamExt;
 
-        let mut result = Vec::new();
+        let mut releases_result = Vec::new();
 
-        let stream = self
-            .octocrab
-            .repos(&repository.owner, &repository.repo)
+        let repo = self.octocrab.repos(&repository.owner, &repository.repo);
+        let repo_result = repo.get().await?;
+
+        let stream = repo
             .releases()
             .list()
             .send()
@@ -40,9 +47,9 @@ impl Github {
 
         tokio::pin!(stream);
         while let Some(release) = stream.try_next().await? {
-            result.push(release);
+            releases_result.push(release);
         }
 
-        Ok(result)
+        Ok((repo_result, releases_result))
     }
 }

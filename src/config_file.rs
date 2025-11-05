@@ -70,6 +70,26 @@ pub struct Conda {
     pub channel: String,
 }
 
+impl Conda {
+    pub fn short_channel(&self) -> anyhow::Result<String> {
+        if let Ok(channel_url) = url::Url::parse(&self.channel) {
+            if channel_url.host_str() != Some("prefix.dev") {
+                return Err(anyhow::anyhow!(
+                    "Not a prefix channel, can not generate a channel name from this URL"
+                ));
+            }
+            Ok(channel_url.path().to_string())
+        } else {
+            Ok(self.channel.clone())
+        }
+    }
+
+    pub fn full_channel(&self) -> anyhow::Result<String> {
+        let short_channel = self.short_channel()?;
+        Ok(format!("https://prefix.dev/{short_channel}"))
+    }
+}
+
 #[derive(serde::Deserialize)]
 pub struct TomlConfig {
     pub packages: Vec<TomlPackage>,
