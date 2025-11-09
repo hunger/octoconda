@@ -29,14 +29,43 @@ pub struct Package {
 
 fn default_platforms() -> HashMap<Platform, String> {
     HashMap::from([
-        (Platform::Linux64, "x86_64-unknown-linux-musl".to_string()),
+        (
+            Platform::Linux32,
+            "[\\.-]i686-(unknown-)?linux-musl(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                .to_string(),
+        ),
+        (
+            Platform::Linux64,
+            "[\\.-]x86_64-(unknown-)?linux-musl(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                .to_string(),
+        ),
         (
             Platform::LinuxAarch64,
-            "aarch64-unknown-linux-musl".to_string(),
+            "[\\.-]aarch64-(unknown-)?linux-musl(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                .to_string(),
         ),
-        (Platform::Osx64, "x86_64-apple-darwin".to_string()),
-        (Platform::OsxArm64, "aarch64-apple-darwin".to_string()),
-        (Platform::Win64, "x86_64-pc-windows-msvc".to_string()),
+        (
+            Platform::Osx64,
+            "[\\.-]x86_64-(apple-)?darwin(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                .to_string(),
+        ),
+        (
+            Platform::OsxArm64,
+            "[\\.-]aarch64-(apple-)?darwin(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                .to_string(),
+        ),
+        (
+            Platform::Win32,
+            "[\\.-]i686-(pc)?-windows(-msvc)?(\\.zip)?$".to_string(),
+        ),
+        (
+            Platform::Win64,
+            "[\\.-]x86_64-(pc)?-windows(-msvc)?(\\.zip)?$".to_string(),
+        ),
+        (
+            Platform::WinArm64,
+            "[\\.-]arm64(-pc)?-windows(-msvc)?(\\.zip)?$".to_string(),
+        ),
     ])
 }
 
@@ -46,16 +75,33 @@ impl TryFrom<TomlPackage> for Package {
     fn try_from(value: TomlPackage) -> Result<Self, Self::Error> {
         let repository = Repository::try_from(value.repository.as_str())?;
         let name = value.name.unwrap_or_else(|| repository.repo.clone());
-        let platforms = value
-            .platforms
-            .unwrap_or_else(default_platforms)
-            .drain()
-            .map(|(k, v)| {
-                let re = regex::Regex::new(&v)
-                    .context(format!("failed to parse regex for platform {k}"))?;
-                Ok((k, re))
-            })
-            .collect::<anyhow::Result<HashMap<_, _>>>()?;
+        let platforms = {
+            let mut result = default_platforms();
+            for (k, v) in value.platforms.unwrap_or_default().drain() {
+                if v == "null" {
+                    result.remove(&k);
+                } else if let Some(v) = v.strip_suffix("+++") {
+                    let Some(current) = result.get(&k) else {
+                        return Err(anyhow::anyhow!(format!(
+                            "Can not prepend to default platform key {k}"
+                        )));
+                    };
+                    let mut v = v.to_string();
+                    v.push_str(current);
+                    result.insert(k, v);
+                } else {
+                    result.insert(k, v);
+                }
+            }
+            result
+                .drain()
+                .map(|(k, v)| {
+                    let re = regex::Regex::new(&v)
+                        .context(format!("failed to parse regex for platform {k}"))?;
+                    Ok((k, re))
+                })
+                .collect::<anyhow::Result<HashMap<_, _>>>()?
+        };
 
         Ok(Package {
             name,

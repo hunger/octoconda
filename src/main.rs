@@ -42,13 +42,16 @@ fn main() -> Result<(), anyhow::Error> {
             for package in &config.packages {
                 let repo_packages = &repo_packages;
 
-                let Ok((repository, releases)) = gh.query_releases(&package.repository).await
-                else {
-                    result.insert(
-                        package.name.clone(),
-                        package_generation::PackagingStatus::github_failed(),
-                    );
-                    continue;
+                let (repository, releases) = match gh.query_releases(&package.repository).await {
+                    Ok((repository, releases)) => (repository, releases),
+                    Err(e) => {
+                        eprintln!("Error: {e}");
+                        result.insert(
+                            package.name.clone(),
+                            package_generation::PackagingStatus::github_failed(),
+                        );
+                        continue;
+                    }
                 };
 
                 result.insert(
@@ -63,7 +66,22 @@ fn main() -> Result<(), anyhow::Error> {
                 );
             }
 
-            package_generation::report_results(&result);
+            let report = package_generation::report_results(&result);
+            eprintln!("{report}");
+
+            let report = format!(
+                r#"## Status
+```
+{report}
+```
+
+"#
+            );
+
+            std::fs::write(
+                temporary_directory.path().join("status.txt"),
+                report.as_bytes(),
+            )?;
 
             Ok(())
         })

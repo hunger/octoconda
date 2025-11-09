@@ -4,50 +4,72 @@
 use anyhow::Context;
 
 pub struct Github {
-    octocrab: std::sync::Arc<octocrab::Octocrab>,
+    octocrab: octocrab::Octocrab,
 }
 
 impl Github {
     pub fn new() -> anyhow::Result<Self> {
-        let octocrab = if let Ok(token) = std::env::var("GITHUB_ACCESS_TOKEN") {
-            octocrab::initialise(
-                octocrab::Octocrab::default()
-                    .user_access_token(token)
-                    .context("failed to se github access token")?,
-            )
+        let octocrab = if let Ok(token) = std::env::var("GITHUB_TOKEN") {
+            eprintln!("Github with personal token authentication");
+            octocrab::OctocrabBuilder::default()
+                .personal_token(token.clone())
+                .build()
+                .context("failed to set GITHUB_TOKEN")?
+        } else if let Ok(token) = std::env::var("GITHUB_ACCESS_TOKEN") {
+            eprintln!("Github with user access token authentication");
+            octocrab::OctocrabBuilder::default()
+                .user_access_token(token.clone())
+                .build()
+                .context("failed to set GITHUB_TOKEN")?
         } else {
-            octocrab::instance()
+            eprintln!("Github without authentication");
+            octocrab::OctocrabBuilder::default()
+                .build()
+                .context("Failed to build without authentication")?
         };
+
         Ok(Github { octocrab })
     }
 
     pub async fn query_releases(
         &self,
         repository: &crate::types::Repository,
-    ) -> Result<
-        (
-            octocrab::models::Repository,
-            Vec<octocrab::models::repos::Release>,
-        ),
-        anyhow::Error,
-    > {
+    ) -> anyhow::Result<(
+        octocrab::models::Repository,
+        Vec<octocrab::models::repos::Release>,
+    )> {
         use tokio_stream::StreamExt;
 
         let mut releases_result = Vec::new();
 
         let repo = self.octocrab.repos(&repository.owner, &repository.repo);
-        let repo_result = repo.get().await?;
+        let repo_result = repo.get().await.context("Failed to get repository data")?;
 
         let stream = repo
             .releases()
             .list()
             .send()
-            .await?
+            .await
+            .context("Failed to retrieve list of releases")?
             .into_stream(&self.octocrab);
 
         tokio::pin!(stream);
         while let Some(release) = stream.try_next().await? {
-            releases_result.push(release);
+            if release.tag_name.contains("prerelease")
+                || release.tag_name.contains("alpha")
+                || release.tag_name.contains("beta")
+                || release.tag_name.contains('-')
+            {
+                continue;
+            }
+            if (release.tag_name.as_bytes()[0] == b'v'
+                && release.tag_name.as_bytes()[1] >= b'0'
+                && release.tag_name.as_bytes()[1] <= b'0')
+                || (release.tag_name.as_bytes()[0] >= b'0'
+                    && release.tag_name.as_bytes()[0] <= b'0')
+            {
+                releases_result.push(release);
+            }
         }
 
         Ok((repo_result, releases_result))

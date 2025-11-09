@@ -34,66 +34,7 @@ pub fn generate_build_script(work_dir: &Path) -> anyhow::Result<()> {
     let build_script = work_dir.join("build.sh");
     let mut file =
         std::fs::File::create_new(build_script).context("Failed to create the build script")?;
-    let content = r#"#!/bin/sh
-
-WORK_DIR="${PWD}"
-
-SRC="${PKG_NAME}-${PKG_VERSION}-${target_platform}"
-
-if test -f "${SRC}.zip"; then
-    ( cd $PREFIX && unzip -n "${WORK_DIR}/${SRC}.zip" )
-elif test -f "${SRC}.tar.gz"; then
-    ( cd $PREFIX && tar -xzf "${WORK_DIR}/${SRC}.tar.gz" )
-else
-    echo "Failed to find binary package file to repackage"
-    exit 1
-fi
-
-cd "$PREFIX"
-
-# Move everything out of a "foo-arch-version" folder
-DIRECTORY_COUNT=$(find . -mindepth 1 -maxdepth 1 -type d -not -name conda-meta| wc -l)
-
-if [ "$DIRECTORY_COUNT" -eq 1 ]; then
-    if test -d "bin"; then
-        echo "Found only a bin subdir, this looks good"
-    else
-        # move everything up a level
-        SUBDIR=$(find . -mindepth 1 -maxdepth 1 -type d -not -name conda-meta)
-
-        mv "${SUBDIR}"/* .
-        rmdir "${SUBDIR}"
-    fi
-fi
-
-# Move all executable files into bin
-mkdir -p bin
-mkdir -p extras
-
-for f in *; do
-    if test -f "${f}"; then
-        if test -x "${f}"; then
-            mv "${f}" bin
-        else
-            case "$f" in
-            *.exe|*.bat|*.com)
-                mv "${f}" bin
-                ;;
-            *)
-                mv "${f}" extras
-                ;;
-            esac
-        fi
-    elif test -d "${f}"; then
-        case "${f}" in
-        conda-meta|bin|etc|include|lib|man|ssl|extras)
-            ;;
-        *)
-            mv "${f}" extras
-        esac
-    fi
-done
-"#;
+    let content = include_str!("../scripts/build.sh");
     file.write_all(content.as_bytes())
         .context("Failed to write build script")?;
     Ok(())
@@ -138,7 +79,7 @@ impl PackagingStatus {
             version: Some(version),
             platform,
             status: Status::Failed,
-            message: "could nod generate package recipe".to_string(),
+            message: "could not generate package recipe".to_string(),
         }
     }
 
@@ -179,8 +120,9 @@ impl PackagingStatus {
     }
 }
 
-pub fn report_results(result: &HashMap<String, Vec<PackagingStatus>>) {
-    for (package, sub_status) in result {
+pub fn report_results(status: &HashMap<String, Vec<PackagingStatus>>) -> String {
+    let mut result = String::new();
+    for (package, sub_status) in status {
         let package_status =
             sub_status
                 .iter()
@@ -194,11 +136,12 @@ pub fn report_results(result: &HashMap<String, Vec<PackagingStatus>>) {
                     (&Status::Skipped, Status::Skipped) => Status::Skipped,
                 });
 
-        eprintln!(
-            "{package_status}: {} ({} packages)",
+        result.push_str(&format!(
+            "{package_status}: {} ({} packages)\n",
             package,
             sub_status.len()
-        );
+        ));
+
         for s in sub_status {
             let sep = match (&s.version, s.platform) {
                 (None, Platform::NoArch) => String::new(),
@@ -206,9 +149,10 @@ pub fn report_results(result: &HashMap<String, Vec<PackagingStatus>>) {
                 (Some(v), Platform::NoArch) => format!("{v}: "),
                 (Some(v), p) => format!("{v} on {p}: "),
             };
-            eprintln!("    {} {}{}", s.status, sep, s.message);
+            result.push_str(&format!("    {} {}{}\n", s.status, sep, s.message));
         }
     }
+    result
 }
 
 pub fn generate_packaging_data(
@@ -294,17 +238,18 @@ fn extract_about(
         .unwrap_or_default();
     let mut result = format!(
         r#"about:
-  repository: {0}
-  description:|
+  repository: {1}
+  description: |
     Repackaged binaries found at
-    {2}{3}
+    {3}{4}
 
-This is version {1} of the repository {0} on github"#,
+    This is version {2} of the repository {0} on github"#,
         repository
             .html_url
             .as_ref()
             .map(|u| u.path().to_string())
             .unwrap(),
+        repository.html_url.as_ref().unwrap(),
         package_version,
         asset.browser_download_url,
         digest
@@ -315,7 +260,12 @@ This is version {1} of the repository {0} on github"#,
         result.push_str(&format!("\n  homepage: \"{homepage}\""));
     }
     if let Some(license) = &repository.license {
-        result.push_str(&format!("\n  license: \"{}\"", license.spdx_id));
+        // Fix outdated licenses
+        let license_info = match license.spdx_id.as_str() {
+            "GPL-3.0" => "GPL-3.0-only",
+            l => l,
+        };
+        result.push_str(&format!("\n  license: \"{}\"", license_info));
     }
     if let Some(description) = &repository.description {
         result.push_str(&format!("\n  summary: \"{description}\""));
@@ -366,13 +316,13 @@ fn generate_rattler_build_recipe(
             .to_str()
             .unwrap_or_default();
         let full_ext = if file_name.ends_with(".zip") {
-            "zip"
+            ".zip"
         } else if let Some(pos) = file_name.find(".tar.") {
-            &file_name[pos + 1..]
+            &file_name[pos..]
         } else {
-            panic!("unexpected file format")
+            ""
         };
-        format!("{pn}-{package_version}-{target_platform}.{full_ext}")
+        format!("{pn}-{package_version}-{target_platform}{full_ext}")
     };
 
     let content = format!(
@@ -382,7 +332,7 @@ package:
   version: "{package_version}"
   
 source:
-  url: "{url}{digest}"
+  url: "{url}"{digest}
   file_name: "{archive}"
 
 build:
@@ -410,19 +360,21 @@ fn generate_package(
     repository: &octocrab::models::Repository,
     asset: &octocrab::models::repos::Asset,
 ) -> PackagingStatus {
-    let Ok(_) = generate_rattler_build_recipe(
+    match generate_rattler_build_recipe(
         work_dir,
         &package.name,
         package_version,
         target_platform,
         repository,
         asset,
-    ) else {
-        return PackagingStatus::recipe_generation_failed(
-            *target_platform,
-            package_version.to_string(),
-        );
-    };
-
-    PackagingStatus::success(*target_platform, package_version.to_string())
+    ) {
+        Ok(_) => PackagingStatus::success(*target_platform, package_version.to_string()),
+        Err(e) => {
+            eprintln!(
+                "Error in {}@{package_version}-{target_platform},\n using {asset:#?}: {e}",
+                package.name
+            );
+            PackagingStatus::recipe_generation_failed(*target_platform, package_version.to_string())
+        }
+    }
 }

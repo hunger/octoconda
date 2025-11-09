@@ -1,13 +1,79 @@
 [conda]
 channel = "hu-octoconda-test"
 
+
+
 [[packages]]
+repository = "ifd3f/caligula"
+[packages.platforms]
+linux-64 = "-x86_64-linux$"
+linux-aarch64 = "-aarch64-linux$"
+
+[[packages]]
+repository = "cargo-bins/cargo-binstall"
+
+[[packages]]
+repository = "axodotdev/cargo-dist"
+
+[[packages]]
+repository = "rust-fuzz/cargo-fuzz"
+
+[[packages]]
+repository = "cargo-generate/cargo-generate"
+
+[[packages]]
+repository = "crate-ci/cargo-release"
+
+[[packages]]
+repository = "obi1kenobi/cargo-semver-checks"
+
+[[packages]]
+repository = "xd009642/tarpaulin"
+
+[[packages]]
+repository = "est31/cargo-udeps"
+
+[[packages]]
+repository = "MathiasPius/crates-lsp"
+[packages.platforms]
+linux-64 = "-x86_64-unknown-linux-gnu.tar.gz$"
+linux-aarch64 = "-aarch64-unknown-linux-gnu.tar.gz$"
+
+[[packages]]
+name = "codebook-lsp"
 repository = "blopker/codebook"
 
+[[packages]]
+repository = "Michael-F-Bryan/mdbook-linkcheck"
 [packages.platforms]
-linux-aarch64 = "-aarch64-unknown-linux-musl.tar.gz$"
-osx-arm64 = "-aarch64-apple-darwin.tar.gz$"
-linux-64 = "-x86_64-unknown-linux-musl.tar.gz$"
-osx-64 = "-x86_64-apple-darwin.tar.gz$"
-win-64 = "-x86_64-pc-windows-msvc.zip$"
+linux-64 = "x86_64-unknown-linux-gnu.zip$"
 
+[[packages]]
+name = "probe-rs-tools"
+repository = "probe-rs/probe-rs"
+[packages.platforms]
+linux-aarch64 = "^probe-rs-tools-aarch64-unknown-linux-gnu\\.tar\\.xz$"
+linux-64 = "^probe-rs-tools-x86_64-unknown-linux-gnu\\.tar\\.xz$"
+osx-64 = "^probe-rs-tools+++"
+osx-arm64 = "^probe-rs-tools+++"
+win-64 = "^probe-rs-tools+++"
+
+### TODO: 0.0.98 has tarballs + plain binaries
+# [[packages]]
+# repository = "rvben/rumdl"
+
+[[packages]]
+repository = "davidlattimore/wild"
+
+[[packages]]
+repository = "idursun/jjui"
+[packages.platforms]
+linux-64 = "-linux-amd64\\.zip$"
+linux-aarch64 = "-linux-arm64\\.zip$"
+osx-64 = "-darwin-amd64\\.zip$"
+osx-arm64 = "-darwin-arm64\\.zip$"
+win-64 = "-windows-amd64\\.zip$"
+win-arm64 = "-windows-arm64\\.zip$"
+
+[[packages]]
+repository = "j178/prek"

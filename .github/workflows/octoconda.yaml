@@ -2,6 +2,17 @@ name: octoconda
 
 on:
   workflow_dispatch:
+    inputs:
+      configFile:
+        description: Configuration file
+        default: "config.toml"
+        type: string
+      workDir:
+        description: work directory
+        default: "./work_dir"
+        type: string
+  schedule:
+    - cron: "2 * * * *"
 
 concurrency:
   group: ${{ github.workflow }}
@@ -9,11 +20,16 @@ concurrency:
 
 permissions:
   contents: read # read the contents of the repository
+  repository-projects: read # read release details
   id-token: write # trusted publishing
 
 jobs:
   sync-packages:
     runs-on: ubuntu-latest
+    env:
+      # Set environment variables with conditional defaults
+      CONFIG_FILE: ${{ github.event.inputs.configFile || 'config.toml' }}
+      WORK_DIR: ${{ github.event.inputs.workDir || './work_dir' }}
 
     steps:
       - name: Checkout code
@@ -28,16 +44,41 @@ jobs:
 
       - name: Install rattler-build (binary)
         run: |
-          curl -L -o rattler-build "https://github.com/prefix-dev/rattler-build/releases/latest/download/rattler-build-x86_64-unknonw-linux-musl"
-          chmod +x rattler-build
-          sudo mv rattler-build /usr/local/bin/
+          mkdir bin
+          curl -L -o bin/rattler-build "https://github.com/prefix-dev/rattler-build/releases/latest/download/rattler-build-x86_64-unknown-linux-musl"
+          chmod +x bin/rattler-build
+          file bin/rattler-build
         shell: bash
 
       - name: Run octoconda
-        run: cargo run -- --work-dir=work-dir
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: cargo run -- "--work-dir=${{ env.WORK_DIR }}" "--config-file=${{ env.CONFIG_FILE }}"
 
       - name: Create packages
-        run: chmod +x "${GITHUB_WORKSPACE}/scripts/package_all.sh" && ( cd "${GITHUB_WORKSPACE}/work-dir" && "${GITHUB_WORKSPACE}/scripts/package_all.sh" )
+        run: |
+          chmod +x "${GITHUB_WORKSPACE}/scripts/package_all.sh" \
+            && (\
+              cd "${GITHUB_WORKSPACE}" \
+              && cd "${{ env.WORK_DIR }}" \
+              && PATH="${GITHUB_WORKSPACE}/bin:${PATH}" "${GITHUB_WORKSPACE}/scripts/package_all.sh" \
+            )
 
       - name: Upload packages
-        run: chmod +x "${GITHUB_WORKSPACE}/scripts/upload_all.sh" && ( cd "${GITHUB_WORKSPACE}/work-dir" && "${GITHUB_WORKSPACE}/scripts/upload_all.sh" )
+        run: |
+          chmod +x "${GITHUB_WORKSPACE}/scripts/upload_all.sh" \
+            && (\
+              cd "${GITHUB_WORKSPACE}" \
+                && cd "${{ env.WORK_DIR }}" \
+                && PATH="${GITHUB_WORKSPACE}/bin:${PATH}" "${GITHUB_WORKSPACE}/scripts/upload_all.sh" \
+            )
+
+      - name: Add Job Summary
+        if: always()
+        run: |
+          echo "# Octoconda Run Summary" >> $GITHUB_STEP_SUMMARY
+          if test -f "${{ env.WORK_DIR }}/status.txt"; then
+            cat "${{ env.WORK_DIR }}/status.txt" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "Failed to generate status data" >> $GITHUB_STEP_SUMMARY
+          fi

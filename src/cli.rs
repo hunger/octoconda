@@ -35,8 +35,13 @@ impl WorkDir {
 impl Cli {
     pub fn work_directory(&self) -> anyhow::Result<WorkDir> {
         if let Some(path) = &self.work_dir {
-            std::fs::create_dir_all(path).context("Could not create work directory")?;
-            Ok(WorkDir(WorkDirInner::Permanent(path.to_path_buf())))
+            let path = std::env::current_dir()
+                .context("Could not find the current directory")?
+                .join(path);
+            std::fs::create_dir_all(&path).context("Could not create work directory")?;
+            Ok(WorkDir(WorkDirInner::Permanent(
+                std::fs::canonicalize(path).context("Failed to canonicalize work dir")?,
+            )))
         } else {
             let mut inner = tempfile::Builder::new()
                 .prefix("octoconda.")
