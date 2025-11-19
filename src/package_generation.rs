@@ -326,8 +326,7 @@ fn generate_rattler_build_recipe(
     };
 
     let content = format!(
-        r#"
-package:
+        r#"package:
   name: {pn}
   version: "{package_version}"
   
@@ -340,6 +339,14 @@ build:
     binary_relocation: false
   prefix_detection:
     ignore: true
+
+tests:
+  - package_contents:
+      files:
+        not_exists:
+          - .*
+      bin:
+        - "*"
 
 {about}"#,
     );

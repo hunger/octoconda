@@ -48,6 +48,10 @@ mkdir -p extras
 
 for f in *; do
     if test -f "${f}"; then
+        if file "${f}" | grep "executable"; then
+            chmod 755 "${f}"
+        fi
+
         if test -x "${f}"; then
             mv "${f}" bin
         else

@@ -14,7 +14,6 @@ echo "Uploading all conda packages in ${CURRENT} to prefix channel ${CHANNEL}"
 
 mapfile -t -d '' files_to_process < <(find . -name \*.conda -type f -print0)
 FILES_FOUND="${#files_to_process[@]}"
-# FILES_FOUND=$(find . -name \*.conda -type f -print0 | tr -c '\0' '.' | tr '\0' '\n' | wc -l)
 FAILED_UPLOADS=0
 CURRENT=0
 
