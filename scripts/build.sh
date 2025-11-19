@@ -21,6 +21,8 @@ fi
 
 cd "$PREFIX" || exit 3
 
+shopt -s dotglob
+
 # Move everything out of a "foo-arch-version" folder
 DIRECTORY_COUNT=$(find . -mindepth 1 -maxdepth 1 -type d -not -name conda-meta | wc -l)
 
@@ -31,9 +33,7 @@ if [ "$DIRECTORY_COUNT" -eq 1 ]; then
         # move everything up a level
         SUBDIR=$(find . -mindepth 1 -maxdepth 1 -type d -not -name conda-meta)
 
-        shopt -s dotglob
         mv "${SUBDIR}"/* . || true
-        shopt -u dotglob
         rmdir "${SUBDIR}"
     fi
 fi
@@ -69,3 +69,5 @@ for f in *; do
         esac
     fi
 done
+
+shopt -u dotglob
