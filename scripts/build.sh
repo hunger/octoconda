@@ -8,12 +8,8 @@ if test -f "${SRC}.zip"; then
     ( cd "$PREFIX" && unzip -n "${WORK_DIR}/${SRC}.zip" )
 elif test -f "${SRC}.tar.gz"; then
     ( cd "$PREFIX" && tar -xzf "${WORK_DIR}/${SRC}.tar.gz" )
-elif test -f "${SRC}.tgz"; then
-    ( cd "$PREFIX" && tar -xzf "${WORK_DIR}/${SRC}.tgz" )
 elif test -f "${SRC}.tar.xz"; then
     ( cd "$PREFIX" && tar -xJf "${WORK_DIR}/${SRC}.tar.xz" )
-elif test -f "${SRC}.txz"; then
-    ( cd "$PREFIX" && tar -xJf "${WORK_DIR}/${SRC}.txz" )
 elif test -f "${WORK_DIR}/${SRC}"; then
     cp "${WORK_DIR}/${SRC}" "${PREFIX}/${PKG_NAME}"
 else

@@ -319,6 +319,10 @@ fn generate_rattler_build_recipe(
             ".zip"
         } else if let Some(pos) = file_name.find(".tar.") {
             &file_name[pos..]
+        } else if file_name.ends_with(".tgz") {
+            ".tar.gz"
+        } else if file_name.ends_with(".txz") {
+            ".tar.xz"
         } else {
             ""
         };
