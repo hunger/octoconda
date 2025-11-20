@@ -13,6 +13,7 @@ use rattler_conda_types::{Platform, VersionWithSource};
 
 use crate::config_file::Package;
 
+#[derive(PartialEq, Eq)]
 pub enum Status {
     Failed,
     Succeeded,
@@ -58,61 +59,59 @@ TARGET_CHANNEL="{}"
 }
 
 pub struct PackagingStatus {
-    platform: Platform,
-    version: Option<String>,
-    status: Status,
-    message: String,
+    pub platform: Platform,
+    pub status: Status,
+    pub message: String,
+}
+
+pub struct VersionPackagingStatus {
+    pub version: Option<String>,
+    pub status: Vec<PackagingStatus>,
 }
 
 impl PackagingStatus {
     pub fn github_failed() -> Vec<Self> {
         vec![Self {
-            version: None,
             platform: rattler_conda_types::Platform::Unknown,
             status: Status::Failed,
             message: "could not retrieve release information from Github".to_string(),
         }]
     }
 
-    pub fn recipe_generation_failed(platform: Platform, version: String) -> Self {
+    pub fn recipe_generation_failed(platform: Platform) -> Self {
         Self {
-            version: Some(version),
             platform,
             status: Status::Failed,
             message: "could not generate package recipe".to_string(),
         }
     }
 
-    pub fn invalid_version(version: String) -> Self {
+    pub fn invalid_version() -> Self {
         Self {
-            version: Some(version),
             platform: Platform::Unknown,
             status: Status::Failed,
             message: "could not parse version number from github release".to_string(),
         }
     }
 
-    pub fn skip_platform(platform: Platform, version: String) -> Self {
+    pub fn skip_platform(platform: Platform) -> Self {
         Self {
-            version: Some(version),
             platform,
             status: Status::Succeeded,
             message: "already in conda".to_string(),
         }
     }
 
-    pub fn missing_platform(platform: Platform, version: String) -> Self {
+    pub fn missing_platform(platform: Platform) -> Self {
         Self {
-            version: Some(version),
             platform,
             status: Status::Skipped,
             message: "platform file not found".to_string(),
         }
     }
 
-    pub fn success(platform: Platform, version: String) -> Self {
+    pub fn success(platform: Platform) -> Self {
         Self {
-            version: Some(version),
             platform,
             status: Status::Succeeded,
             message: "ok".to_string(),
@@ -120,21 +119,21 @@ impl PackagingStatus {
     }
 }
 
-pub fn report_results(status: &HashMap<String, Vec<PackagingStatus>>) -> String {
+pub fn report_results(status: &HashMap<String, Vec<VersionPackagingStatus>>) -> String {
     let mut result = String::new();
     for (package, sub_status) in status {
-        let package_status =
-            sub_status
-                .iter()
-                .fold(Status::Succeeded, |acc, s| match (&s.status, acc) {
-                    (&Status::Failed, _) => Status::Failed,
-                    (&Status::Succeeded, Status::Failed) => Status::Failed,
-                    (&Status::Succeeded, Status::Succeeded) => Status::Succeeded,
-                    (&Status::Succeeded, Status::Skipped) => Status::Succeeded,
-                    (&Status::Skipped, Status::Failed) => Status::Failed,
-                    (&Status::Skipped, Status::Succeeded) => Status::Succeeded,
-                    (&Status::Skipped, Status::Skipped) => Status::Skipped,
-                });
+        let package_status = sub_status.iter().flat_map(|v| v.status.iter()).fold(
+            Status::Succeeded,
+            |acc, s| match (&s.status, acc) {
+                (&Status::Failed, _) => Status::Failed,
+                (&Status::Succeeded, Status::Failed) => Status::Failed,
+                (&Status::Succeeded, Status::Succeeded) => Status::Succeeded,
+                (&Status::Succeeded, Status::Skipped) => Status::Succeeded,
+                (&Status::Skipped, Status::Failed) => Status::Failed,
+                (&Status::Skipped, Status::Succeeded) => Status::Succeeded,
+                (&Status::Skipped, Status::Skipped) => Status::Skipped,
+            },
+        );
 
         result.push_str(&format!(
             "{package_status}: {} ({} packages)\n",
@@ -142,14 +141,40 @@ pub fn report_results(status: &HashMap<String, Vec<PackagingStatus>>) -> String 
             sub_status.len()
         ));
 
-        for s in sub_status {
-            let sep = match (&s.version, s.platform) {
-                (None, Platform::NoArch) => String::new(),
-                (None, p) => format!("{p}: "),
-                (Some(v), Platform::NoArch) => format!("{v}: "),
-                (Some(v), p) => format!("{v} on {p}: "),
+        for vs in sub_status {
+            let mut version = vs.version.clone().unwrap_or_default();
+
+            let skipped = {
+                let skipped = vs
+                    .status
+                    .iter()
+                    .filter_map(|s| (s.status == Status::Skipped).then_some(s.platform))
+                    .fold(String::new(), |acc, p| {
+                        if acc.is_empty() {
+                            format!("{p}")
+                        } else {
+                            format!("{acc}, {p}")
+                        }
+                    });
+                if skipped.is_empty() {
+                    skipped
+                } else {
+                    format!(" skipped: {skipped}")
+                }
             };
-            result.push_str(&format!("    {} {}{}\n", s.status, sep, s.message));
+
+            result.push_str(&format!("    {version}{skipped}\n"));
+
+            for s in &vs.status {
+                if s.status == Status::Skipped {
+                    continue;
+                }
+                result.push_str(&format!(
+                    "        {}: {} {}\n",
+                    s.status, s.platform, s.message
+                ));
+                version = version.chars().map(|_| ' ').collect()
+            }
         }
     }
     result
@@ -161,7 +186,7 @@ pub fn generate_packaging_data(
     releases: &[octocrab::models::repos::Release],
     repo_packages: &[rattler_conda_types::RepoDataRecord],
     work_dir: &Path,
-) -> anyhow::Result<Vec<PackagingStatus>> {
+) -> anyhow::Result<Vec<VersionPackagingStatus>> {
     let mut result = vec![];
 
     for r in releases {
@@ -172,10 +197,14 @@ pub fn generate_packaging_data(
             .unwrap_or_else(|| r.tag_name.clone());
 
         let Ok(version) = rattler_conda_types::Version::from_str(&version_string) else {
-            result.push(PackagingStatus::invalid_version(version_string));
+            result.push(VersionPackagingStatus {
+                version: Some(version_string.clone()),
+                status: vec![PackagingStatus::invalid_version()],
+            });
             continue;
         };
         let version = VersionWithSource::new(version, &version_string);
+        let mut version_result = vec![];
 
         let mut found_platforms = HashSet::new();
 
@@ -189,14 +218,11 @@ pub fn generate_packaging_data(
                             && r.package_record.name.as_normalized() == package.name
                             && r.package_record.version == version
                     }) {
-                        result.push(PackagingStatus::skip_platform(
-                            *platform,
-                            version_string.clone(),
-                        ));
+                        version_result.push(PackagingStatus::skip_platform(*platform));
                         continue;
                     }
 
-                    result.push(generate_package(
+                    version_result.push(generate_package(
                         work_dir,
                         package,
                         &version_string,
@@ -210,12 +236,14 @@ pub fn generate_packaging_data(
 
         for platform in package.platforms.keys() {
             if !found_platforms.contains(platform) {
-                result.push(PackagingStatus::missing_platform(
-                    *platform,
-                    version_string.clone(),
-                ));
+                version_result.push(PackagingStatus::missing_platform(*platform));
             }
         }
+
+        result.push(VersionPackagingStatus {
+            version: Some(version_string),
+            status: version_result,
+        });
     }
 
     Ok(result)
@@ -379,13 +407,13 @@ fn generate_package(
         repository,
         asset,
     ) {
-        Ok(_) => PackagingStatus::success(*target_platform, package_version.to_string()),
+        Ok(_) => PackagingStatus::success(*target_platform),
         Err(e) => {
             eprintln!(
                 "Error in {}@{package_version}-{target_platform},\n using {asset:#?}: {e}",
                 package.name
             );
-            PackagingStatus::recipe_generation_failed(*target_platform, package_version.to_string())
+            PackagingStatus::recipe_generation_failed(*target_platform)
         }
     }
 }

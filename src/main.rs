@@ -3,6 +3,8 @@
 
 use std::collections::HashMap;
 
+use crate::package_generation::VersionPackagingStatus;
+
 mod cli;
 mod conda;
 mod config_file;
@@ -48,7 +50,10 @@ fn main() -> Result<(), anyhow::Error> {
                         eprintln!("Error: {e}");
                         result.insert(
                             package.name.clone(),
-                            package_generation::PackagingStatus::github_failed(),
+                            vec![VersionPackagingStatus {
+                                version: None,
+                                status: package_generation::PackagingStatus::github_failed(),
+                            }],
                         );
                         continue;
                     }
