@@ -19,8 +19,6 @@ CURRENT=0
 
 echo ">>> Files to process: ${FILES_FOUND}."
 
-set -x
-
 for file in "${files_to_process[@]}"; do
     ((CURRENT++)) || true
     echo ">>> ${CURRENT}/${FILES_FOUND}: ${file}..."
