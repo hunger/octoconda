@@ -22,9 +22,7 @@ echo ">>> Files to process: ${FILES_FOUND}."
 for file in "${files_to_process[@]}"; do
     ((CURRENT++)) || true
     echo ">>> ${CURRENT}/${FILES_FOUND}: ${file}..."
-    if rattler-build upload prefix -c "${CHANNEL}" "${file}"; then
-        echo "    SUCCESS"
-    else
+    if ! rattler-build upload prefix -c "${CHANNEL}" "${file}"; then
         STATUS=$?
         echo
         echo
@@ -39,8 +37,10 @@ done
 echo
 echo "Failed uploads: ${FAILED_UPLOADS} of ${FILES_FOUND}."
 
-echo >> status.txt
-echo "### Upload" >> status.txt
-echo "Failed uploads: ${FAILED_UPLOADS} of ${FILES_FOUND}." >> status.txt
+{ \
+  echo ;\
+  echo "### Upload"; \
+  echo "Failed uploads: ${FAILED_UPLOADS} of ${FILES_FOUND}."; \
+} >> status.txt
 
 exit $FAILED_UPLOADS

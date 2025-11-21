@@ -44,9 +44,11 @@ for platform in "${CURRENT}/"*/; do
   fi
 done
 
-echo >> status.txt
-echo "### Package build" >> status.txt
-echo >> status.txt
-echo "${count} of ${RECIPE_COUNT} packages processed successfully"
+{ \
+  echo ; \
+  echo "### Package build" ; \
+  echo ; \
+  echo "${count} of ${RECIPE_COUNT} packages processed successfully"; \
+} >> status.txt
 
 shopt -u dotglob
