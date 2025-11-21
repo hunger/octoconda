@@ -180,6 +180,20 @@ pub fn report_results(status: &HashMap<String, Vec<VersionPackagingStatus>>) -> 
     result
 }
 
+fn match_platform<'a>(
+    patterns: &[regex::Regex],
+    assets: &'a [octocrab::models::repos::Asset],
+) -> Option<&'a octocrab::models::repos::Asset> {
+    for r in patterns {
+        for a in assets {
+            if r.is_match(&a.name) {
+                return Some(a);
+            }
+        }
+    }
+    None
+}
+
 pub fn generate_packaging_data(
     package: &Package,
     repository: &octocrab::models::Repository,
@@ -208,29 +222,27 @@ pub fn generate_packaging_data(
 
         let mut found_platforms = HashSet::new();
 
-        for asset in &r.assets {
-            for (platform, pattern) in &package.platforms {
-                if pattern.is_match(&asset.name) {
-                    found_platforms.insert(platform);
+        for (platform, pattern) in &package.platforms {
+            if let Some(asset) = match_platform(&pattern[..], &r.assets[..]) {
+                found_platforms.insert(platform);
 
-                    if repo_packages.iter().any(|r| {
-                        r.package_record.subdir == platform.to_string()
-                            && r.package_record.name.as_normalized() == package.name
-                            && r.package_record.version == version
-                    }) {
-                        version_result.push(PackagingStatus::skip_platform(*platform));
-                        continue;
-                    }
-
-                    version_result.push(generate_package(
-                        work_dir,
-                        package,
-                        &version_string,
-                        platform,
-                        repository,
-                        asset,
-                    ));
+                if repo_packages.iter().any(|r| {
+                    r.package_record.subdir == platform.to_string()
+                        && r.package_record.name.as_normalized() == package.name
+                        && r.package_record.version == version
+                }) {
+                    version_result.push(PackagingStatus::skip_platform(*platform));
+                    continue;
                 }
+
+                version_result.push(generate_package(
+                    work_dir,
+                    package,
+                    &version_string,
+                    platform,
+                    repository,
+                    asset,
+                ));
             }
         }
 

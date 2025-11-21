@@ -14,57 +14,99 @@ use serde::Deserialize;
 use crate::types::Repository;
 
 #[derive(Deserialize)]
+#[serde(untagged)]
+pub enum StringOrList {
+    String(String),
+    List(Vec<String>),
+}
+
+#[derive(Deserialize)]
 pub struct TomlPackage {
     pub name: Option<String>,
     pub repository: String,
-    pub platforms: Option<HashMap<Platform, String>>,
+    pub platforms: Option<HashMap<Platform, StringOrList>>,
 }
 
 #[derive(Clone, Debug)]
 pub struct Package {
     pub name: String,
     pub repository: Repository,
-    pub platforms: HashMap<Platform, regex::Regex>,
+    pub platforms: HashMap<Platform, Vec<regex::Regex>>,
 }
 
-fn default_platforms() -> HashMap<Platform, String> {
+fn default_platforms() -> HashMap<Platform, Vec<String>> {
     HashMap::from([
         (
             Platform::Linux32,
-            "[\\.-]i686-(unknown-)?linux-musl(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
-                .to_string(),
+            vec![
+                "[\\.-]i686-(unknown-)?linux-musl(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                    .to_string(),
+                "[\\.-]i686-(unknown-)?linux(-gnu)?(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                    .to_string(),
+                "[\\.-]linux-(i686|x86)(-unknown)?(-gnu|-musl)?(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                    .to_string(),
+            ],
         ),
         (
             Platform::Linux64,
-            "[\\.-]x86_64-(unknown-)?linux-musl(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+            vec![
+            "[\\.-](x86_64|amd64)-(unknown-)?linux-musl(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
                 .to_string(),
+            "[\\.-](x86_64|amd64)-(unknown-)?linux(-gnu)?(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                .to_string(),
+            "[\\.-]linux-(x86_64|amd64)(-unknown)?(-gnu|-musl)?(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                .to_string(),
+            ],
         ),
         (
             Platform::LinuxAarch64,
-            "[\\.-]aarch64-(unknown-)?linux-musl(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+            vec![
+            "[\\.-](arm64|aarch64)-(unknown-)?linux-musl(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
                 .to_string(),
+            "[\\.-](arm64|aarch64)-(unknown-)?linux(-gnu)?(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                .to_string(),
+            "[\\.-]linux-(arm64|aarch64|arm64)-(unknown-)?(-gnu|-musl)?(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                .to_string(),
+        ],
         ),
         (
             Platform::Osx64,
-            "[\\.-]x86_64-(apple-)?darwin(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
-                .to_string(),
+            vec![
+                "[\\.-]x86_64-(apple-)?darwin(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                    .to_string(),
+                "[\\.-]darwin-(amd64|x86_64)(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                    .to_string(),
+            ],
         ),
         (
             Platform::OsxArm64,
-            "[\\.-]aarch64-(apple-)?darwin(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
-                .to_string(),
+            vec![
+                "[\\.-](arm64|aarch64)-(apple-)?darwin(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                    .to_string(),
+                "[\\.-]darwin-(arm64|aarch64)(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                    .to_string(),
+            ],
         ),
         (
             Platform::Win32,
-            "[\\.-]i686-(pc)?-windows(-msvc)?(\\.zip)?$".to_string(),
+            vec![
+                "[\\.-](x86|i686)-(pc)?-windows(-msvc)?(\\.zip)?$".to_string(),
+                "[\\.-]windows-(i686|x86)(\\.zip)?$".to_string(),
+            ],
         ),
         (
             Platform::Win64,
-            "[\\.-]x86_64-(pc)?-windows(-msvc)?(\\.zip)?$".to_string(),
+            vec![
+                "[\\.-](amd_64|x86_64)-(pc)?-windows(-msvc)?(\\.zip)?$".to_string(),
+                "[\\.-]windows-(amd64|x86_64)(\\.zip)?$".to_string(),
+            ],
         ),
         (
             Platform::WinArm64,
-            "[\\.-]arm64(-pc)?-windows(-msvc)?(\\.zip)?$".to_string(),
+            vec![
+                "[\\.-](arm64|aarch64)(-pc)?-windows(-msvc)?(\\.zip)?$".to_string(),
+                "[\\.-]windows-(arm64|aarch64)(\\.zip)?$".to_string(),
+            ],
         ),
     ])
 }
@@ -74,30 +116,65 @@ impl TryFrom<TomlPackage> for Package {
 
     fn try_from(value: TomlPackage) -> Result<Self, Self::Error> {
         let repository = Repository::try_from(value.repository.as_str())?;
-        let name = value.name.unwrap_or_else(|| repository.repo.clone());
+        let name = value
+            .name
+            .clone()
+            .unwrap_or_else(|| repository.repo.clone());
+
+        let n = &value.name;
+
         let platforms = {
             let mut result = default_platforms();
             for (k, v) in value.platforms.unwrap_or_default().drain() {
-                if v == "null" {
-                    result.remove(&k);
-                } else if let Some(v) = v.strip_suffix("+++") {
-                    let Some(current) = result.get(&k) else {
-                        return Err(anyhow::anyhow!(format!(
-                            "Can not prepend to default platform key {k}"
-                        )));
-                    };
-                    let mut v = v.to_string();
-                    v.push_str(current);
-                    result.insert(k, v);
-                } else {
-                    result.insert(k, v);
-                }
+                let strings = match v {
+                    StringOrList::String(s) => {
+                        if s == "null" {
+                            result.remove(&k);
+                            continue;
+                        }
+
+                        if let Some(n) = n.as_ref() {
+                            let Some(current) = result.get(&k) else {
+                                return Err(anyhow::anyhow!(format!(
+                                    "Can not prepend to default platform key {k}"
+                                )));
+                            };
+                            result.insert(
+                                k,
+                                current
+                                    .iter()
+                                    .map(|c| {
+                                        let mut r = n.to_string();
+                                        r.push_str(&format!(".*{c}"));
+                                        r
+                                    })
+                                    .collect::<Vec<_>>(),
+                            );
+                            continue;
+                        }
+
+                        vec![s]
+                    }
+                    StringOrList::List(items) => items,
+                };
+                result.insert(k, strings);
             }
+
             result
                 .drain()
                 .map(|(k, v)| {
-                    let re = regex::Regex::new(&v)
-                        .context(format!("failed to parse regex for platform {k}"))?;
+                    let re = v
+                        .iter()
+                        .map(|r| {
+                            let pattern = if let Some(n) = n {
+                                format!("^{n}.*{r}")
+                            } else {
+                                r.to_string()
+                            };
+                            regex::Regex::new(&pattern)
+                                .context(format!("failed to parse regex for platform {k}"))
+                        })
+                        .collect::<anyhow::Result<Vec<_>>>()?;
                     Ok((k, re))
                 })
                 .collect::<anyhow::Result<HashMap<_, _>>>()?

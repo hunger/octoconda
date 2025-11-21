@@ -19,7 +19,7 @@ else
     exit 1
 fi
 
-cd "$PREFIX" || exit 3
+pushd "$PREFIX" || exit 3
 
 shopt -s dotglob
 
@@ -67,6 +67,15 @@ for f in *; do
         *)
             mv "${f}" extras
         esac
+    fi
+done
+
+cd "${PREFIX}/bin"
+
+for f in *; do
+    if [[ "$f" == *"-${PKG_VERSION}"* ]]; then
+        short="${f%%-*}"
+        mv "${f}" "${short}"
     fi
 done
 
