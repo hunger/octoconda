@@ -65,6 +65,7 @@ jobs:
             )
 
       - name: Upload packages
+        if: always()
         run: |
           chmod +x "${GITHUB_WORKSPACE}/scripts/upload_all.sh" \
             && (\
