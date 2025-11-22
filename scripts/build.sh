@@ -34,9 +34,7 @@ pushd "$PREFIX" || exit 3
 shopt -s dotglob
 
 # Move everything out of a "foo-arch-version" folder
-DIRECTORY_COUNT=$(find . -mindepth 1 -maxdepth 1 -type d -not -name conda-meta | wc -l)
-
-if [ "$DIRECTORY_COUNT" -eq 1 ]; then
+while [ $(find . -mindepth 1 -maxdepth 1 -type d -not -name conda-meta | wc -l) -eq 1 ]; do
     if test -d "bin"; then
         echo "Found only a bin subdir, this looks good"
     else
@@ -46,7 +44,7 @@ if [ "$DIRECTORY_COUNT" -eq 1 ]; then
         mv "${SUBDIR}"/* . || true
         rmdir "${SUBDIR}"
     fi
-fi
+done
 
 # Move all executable files into bin
 mkdir -p bin
