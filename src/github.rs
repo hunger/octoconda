@@ -60,15 +60,19 @@ impl Github {
                 || release.tag_name.contains("beta")
                 || release.tag_name.contains('-')
             {
+                eprintln!("pre-release tag: {}", release.tag_name);
                 continue;
             }
             if (release.tag_name.as_bytes()[0] == b'v'
                 && release.tag_name.as_bytes()[1] >= b'0'
-                && release.tag_name.as_bytes()[1] <= b'0')
+                && release.tag_name.as_bytes()[1] <= b'9')
                 || (release.tag_name.as_bytes()[0] >= b'0'
                     && release.tag_name.as_bytes()[0] <= b'0')
             {
                 releases_result.push(release);
+            } else {
+                eprintln!("invalid tag: {}", release.tag_name);
+                continue;
             }
         }
 
