@@ -10,8 +10,18 @@ elif test -f "${SRC}.tar.gz"; then
     ( cd "$PREFIX" && tar -xzf "${WORK_DIR}/${SRC}.tar.gz" )
 elif test -f "${SRC}.tar.xz"; then
     ( cd "$PREFIX" && tar -xJf "${WORK_DIR}/${SRC}.tar.xz" )
+elif test -f "${SRC}.gz"; then
+    ( cd "$PREFIX" && cat "${WORK_DIR}/${SRC}.gz" | gunzip > "${PREFIX}/${PKG_NAME}" )
+    chmod 755 "${PREFIX}/${PKG_NAME}"
+elif test -f "${SRC}.xz"; then
+    ( cd "$PREFIX" && cat "${WORK_DIR}/${SRC}.xz" | unxz > "${PREFIX}/${PKG_NAME}" )
+    chmod 755 "${PREFIX}/${PKG_NAME}"
+elif test -f "${SRC}.zst"; then
+    ( cd "$PREFIX" && cat "${WORK_DIR}/${SRC}.zst" | unzstd > "${PREFIX}/${PKG_NAME}" )
+    chmod 755 "${PREFIX}/${PKG_NAME}"
 elif test -f "${WORK_DIR}/${SRC}"; then
     cp "${WORK_DIR}/${SRC}" "${PREFIX}/${PKG_NAME}"
+    chmod 755 "${PREFIX}/${PKG_NAME}"
 else
     echo "${SRC} not found, not a file, nor a zip not a .tar.gz"
     echo "Work directory contents is:"

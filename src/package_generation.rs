@@ -363,6 +363,12 @@ fn generate_rattler_build_recipe(
             ".tar.gz"
         } else if file_name.ends_with(".txz") {
             ".tar.xz"
+        } else if file_name.ends_with(".gz") {
+            ".gz"
+        } else if file_name.ends_with(".xz") {
+            ".xz"
+        } else if file_name.ends_with(".zst") {
+            ".zst"
         } else {
             ""
         };

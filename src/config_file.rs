@@ -39,73 +39,73 @@ fn default_platforms() -> HashMap<Platform, Vec<String>> {
         (
             Platform::Linux32,
             vec![
-                "[\\.-]i686-(unknown-)?linux-musl(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                "[\\._-]i686-(unknown-)?linux-musl(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
                     .to_string(),
-                "[\\.-]i686-(unknown-)?linux(-gnu)?(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                "[\\._-]i686-(unknown-)?linux(-gnu)?(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
                     .to_string(),
-                "[\\.-]linux-(i686|x86)(-unknown)?(-gnu|-musl)?(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                "[\\._-]linux-(i686|x86)(-unknown)?(-gnu|-musl)?(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
                     .to_string(),
             ],
         ),
         (
             Platform::Linux64,
             vec![
-            "[\\.-](x86_64|amd64)-(unknown-)?linux-musl(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+            "[\\._-](x86_64|amd64|x64)-(unknown-)?linux-musl(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
                 .to_string(),
-            "[\\.-](x86_64|amd64)-(unknown-)?linux(-gnu)?(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+            "[\\._-](x86_64|amd64|x64)-(unknown-)?linux(-gnu)?(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
                 .to_string(),
-            "[\\.-]linux-(x86_64|amd64)(-unknown)?(-gnu|-musl)?(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+            "[\\._-]linux-(x86_64|amd64|x64)(-unknown)?(-gnu|-musl)?(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
                 .to_string(),
             ],
         ),
         (
             Platform::LinuxAarch64,
             vec![
-            "[\\.-](arm64|aarch64)-(unknown-)?linux-musl(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+            "[\\._-](arm64|aarch64)-(unknown-)?linux-musl(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
                 .to_string(),
-            "[\\.-](arm64|aarch64)-(unknown-)?linux(-gnu)?(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+            "[\\._-](arm64|aarch64)-(unknown-)?linux(-gnu)?(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
                 .to_string(),
-            "[\\.-]linux-(arm64|aarch64|arm64)-(unknown-)?(-gnu|-musl)?(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+            "[\\._-]linux-(arm64|aarch64)-(unknown-)?(-gnu|-musl)?(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
                 .to_string(),
         ],
         ),
         (
             Platform::Osx64,
             vec![
-                "[\\.-]x86_64-(apple-)?darwin(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                "[\\._-](amd64|x86_64|x64)-(apple-)?darwin(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
                     .to_string(),
-                "[\\.-]darwin-(amd64|x86_64)(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                "[\\._-]darwin-(amd64|x86_64|x64)(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
                     .to_string(),
             ],
         ),
         (
             Platform::OsxArm64,
             vec![
-                "[\\.-](arm64|aarch64)-(apple-)?darwin(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                "[\\._-](arm64|aarch64)-(apple-)?darwin(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
                     .to_string(),
-                "[\\.-]darwin-(arm64|aarch64)(\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                "[\\._-]darwin-(arm64|aarch64)(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
                     .to_string(),
             ],
         ),
         (
             Platform::Win32,
             vec![
-                "[\\.-](x86|i686)-(pc)?-windows(-msvc)?(\\.zip)?$".to_string(),
-                "[\\.-]windows-(i686|x86)(\\.zip)?$".to_string(),
+                "[\\._-](x86|i686)-(pc)?-windows(-msvc)?(\\.gz|\\.xz|\\.zst|\\.zip)?$".to_string(),
+                "[\\._-]windows-(i686|x86)(\\.gz|\\.xz|\\.zst|\\.zip)?$".to_string(),
             ],
         ),
         (
             Platform::Win64,
             vec![
-                "[\\.-](amd_64|x86_64)-(pc)?-windows(-msvc)?(\\.zip)?$".to_string(),
-                "[\\.-]windows-(amd64|x86_64)(\\.zip)?$".to_string(),
+                "[\\._-](amd_64|x86_64|x64)-(pc)?-windows(-msvc)?(\\.gz|\\.xz|\\.zst|\\.zip)?$".to_string(),
+                "[\\._-]windows-(amd64|x86_64|x64)(\\.gz|\\.xz|\\.zst|\\.zip)?$".to_string(),
             ],
         ),
         (
             Platform::WinArm64,
             vec![
-                "[\\.-](arm64|aarch64)(-pc)?-windows(-msvc)?(\\.zip)?$".to_string(),
-                "[\\.-]windows-(arm64|aarch64)(\\.zip)?$".to_string(),
+                "[\\._-](arm64|aarch64)(-pc)?-windows(-msvc)?(\\.gz|\\.xz|\\.zst|\\.zip)?$".to_string(),
+                "[\\._-]windows-(arm64|aarch64)(\\.gz|\\.xz|\\.zst|\\.zip)?$".to_string(),
             ],
         ),
     ])
