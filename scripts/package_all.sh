@@ -23,8 +23,8 @@ for platform in "${CURRENT}/"*/; do
     echo "*** Processing ${platform} in ${PLATFORM_DIR}"
 
     for package in "${PLATFORM_DIR}/"*/; do
-      if [ "$count" -ge 100 ]; then
-        echo "100 packages processed, exiting early, leaving the rest ofr later"
+      if [ "$count" -ge 250 ]; then
+        echo "250 packages processed, exiting early, leaving the rest ofr later"
 
         { \
           echo ; \
