@@ -2,7 +2,23 @@
 channel = "github-releases"
 
 [[packages]]
+repository = "ajeetdsouza/zoxide"
+
+[[packages]]
+repository = "ast-grep/ast-grep"
+
+[[packages]]
+repository = "atuinsh/atuin"
+
+[[packages]]
 repository = "axodotdev/cargo-dist"
+
+[[packages]]
+repository = "bergercookie/asm-lsp"
+
+# ### TODO: Strange release tag names
+# [[packages]]
+# repository = "biomejs/biome"
 
 [[packages]]
 repository = "blopker/codebook"
@@ -13,6 +29,9 @@ repository = "cargo-bins/cargo-binstall"
 
 [[packages]]
 repository = "cargo-generate/cargo-generate"
+
+[[packages]]
+repository = "ClementTsang/bottom"
 
 [[packages]]
 repository = "crate-ci/cargo-release"
@@ -30,10 +49,19 @@ repository = "idursun/jjui"
 repository = "ifd3f/caligula"
 
 [[packages]]
+repository = "jj-vcs/jj"
+
+[[packages]]
 repository = "j178/prek"
 
 [[packages]]
 repository = "MathiasPius/crates-lsp"
+
+[[packages]]
+repository = "Michael-F-Bryan/mdbook-linkcheck"
+
+[[packages]]
+repository = "neocmakelsp/neocmakelsp"
 
 [[packages]]
 repository = "obi1kenobi/cargo-semver-checks"
@@ -43,13 +71,29 @@ repository = "probe-rs/probe-rs"
 name = "probe-rs-tools"
 
 [[packages]]
+repository = "rui314/mold"
+
+[[packages]]
 repository = "rust-fuzz/cargo-fuzz"
 
 [[packages]]
 repository = "rvben/rumdl"
 
 [[packages]]
+repository = "sharkdp/bat"
+
+[[packages]]
+repository = "starship/starship"
+
+[[packages]]
+repository = "tree-sitter/tree-sitter"
+name = "tree-sitter"
+
+[[packages]]
 repository = "xd009642/tarpaulin"
 
 [[packages]]
-repository = "Michael-F-Bryan/mdbook-linkcheck"
+repository = "zellij-org/zellij"
+
+[[packages]]
+repository = "zizmorcore/zizmor"
