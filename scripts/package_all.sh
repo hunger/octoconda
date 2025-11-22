@@ -25,6 +25,14 @@ for platform in "${CURRENT}/"*/; do
     for package in "${PLATFORM_DIR}/"*/; do
       if [ "$count" -ge 100 ]; then
         echo "100 packages processed, exiting early, leaving the rest ofr later"
+
+        { \
+          echo ; \
+          echo "### Package build" ; \
+          echo ; \
+          echo "${count} of ${RECIPE_COUNT} packages processed successfully. RATE LIMITED"; \
+        } >> status.txt
+
         exit 0
       fi
 
