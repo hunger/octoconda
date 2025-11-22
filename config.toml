@@ -64,6 +64,9 @@ repository = "Michael-F-Bryan/mdbook-linkcheck"
 repository = "neocmakelsp/neocmakelsp"
 
 [[packages]]
+repository = "neovim/neovim"
+
+[[packages]]
 repository = "obi1kenobi/cargo-semver-checks"
 
 [[packages]]

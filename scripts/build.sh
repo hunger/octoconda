@@ -70,7 +70,7 @@ for f in *; do
         fi
     elif test -d "${f}"; then
         case "${f}" in
-        conda-meta|bin|etc|include|lib|man|ssl|extras)
+        conda-meta|bin|etc|include|lib|man|share|ssl|extras)
             ;;
         *)
             mv "${f}" extras
