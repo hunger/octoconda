@@ -638,6 +638,18 @@ mod tests {
         ]
     }
 
+    fn shellcheck_names() -> Vec<&'static str> {
+        vec![
+            "shellcheck-v0.11.0.darwin.aarch64.tar.xz",
+            "shellcheck-v0.11.0.darwin.x86_64.tar.xz",
+            "shellcheck-v0.11.0.linux.aarch64.tar.xz",
+            "shellcheck-v0.11.0.linux.armv6hf.tar.xz",
+            "shellcheck-v0.11.0.linux.riscv64.tar.xz",
+            "shellcheck-v0.11.0.linux.x86_64.tar.xz",
+            "shellcheck-v0.11.0.zip",
+        ]
+    }
+
     #[track_caller]
     fn assert_platform<'a>(
         patterns: &[regex::Regex],
@@ -804,6 +816,19 @@ mod tests {
                 (Platform::Win64, 3),
             ],
             &neovim_names_old(),
+        );
+    }
+
+    #[test]
+    fn test_shellcheck_names() {
+        platform_match_test(
+            &[
+                (Platform::LinuxAarch64, 2),
+                (Platform::Linux64, 5),
+                (Platform::OsxArm64, 0),
+                (Platform::Osx64, 1),
+            ],
+            &shellcheck_names(),
         );
     }
 }
