@@ -77,9 +77,24 @@ jobs:
       - name: Add Job Summary
         if: always()
         run: |
-          echo "# Octoconda Run Summary" >> $GITHUB_STEP_SUMMARY
+          { \
+            echo "# Octoconda Report"; \
+            echo; \
+          } >> $GITHUB_STEP_SUMMARY
+
+          if test -f "${{ env.WORK_DIR }}/report.txt"; then
+            cat "${{ env.WORK_DIR }}/report.txt" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "*no report available*" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          { \
+            echo "# Summary"; \
+            echo; \
+          } >> $GITHUB_STEP_SUMMARY
+
           if test -f "${{ env.WORK_DIR }}/status.txt"; then
             cat "${{ env.WORK_DIR }}/status.txt" >> $GITHUB_STEP_SUMMARY
           else
-            echo "Failed to generate status data" >> $GITHUB_STEP_SUMMARY
+            echo "*no status available*" >> $GITHUB_STEP_SUMMARY
           fi

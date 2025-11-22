@@ -28,10 +28,10 @@ for platform in "${CURRENT}/"*/; do
 
         { \
           echo ; \
-          echo "### Package build" ; \
+          echo "## Package build" ; \
           echo ; \
           echo "${count} of ${RECIPE_COUNT} packages processed successfully. RATE LIMITED"; \
-        } >> status.txt
+        } >> report.txt
 
         exit 0
       fi
@@ -54,9 +54,9 @@ done
 
 { \
   echo ; \
-  echo "### Package build" ; \
+  echo "## Package build" ; \
   echo ; \
   echo "${count} of ${RECIPE_COUNT} packages processed successfully"; \
-} >> status.txt
+} >> report.txt
 
 shopt -u dotglob

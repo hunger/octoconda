@@ -39,8 +39,9 @@ echo "Failed uploads: ${FAILED_UPLOADS} of ${FILES_FOUND}."
 
 { \
   echo ;\
-  echo "### Upload"; \
-  echo "Failed uploads: ${FAILED_UPLOADS} of ${FILES_FOUND}."; \
-} >> status.txt
+  echo "## Upload"; \
+  echo ; \
+  echo "Failed uploads: ${FAILED_UPLOADS} of ${FILES_FOUND} conda files."; \
+} >> report.txt
 
 exit $FAILED_UPLOADS
