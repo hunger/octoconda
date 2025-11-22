@@ -45,36 +45,42 @@ fn default_platforms() -> HashMap<Platform, Vec<String>> {
                     .to_string(),
                 "[\\._-]linux-(i686|x86)(-unknown)?(-gnu|-musl)?(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
                     .to_string(),
+                "[\\._-]linux32(-unknown)?(-gnu|-musl)?(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                    .to_string(),
             ],
         ),
         (
             Platform::Linux64,
             vec![
-            "[\\._-](x86_64|amd64|x64)-(unknown-)?linux-musl(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
-                .to_string(),
-            "[\\._-](x86_64|amd64|x64)-(unknown-)?linux(-gnu)?(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
-                .to_string(),
-            "[\\._-]linux-(x86_64|amd64|x64)(-unknown)?(-gnu|-musl)?(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
-                .to_string(),
+                "[\\._-](x86_64|amd64|x64)-(unknown-)?linux-musl(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                    .to_string(),
+                "[\\._-](x86_64|amd64|x64)-(unknown-)?linux(-gnu)?(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                    .to_string(),
+                "[\\._-]linux-(x86_64|amd64|x64)(-unknown)?(-gnu|-musl)?(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                    .to_string(),
+                "[\\._-]linux64(-unknown)?(-gnu|-musl)?(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                    .to_string(),
             ],
         ),
         (
             Platform::LinuxAarch64,
             vec![
-            "[\\._-](arm64|aarch64)-(unknown-)?linux-musl(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
-                .to_string(),
-            "[\\._-](arm64|aarch64)-(unknown-)?linux(-gnu)?(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
-                .to_string(),
-            "[\\._-]linux-(arm64|aarch64)-(unknown-)?(-gnu|-musl)?(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
-                .to_string(),
-        ],
+                "[\\._-](arm64|aarch64)-(unknown-)?linux-musl(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                    .to_string(),
+                "[\\._-](arm64|aarch64)-(unknown-)?linux(-gnu)?(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                    .to_string(),
+                "[\\._-]linux-(arm64|aarch64)(-unknown)?(-gnu|-musl)?(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                    .to_string(),
+            ],
         ),
         (
             Platform::Osx64,
             vec![
                 "[\\._-](amd64|x86_64|x64)-(apple-)?darwin(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
                     .to_string(),
-                "[\\._-]darwin-(amd64|x86_64|x64)(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                "[\\._-](darwin|macos)-(amd64|x86_64|x64)(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                    .to_string(),
+                "[\\._-](darwin|macos)(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
                     .to_string(),
             ],
         ),
@@ -83,7 +89,7 @@ fn default_platforms() -> HashMap<Platform, Vec<String>> {
             vec![
                 "[\\._-](arm64|aarch64)-(apple-)?darwin(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
                     .to_string(),
-                "[\\._-]darwin-(arm64|aarch64)(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
+                "[\\._-](darwin|macos)-(arm64|aarch64)(\\.gz|\\.xz|\\.zst|\\.tar\\.gz|\\.tar\\.xz|\\.tgz|\\.txz|\\.zip)?$"
                     .to_string(),
             ],
         ),
@@ -92,20 +98,22 @@ fn default_platforms() -> HashMap<Platform, Vec<String>> {
             vec![
                 "[\\._-](x86|i686)-(pc)?-windows(-msvc)?(\\.gz|\\.xz|\\.zst|\\.zip)?$".to_string(),
                 "[\\._-]windows-(i686|x86)(\\.gz|\\.xz|\\.zst|\\.zip)?$".to_string(),
+                "[\\._-]win32(\\.gz|\\.xz|\\.zst|\\.zip)?$".to_string(),
             ],
         ),
         (
             Platform::Win64,
             vec![
                 "[\\._-](amd_64|x86_64|x64)-(pc)?-windows(-msvc)?(\\.gz|\\.xz|\\.zst|\\.zip)?$".to_string(),
-                "[\\._-]windows-(amd64|x86_64|x64)(\\.gz|\\.xz|\\.zst|\\.zip)?$".to_string(),
+                "[\\._-](windows|win)-(amd64|x86_64|x64)(\\.gz|\\.xz|\\.zst|\\.zip)?$".to_string(),
+                "[\\._-]win64(\\.gz|\\.xz|\\.zst|\\.zip)?$".to_string(),
             ],
         ),
         (
             Platform::WinArm64,
             vec![
                 "[\\._-](arm64|aarch64)(-pc)?-windows(-msvc)?(\\.gz|\\.xz|\\.zst|\\.zip)?$".to_string(),
-                "[\\._-]windows-(arm64|aarch64)(\\.gz|\\.xz|\\.zst|\\.zip)?$".to_string(),
+                "[\\._-](windows|win)-(arm64|aarch64)(\\.gz|\\.xz|\\.zst|\\.zip)?$".to_string(),
             ],
         ),
     ])
@@ -261,4 +269,19 @@ pub fn parse_config(path: &Path) -> anyhow::Result<Config> {
     ))?;
 
     config.try_into()
+}
+
+#[cfg(test)]
+pub mod tests {
+    use super::*;
+
+    pub fn get_default_patterns() -> HashMap<Platform, Vec<regex::Regex>> {
+        let toml = TomlPackage {
+            name: None,
+            repository: "foo/bar".to_string(),
+            platforms: None,
+        };
+        let package: super::Package = toml.try_into().unwrap();
+        package.platforms
+    }
 }

@@ -184,10 +184,15 @@ fn match_platform<'a>(
     patterns: &[regex::Regex],
     assets: &'a [octocrab::models::repos::Asset],
 ) -> Option<&'a octocrab::models::repos::Asset> {
+    let asset_names = assets.iter().map(|a| a.name.as_str()).collect::<Vec<_>>();
+    match_platform_names(patterns, &asset_names).map(|index| &assets[index])
+}
+
+fn match_platform_names<'a>(patterns: &[regex::Regex], assets: &'a [&'a str]) -> Option<usize> {
     for r in patterns {
-        for a in assets {
-            if r.is_match(&a.name) {
-                return Some(a);
+        for (index, a) in assets.iter().enumerate() {
+            if r.is_match(a) {
+                return Some(index);
             }
         }
     }
@@ -433,5 +438,372 @@ fn generate_package(
             );
             PackagingStatus::recipe_generation_failed(*target_platform)
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    use crate::config_file::tests::get_default_patterns;
+
+    fn zoxide_names() -> Vec<&'static str> {
+        vec![
+            "zoxide-0.9.8-aarch64-apple-darwin.tar.gz",
+            "zoxide-0.9.8-aarch64-linux-android.tar.gz",
+            "zoxide-0.9.8-aarch64-pc-windows-msvc.zip",
+            "zoxide-0.9.8-aarch64-unknown-linux-musl.tar.gz",
+            "zoxide-0.9.8-arm-unknown-linux-musleabihf.tar.gz",
+            "zoxide-0.9.8-armv7-unknown-linux-musleabihf.tar.gz",
+            "zoxide-0.9.8-i686-unknown-linux-musl.tar.gz",
+            "zoxide-0.9.8-x86_64-apple-darwin.tar.gz",
+            "zoxide-0.9.8-x86_64-pc-windows-msvc.zip",
+            "zoxide-0.9.8-x86_64-unknown-linux-musl.tar.gz",
+            "Source code",
+        ]
+    }
+
+    fn atuin_names() -> Vec<&'static str> {
+        vec![
+            "atuin-aarch64-apple-darwin-update",
+            "atuin-aarch64-apple-darwin.tar.gz",
+            "atuin-aarch64-apple-darwin.tar.gz.sha256",
+            "atuin-aarch64-unknown-linux-gnu-update",
+            "atuin-aarch64-unknown-linux-gnu.tar.gz",
+            "atuin-aarch64-unknown-linux-gnu.tar.gz.sha256",
+            "atuin-aarch64-unknown-linux-musl-update",
+            "atuin-aarch64-unknown-linux-musl.tar.gz",
+            "atuin-aarch64-unknown-linux-musl.tar.gz.sha256",
+            "atuin-installer.sh",
+            "atuin-x86_64-apple-darwin-update",
+            "atuin-x86_64-apple-darwin.tar.gz",
+            "atuin-x86_64-apple-darwin.tar.gz.sha256",
+            "atuin-x86_64-unknown-linux-gnu-update",
+            "atuin-x86_64-unknown-linux-gnu.tar.gz",
+            "atuin-x86_64-unknown-linux-gnu.tar.gz.sha256",
+            "atuin-x86_64-unknown-linux-musl-update",
+            "atuin-x86_64-unknown-linux-musl.tar.gz",
+            "atuin-x86_64-unknown-linux-musl.tar.gz.sha256",
+            "dist-manifest.json",
+            "sha256.sum",
+            "source.tar.gz",
+            "source.tar.gz.sha256",
+            "Source code (zip)",
+            "Source code (tar.gz)",
+        ]
+    }
+
+    fn asm_lsp_names() -> Vec<&'static str> {
+        vec![
+            "asm-lsp-aarch64-apple-darwin.tar.gz",
+            "asm-lsp-x86_64-apple-darwin.tar.gz",
+            "asm-lsp-x86_64-unknown-linux-gnu.tar.gz",
+        ]
+    }
+
+    fn cargo_binstall_names() -> Vec<&'static str> {
+        vec![
+            "cargo-binstall-aarch64-apple-darwin.full.zip",
+            "cargo-binstall-aarch64-apple-darwin.full.zip.sig",
+            "cargo-binstall-aarch64-apple-darwin.zip",
+            "cargo-binstall-aarch64-apple-darwin.zip.sig",
+            "cargo-binstall-aarch64-pc-windows-msvc.full.zip",
+            "cargo-binstall-aarch64-pc-windows-msvc.full.zip.sig",
+            "cargo-binstall-aarch64-pc-windows-msvc.zip",
+            "cargo-binstall-aarch64-pc-windows-msvc.zip.sig",
+            "cargo-binstall-aarch64-unknown-linux-gnu.full.tgz",
+            "cargo-binstall-aarch64-unknown-linux-gnu.full.tgz.sig",
+            "cargo-binstall-aarch64-unknown-linux-gnu.tgz",
+            "cargo-binstall-aarch64-unknown-linux-gnu.tgz.sig",
+            "cargo-binstall-aarch64-unknown-linux-musl.full.tgz",
+            "cargo-binstall-aarch64-unknown-linux-musl.full.tgz.sig",
+            "cargo-binstall-aarch64-unknown-linux-musl.tgz",
+            "cargo-binstall-aarch64-unknown-linux-musl.tgz.sig",
+            "cargo-binstall-armv7-unknown-linux-gnueabihf.full.tgz",
+            "cargo-binstall-armv7-unknown-linux-gnueabihf.full.tgz.sig",
+            "cargo-binstall-armv7-unknown-linux-gnueabihf.tgz",
+            "cargo-binstall-armv7-unknown-linux-gnueabihf.tgz.sig",
+            "cargo-binstall-armv7-unknown-linux-musleabihf.full.tgz",
+            "cargo-binstall-armv7-unknown-linux-musleabihf.full.tgz.sig",
+            "cargo-binstall-armv7-unknown-linux-musleabihf.tgz",
+            "cargo-binstall-armv7-unknown-linux-musleabihf.tgz.sig",
+            "cargo-binstall-universal-apple-darwin.full.zip",
+            "cargo-binstall-universal-apple-darwin.full.zip.sig",
+            "cargo-binstall-universal-apple-darwin.zip",
+            "cargo-binstall-universal-apple-darwin.zip.sig",
+            "cargo-binstall-x86_64-apple-darwin.full.zip",
+            "cargo-binstall-x86_64-apple-darwin.full.zip.sig",
+            "cargo-binstall-x86_64-apple-darwin.zip",
+            "cargo-binstall-x86_64-apple-darwin.zip.sig",
+            "cargo-binstall-x86_64-pc-windows-msvc.full.zip",
+            "cargo-binstall-x86_64-pc-windows-msvc.full.zip.sig",
+            "cargo-binstall-x86_64-pc-windows-msvc.zip",
+            "cargo-binstall-x86_64-pc-windows-msvc.zip.sig",
+            "cargo-binstall-x86_64-unknown-linux-gnu.full.tgz",
+            "cargo-binstall-x86_64-unknown-linux-gnu.full.tgz.sig",
+            "cargo-binstall-x86_64-unknown-linux-gnu.tgz",
+            "cargo-binstall-x86_64-unknown-linux-gnu.tgz.sig",
+            "cargo-binstall-x86_64-unknown-linux-musl.full.tgz",
+            "cargo-binstall-x86_64-unknown-linux-musl.full.tgz.sig",
+            "cargo-binstall-x86_64-unknown-linux-musl.tgz",
+            "cargo-binstall-x86_64-unknown-linux-musl.tgz.sig",
+            "minisign.pub",
+        ]
+    }
+
+    fn bottom_names() -> Vec<&'static str> {
+        vec![
+            "bottom-0.11.4-1.x86_64.rpm",
+            "bottom-musl-0.11.4-1.x86_64.rpm",
+            "bottom-musl_0.11.4-1_amd64.deb",
+            "bottom-musl_0.11.4-1_arm64.deb",
+            "bottom-musl_0.11.4-1_armhf.deb",
+            "bottom.desktop",
+            "bottom_0.11.4-1_amd64.deb",
+            "bottom_0.11.4-1_arm64.deb",
+            "bottom_0.11.4-1_armhf.deb",
+            "bottom_aarch64-apple-darwin.tar.gz",
+            "bottom_aarch64-pc-windows-msvc.tar.gz",
+            "bottom_aarch64-unknown-linux-gnu.tar.gz",
+            "bottom_aarch64-unknown-linux-musl.tar.gz",
+            "bottom_aarch64_installer.msi",
+            "bottom_armv7-unknown-linux-gnueabihf.tar.gz",
+            "bottom_armv7-unknown-linux-musleabihf.tar.gz",
+            "bottom_i686-pc-windows-msvc.zip",
+            "bottom_i686-unknown-linux-gnu.tar.gz",
+            "bottom_i686-unknown-linux-musl.tar.gz",
+            "bottom_powerpc64le-unknown-linux-gnu.tar.gz",
+            "bottom_riscv64gc-unknown-linux-gnu.tar.gz",
+            "bottom_x86_64-apple-darwin.tar.gz",
+            "bottom_x86_64-pc-windows-gnu.zip",
+            "bottom_x86_64-pc-windows-msvc.zip",
+            "bottom_x86_64-unknown-freebsd-13.5.tar.gz",
+            "bottom_x86_64-unknown-freebsd-14.3.tar.gz",
+            "bottom_x86_64-unknown-freebsd-15.0.tar.gz",
+            "bottom_x86_64-unknown-linux-gnu-2-17.tar.gz",
+            "bottom_x86_64-unknown-linux-gnu.tar.gz",
+            "bottom_x86_64-unknown-linux-musl.tar.gz",
+            "bottom_x86_64_installer.msi",
+            "choco.zip",
+            "completion.tar.gz",
+            "manpage.tar.gz",
+        ]
+    }
+
+    fn jjui_names() -> Vec<&'static str> {
+        vec![
+            "jjui-0.9.6-darwin-amd64.zip",
+            "jjui-0.9.6-darwin-arm64.zip",
+            "jjui-0.9.6-linux-amd64.zip",
+            "jjui-0.9.6-linux-arm64.zip",
+            "jjui-0.9.6-windows-amd64.zip",
+            "jjui-0.9.6-windows-arm64.zip",
+        ]
+    }
+
+    fn caligula_names() -> Vec<&'static str> {
+        vec![
+            "caligula-aarch64-darwin",
+            "caligula-aarch64-linux",
+            "caligula-x86_64-darwin",
+            "caligula-x86_64-linux",
+        ]
+    }
+
+    fn neovim_names() -> Vec<&'static str> {
+        vec![
+            "nvim-linux-arm64.appimage",
+            "nvim-linux-arm64.appimage.zsync",
+            "nvim-linux-arm64.tar.gz",
+            "nvim-linux-x86_64.appimage",
+            "nvim-linux-x86_64.appimage.zsync",
+            "nvim-linux-x86_64.tar.gz",
+            "nvim-macos-arm64.tar.gz",
+            "nvim-macos-x86_64.tar.gz",
+            "nvim-win-arm64.msi",
+            "nvim-win-arm64.zip",
+            "nvim-win64.msi",
+            "nvim-win64.zip",
+        ]
+    }
+
+    fn neovim_names_old() -> Vec<&'static str> {
+        vec![
+            "nvim-linux64.tar.gz",
+            "nvim-macos.tar.gz",
+            "nvim-win32.zip",
+            "nvim-win64.zip",
+            "nvim.appimage",
+            "nvim.appimage.zsync",
+        ]
+    }
+
+    #[track_caller]
+    fn assert_platform<'a>(
+        patterns: &[regex::Regex],
+        assets: &'a [&'a str],
+        expected: Option<usize>,
+    ) {
+        let result = match_platform_names(patterns, assets);
+
+        if let Some(index) = &result {
+            eprintln!("    Matched: \"{}\" (index: {index})", assets[*index]);
+        } else {
+            eprintln!("    No match found");
+        }
+
+        if let Some(index) = &expected {
+            eprintln!("    Expected: \"{}\"", assets[*index]);
+        } else {
+            eprintln!("    No match expected");
+        }
+
+        assert_eq!(result, expected);
+    }
+
+    fn platform_match_test(platforms: &[(Platform, usize)], names: &[&str]) {
+        let mut platform_patterns = get_default_patterns();
+
+        for (platform, expected) in platforms {
+            eprintln!("Testing for platform {platform} (expected index: {expected})");
+            assert_platform(
+                &platform_patterns.remove(platform).unwrap(),
+                names,
+                Some(*expected),
+            );
+        }
+
+        for (platform, patterns) in platform_patterns {
+            eprintln!("Testing for platform {platform} (defaulted to None)");
+            assert_platform(&patterns, names, None);
+        }
+    }
+
+    #[test]
+    fn test_zoxide_names() {
+        platform_match_test(
+            &[
+                (Platform::Linux32, 6),
+                (Platform::Linux64, 9),
+                (Platform::LinuxAarch64, 3),
+                (Platform::Osx64, 7),
+                (Platform::OsxArm64, 0),
+                (Platform::Win64, 8),
+                (Platform::WinArm64, 2),
+            ],
+            &zoxide_names(),
+        );
+    }
+
+    #[test]
+    fn test_atuin_names() {
+        platform_match_test(
+            &[
+                (Platform::Linux64, 17),
+                (Platform::LinuxAarch64, 7),
+                (Platform::Osx64, 11),
+                (Platform::OsxArm64, 1),
+            ],
+            &atuin_names(),
+        );
+    }
+
+    #[test]
+    fn test_asm_lsp_names() {
+        platform_match_test(
+            &[
+                (Platform::Linux64, 2),
+                (Platform::Osx64, 1),
+                (Platform::OsxArm64, 0),
+            ],
+            &asm_lsp_names(),
+        );
+    }
+
+    #[test]
+    fn test_cargo_binstall_names() {
+        platform_match_test(
+            &[
+                (Platform::LinuxAarch64, 14),
+                (Platform::Linux64, 42),
+                (Platform::Osx64, 30),
+                (Platform::OsxArm64, 2),
+                (Platform::Win64, 34),
+                (Platform::WinArm64, 6),
+            ],
+            &cargo_binstall_names(),
+        );
+    }
+
+    #[test]
+    fn test_bottom_names() {
+        platform_match_test(
+            &[
+                (Platform::LinuxAarch64, 12),
+                (Platform::Linux32, 18),
+                (Platform::Linux64, 29),
+                (Platform::Osx64, 21),
+                (Platform::OsxArm64, 9),
+                (Platform::Win32, 16),
+                (Platform::Win64, 23),
+            ],
+            &bottom_names(),
+        );
+    }
+
+    #[test]
+    fn test_jjui_names() {
+        platform_match_test(
+            &[
+                (Platform::LinuxAarch64, 3),
+                (Platform::Linux64, 2),
+                (Platform::Osx64, 0),
+                (Platform::OsxArm64, 1),
+                (Platform::Win64, 4),
+                (Platform::WinArm64, 5),
+            ],
+            &jjui_names(),
+        );
+    }
+
+    #[test]
+    fn test_caligula_names() {
+        platform_match_test(
+            &[
+                (Platform::LinuxAarch64, 1),
+                (Platform::Linux64, 3),
+                (Platform::Osx64, 2),
+                (Platform::OsxArm64, 0),
+            ],
+            &caligula_names(),
+        );
+    }
+
+    #[test]
+    fn test_neovim_names() {
+        platform_match_test(
+            &[
+                (Platform::LinuxAarch64, 2),
+                (Platform::Linux64, 5),
+                (Platform::Osx64, 7),
+                (Platform::OsxArm64, 6),
+                (Platform::Win64, 11),
+                (Platform::WinArm64, 9),
+            ],
+            &neovim_names(),
+        );
+    }
+
+    #[test]
+    fn test_neovim_names_old() {
+        platform_match_test(
+            &[
+                (Platform::Linux64, 0),
+                (Platform::Osx64, 1),
+                (Platform::Win32, 2),
+                (Platform::Win64, 3),
+            ],
+            &neovim_names_old(),
+        );
     }
 }

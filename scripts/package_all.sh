@@ -24,7 +24,7 @@ for platform in "${CURRENT}/"*/; do
 
     for package in "${PLATFORM_DIR}/"*/; do
       if [ "$count" -ge 250 ]; then
-        echo "250 packages processed, exiting early, leaving the rest ofr later"
+        echo "250 packages processed, exiting early, leaving the rest for later"
 
         { \
           echo ; \

@@ -12,6 +12,28 @@ mod github;
 mod package_generation;
 mod types;
 
+fn report_status(
+    temporary_directory: &cli::WorkDir,
+    result: &HashMap<String, Vec<VersionPackagingStatus>>,
+) -> anyhow::Result<()> {
+    let report = package_generation::report_results(result);
+    eprintln!("{report}");
+
+    let report = format!(
+        r#"## Status
+
+```
+{report}
+```
+
+"#
+    );
+
+    std::fs::write(temporary_directory.status_file(), report.as_bytes())?;
+
+    Ok(())
+}
+
 fn main() -> Result<(), anyhow::Error> {
     let cli = cli::parse_cli();
     eprintln!("{cli:#?}");
@@ -71,22 +93,7 @@ fn main() -> Result<(), anyhow::Error> {
                 );
             }
 
-            let report = package_generation::report_results(&result);
-            eprintln!("{report}");
-
-            let report = format!(
-                r#"## Status
-```
-{report}
-```
-
-"#
-            );
-
-            std::fs::write(
-                temporary_directory.path().join("status.txt"),
-                report.as_bytes(),
-            )?;
+            report_status(&temporary_directory, &result)?;
 
             Ok(())
         })

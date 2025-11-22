@@ -30,6 +30,10 @@ impl WorkDir {
             WorkDirInner::Permanent(path_buf) => path_buf,
         }
     }
+
+    pub fn status_file(&self) -> PathBuf {
+        self.path().join("status.txt")
+    }
 }
 
 impl Cli {
