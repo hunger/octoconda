@@ -49,6 +49,9 @@ repository = "dandavison/delta"
 repository = "davidlattimore/wild"
 
 [[packages]]
+repository = "EmbarkStudios/cargo-about"
+
+[[packages]]
 repository = "est31/cargo-udeps"
 
 [[packages]]
@@ -82,6 +85,9 @@ repository = "MathiasPius/crates-lsp"
 repository = "Michael-F-Bryan/mdbook-linkcheck"
 
 [[packages]]
+repository = "mozilla/cargo-vet"
+
+[[packages]]
 repository = "Myriad-Dreamin/tinymist"
 
 [[packages]]
@@ -107,7 +113,16 @@ repository = "rhysd/actionlint"
 repository = "rui314/mold"
 
 [[packages]]
+repository = "rust-cross/cargo-zigbuild"
+
+[[packages]]
 repository = "rust-fuzz/cargo-fuzz"
+
+[[packages]]
+repository = "rust-secure-code/cargo-auditable"
+
+[[packages]]
+repository = "rustic-rs/rustic"
 
 [[packages]]
 repository = "rvben/rumdl"
@@ -117,6 +132,9 @@ repository = "sharkdp/bat"
 
 [[packages]]
 repository = "sharkdp/hyperfine"
+
+[[packages]]
+repository = "sourcefrog/cargo-mutants"
 
 [[packages]]
 repository = "starship/starship"
