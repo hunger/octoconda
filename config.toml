@@ -74,6 +74,9 @@ repository = "probe-rs/probe-rs"
 name = "probe-rs-tools"
 
 [[packages]]
+repository = "rhysd/actionlint"
+
+[[packages]]
 repository = "rui314/mold"
 
 [[packages]]

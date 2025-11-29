@@ -2,6 +2,4 @@
 channel = "hu-octaconda-test2"
 
 [[packages]]
-repository = "koalaman/shellcheck"
-[packages.platforms]
-win-64 = "^shellcheck-v.*.zip"
+repository = "rhysd/actionlint"
