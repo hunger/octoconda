@@ -97,7 +97,7 @@ fn default_platforms() -> HashMap<Platform, Vec<String>> {
             Platform::Win32,
             vec![
                 "(^|[\\._-])(x86|i686)[\\._-](pc)?[\\._-]windows([\\._-]msvc)?(\\.gz|\\.xz|\\.zst|\\.zip)?$".to_string(),
-                "(^|[\\._-])windows[\\._-](i686|x86)(\\.gz|\\.xz|\\.zst|\\.zip)?$".to_string(),
+                "(^|[\\._-])windows[\\._-](32-bit|i686|x86)(\\.gz|\\.xz|\\.zst|\\.zip)?$".to_string(),
                 "(^|[\\._-])win32(\\.gz|\\.xz|\\.zst|\\.zip)?$".to_string(),
             ],
         ),
@@ -105,7 +105,7 @@ fn default_platforms() -> HashMap<Platform, Vec<String>> {
             Platform::Win64,
             vec![
                 "(^|[\\._-])(amd_64|x86_64|x64)([\\._-]pc)?[\\._-]windows([\\._-]msvc)?(\\.gz|\\.xz|\\.zst|\\.zip)?$".to_string(),
-                "(^|[\\._-])(windows|win)[\\._-](amd64|x86_64|x64)(\\.gz|\\.xz|\\.zst|\\.zip)?$".to_string(),
+                "(^|[\\._-])(windows|win)[\\._-](64-bit|amd64|x86_64|x64)(\\.gz|\\.xz|\\.zst|\\.zip)?$".to_string(),
                 "(^|[\\._-])win64(\\.gz|\\.xz|\\.zst|\\.zip)?$".to_string(),
             ],
         ),

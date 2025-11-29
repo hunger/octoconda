@@ -55,10 +55,16 @@ repository = "est31/cargo-udeps"
 repository = "eza-community/eza"
 
 [[packages]]
+repository = "fish-shell/fish-shell"
+
+[[packages]]
 repository = "idursun/jjui"
 
 [[packages]]
 repository = "ifd3f/caligula"
+
+[[packages]]
+repository = "jesseduffield/lazygit"
 
 [[packages]]
 repository = "jj-vcs/jj"
@@ -118,6 +124,9 @@ repository = "starship/starship"
 [[packages]]
 repository = "tree-sitter/tree-sitter"
 name = "tree-sitter"
+
+[[packages]]
+repository = "tummychow/git-absorb"
 
 [[packages]]
 repository = "typst/typst"

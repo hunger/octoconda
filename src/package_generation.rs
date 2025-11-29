@@ -191,7 +191,7 @@ fn match_platform<'a>(
 fn match_platform_names<'a>(patterns: &[regex::Regex], assets: &'a [&'a str]) -> Option<usize> {
     for r in patterns {
         for (index, a) in assets.iter().enumerate() {
-            if r.is_match(a) {
+            if r.is_match(&a.to_ascii_lowercase()) {
                 return Some(index);
             }
         }
@@ -661,6 +661,25 @@ mod tests {
         ]
     }
 
+    fn lazygit_names() -> Vec<&'static str> {
+        vec![
+            "lazygit_0.52.0_Darwin_arm64.tar.gz",
+            "lazygit_0.52.0_Darwin_x86_64.tar.gz",
+            "lazygit_0.52.0_freebsd_32-bit.tar.gz",
+            "lazygit_0.52.0_freebsd_arm64.tar.gz",
+            "lazygit_0.52.0_freebsd_armv6.tar.gz",
+            "lazygit_0.52.0_freebsd_x86_64.tar.gz",
+            "lazygit_0.52.0_Linux_32-bit.tar.gz",
+            "lazygit_0.52.0_Linux_arm64.tar.gz",
+            "lazygit_0.52.0_Linux_armv6.tar.gz",
+            "lazygit_0.52.0_Linux_x86_64.tar.gz",
+            "lazygit_0.52.0_Windows_32-bit.zip",
+            "lazygit_0.52.0_Windows_arm64.zip",
+            "lazygit_0.52.0_Windows_armv6.zip",
+            "lazygit_0.52.0_Windows_x86_64.zip",
+        ]
+    }
+
     #[track_caller]
     fn assert_platform<'a>(
         patterns: &[regex::Regex],
@@ -855,6 +874,22 @@ mod tests {
                 (Platform::Win64, 5),
             ],
             &glsl_analyzer_names(),
+        );
+    }
+
+    #[test]
+    fn test_lazygit_names() {
+        platform_match_test(
+            &[
+                (Platform::LinuxAarch64, 7),
+                (Platform::Linux64, 9),
+                (Platform::OsxArm64, 0),
+                (Platform::Osx64, 1),
+                (Platform::WinArm64, 11),
+                (Platform::Win64, 13),
+                (Platform::Win32, 10),
+            ],
+            &lazygit_names(),
         );
     }
 }
