@@ -43,6 +43,9 @@ repository = "ClementTsang/bottom"
 repository = "crate-ci/cargo-release"
 
 [[packages]]
+repository = "dandavison/delta"
+
+[[packages]]
 repository = "davidlattimore/wild"
 
 [[packages]]
@@ -109,6 +112,9 @@ repository = "starship/starship"
 [[packages]]
 repository = "tree-sitter/tree-sitter"
 name = "tree-sitter"
+
+[[packages]]
+repository = "Wilfred/difftastic"
 
 [[packages]]
 repository = "xd009642/tarpaulin"
