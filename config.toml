@@ -25,10 +25,16 @@ repository = "blopker/codebook"
 name = "codebook-lsp"
 
 [[packages]]
+repository = "BurntSushi/ripgrep"
+
+[[packages]]
 repository = "cargo-bins/cargo-binstall"
 
 [[packages]]
 repository = "cargo-generate/cargo-generate"
+
+[[packages]]
+repository = "casey/just"
 
 [[packages]]
 repository = "ClementTsang/bottom"
@@ -41,6 +47,9 @@ repository = "davidlattimore/wild"
 
 [[packages]]
 repository = "est31/cargo-udeps"
+
+[[packages]]
+repository = "eza-community/eza"
 
 [[packages]]
 repository = "idursun/jjui"
@@ -74,6 +83,9 @@ repository = "probe-rs/probe-rs"
 name = "probe-rs-tools"
 
 [[packages]]
+repository = "rgwood/systemctl-tui"
+
+[[packages]]
 repository = "rhysd/actionlint"
 
 [[packages]]
@@ -87,6 +99,9 @@ repository = "rvben/rumdl"
 
 [[packages]]
 repository = "sharkdp/bat"
+
+[[packages]]
+repository = "sharkdp/hyperfine"
 
 [[packages]]
 repository = "starship/starship"

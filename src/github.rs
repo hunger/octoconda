@@ -67,7 +67,7 @@ impl Github {
                 && release.tag_name.as_bytes()[1] >= b'0'
                 && release.tag_name.as_bytes()[1] <= b'9')
                 || (release.tag_name.as_bytes()[0] >= b'0'
-                    && release.tag_name.as_bytes()[0] <= b'0')
+                    && release.tag_name.as_bytes()[0] <= b'9')
             {
                 releases_result.push(release);
             } else {
