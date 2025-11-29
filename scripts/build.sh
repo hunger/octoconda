@@ -37,6 +37,7 @@ shopt -s dotglob
 while [ $(find . -mindepth 1 -maxdepth 1 -type d -not -name conda-meta | wc -l) -eq 1 ]; do
     if test -d "bin"; then
         echo "Found only a bin subdir, this looks good"
+        break
     else
         # move everything up a level
         SUBDIR=$(find . -mindepth 1 -maxdepth 1 -type d -not -name conda-meta)

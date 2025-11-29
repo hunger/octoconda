@@ -2,4 +2,4 @@
 channel = "hu-octaconda-test2"
 
 [[packages]]
-repository = "rhysd/actionlint"
+repository = "nolanderc/glsl_analyzer"

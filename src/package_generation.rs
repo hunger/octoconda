@@ -650,6 +650,17 @@ mod tests {
         ]
     }
 
+    fn glsl_analyzer_names() -> Vec<&'static str> {
+        vec![
+            "aarch64-linux-musl.zip",
+            "aarch64-macos.zip",
+            "aarch64-windows.zip",
+            "x86_64-linux-musl.zip",
+            "x86_64-macos.zip",
+            "x86_64-windows.zip",
+        ]
+    }
+
     #[track_caller]
     fn assert_platform<'a>(
         patterns: &[regex::Regex],
@@ -829,6 +840,21 @@ mod tests {
                 (Platform::Osx64, 1),
             ],
             &shellcheck_names(),
+        );
+    }
+
+    #[test]
+    fn test_glsl_analyzer_names() {
+        platform_match_test(
+            &[
+                (Platform::LinuxAarch64, 0),
+                (Platform::Linux64, 3),
+                (Platform::OsxArm64, 1),
+                (Platform::Osx64, 4),
+                (Platform::WinArm64, 2),
+                (Platform::Win64, 5),
+            ],
+            &glsl_analyzer_names(),
         );
     }
 }
