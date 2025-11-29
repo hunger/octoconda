@@ -99,6 +99,9 @@ name = "tree-sitter"
 repository = "xd009642/tarpaulin"
 
 [[packages]]
+repository = "YS-L/flamelens"
+
+[[packages]]
 repository = "zellij-org/zellij"
 
 [[packages]]

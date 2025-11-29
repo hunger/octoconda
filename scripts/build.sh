@@ -23,7 +23,7 @@ elif test -f "${WORK_DIR}/${SRC}"; then
     cp "${WORK_DIR}/${SRC}" "${PREFIX}/${PKG_NAME}"
     chmod 755 "${PREFIX}/${PKG_NAME}"
 else
-    echo "${SRC} not found, not a file, nor a zip not a .tar.gz"
+    echo "${SRC} not found, not a file, not a zip, not a tarball, not compressed"
     echo "Work directory contents is:"
     ls -alF "${WORK_DIR}"
     exit 1
