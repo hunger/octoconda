@@ -64,6 +64,9 @@ repository = "ifd3f/caligula"
 repository = "jj-vcs/jj"
 
 [[packages]]
+repository = "junegunn/fzf"
+
+[[packages]]
 repository = "j178/prek"
 
 [[packages]]
@@ -71,6 +74,9 @@ repository = "MathiasPius/crates-lsp"
 
 [[packages]]
 repository = "Michael-F-Bryan/mdbook-linkcheck"
+
+[[packages]]
+repository = "Myriad-Dreamin/tinymist"
 
 [[packages]]
 repository = "neocmakelsp/neocmakelsp"
@@ -112,6 +118,9 @@ repository = "starship/starship"
 [[packages]]
 repository = "tree-sitter/tree-sitter"
 name = "tree-sitter"
+
+[[packages]]
+repository = "typst/typst"
 
 [[packages]]
 repository = "Wilfred/difftastic"
