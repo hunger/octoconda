@@ -49,6 +49,9 @@ repository = "dandavison/delta"
 repository = "davidlattimore/wild"
 
 [[packages]]
+repository = "dmmulroy/jj-starship"
+
+[[packages]]
 repository = "EmbarkStudios/cargo-about"
 
 [[packages]]
