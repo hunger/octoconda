@@ -143,6 +143,9 @@ repository = "sourcefrog/cargo-mutants"
 repository = "starship/starship"
 
 [[packages]]
+repository = "tdejager/cargo-patch-source"
+
+[[packages]]
 repository = "tree-sitter/tree-sitter"
 name = "tree-sitter"
 
