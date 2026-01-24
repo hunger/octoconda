@@ -202,27 +202,21 @@ fn match_platform_names<'a>(patterns: &[regex::Regex], assets: &'a [&'a str]) ->
 pub fn generate_packaging_data(
     package: &Package,
     repository: &octocrab::models::Repository,
-    releases: &[octocrab::models::repos::Release],
+    releases: &[(octocrab::models::repos::Release, (String, u32))],
     repo_packages: &[rattler_conda_types::RepoDataRecord],
     work_dir: &Path,
 ) -> anyhow::Result<Vec<VersionPackagingStatus>> {
     let mut result = vec![];
 
-    for r in releases {
-        let version_string = r
-            .tag_name
-            .strip_prefix("v")
-            .map(|s| s.to_string())
-            .unwrap_or_else(|| r.tag_name.clone());
-
-        let Ok(version) = rattler_conda_types::Version::from_str(&version_string) else {
+    for (r, (version_string, build_number)) in releases {
+        let Ok(version) = rattler_conda_types::Version::from_str(version_string) else {
             result.push(VersionPackagingStatus {
                 version: Some(version_string.clone()),
                 status: vec![PackagingStatus::invalid_version()],
             });
             continue;
         };
-        let version = VersionWithSource::new(version, &version_string);
+        let version = VersionWithSource::new(version, version_string);
         let mut version_result = vec![];
 
         let mut found_platforms = HashSet::new();
@@ -243,7 +237,8 @@ pub fn generate_packaging_data(
                 version_result.push(generate_package(
                     work_dir,
                     package,
-                    &version_string,
+                    version_string,
+                    *build_number,
                     platform,
                     repository,
                     asset,
@@ -258,7 +253,7 @@ pub fn generate_packaging_data(
         }
 
         result.push(VersionPackagingStatus {
-            version: Some(version_string),
+            version: Some(format!("{version_string}-{build_number}")),
             status: version_result,
         });
     }
@@ -322,12 +317,13 @@ fn generate_rattler_build_recipe(
     work_dir: &Path,
     package_name: &str,
     package_version: &str,
+    build_number: u32,
     target_platform: &Platform,
     repository: &octocrab::models::Repository,
     asset: &octocrab::models::repos::Asset,
 ) -> anyhow::Result<PathBuf> {
     let platform_dir = work_dir.join(format!("{target_platform}",));
-    let recipe_dir = platform_dir.join(format!("{package_name}-{package_version}",));
+    let recipe_dir = platform_dir.join(format!("{package_name}-{package_version}-{build_number}",));
     std::fs::create_dir_all(&recipe_dir).context("Failed to create recipe directory")?;
 
     let build_script_source = work_dir.join("build.sh");
@@ -390,6 +386,7 @@ source:
   file_name: "{archive}"
 
 build:
+  number: {build_number}
   dynamic_linking:
     binary_relocation: false
   prefix_detection:
@@ -418,6 +415,7 @@ fn generate_package(
     work_dir: &Path,
     package: &Package,
     package_version: &str,
+    build_number: u32,
     target_platform: &Platform,
     repository: &octocrab::models::Repository,
     asset: &octocrab::models::repos::Asset,
@@ -426,6 +424,7 @@ fn generate_package(
         work_dir,
         &package.name,
         package_version,
+        build_number,
         target_platform,
         repository,
         asset,

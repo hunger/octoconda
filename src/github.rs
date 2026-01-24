@@ -34,9 +34,10 @@ impl Github {
     pub async fn query_releases(
         &self,
         repository: &crate::types::Repository,
+        package_name: &str,
     ) -> anyhow::Result<(
         octocrab::models::Repository,
-        Vec<octocrab::models::repos::Release>,
+        Vec<(octocrab::models::repos::Release, (String, u32))>,
     )> {
         use tokio_stream::StreamExt;
 
@@ -55,23 +56,36 @@ impl Github {
 
         tokio::pin!(stream);
         while let Some(release) = stream.try_next().await? {
-            if release.tag_name.contains("prerelease")
-                || release.tag_name.contains("alpha")
-                || release.tag_name.contains("beta")
-                || release.tag_name.contains('-')
-            {
-                eprintln!("pre-release tag: {}", release.tag_name);
+            let tag = &release.tag_name;
+            if tag.contains("prerelease") || tag.contains("alpha") || tag.contains("beta") {
+                eprintln!("pre-release tag: {}", tag);
                 continue;
             }
-            if (release.tag_name.as_bytes()[0] == b'v'
-                && release.tag_name.as_bytes()[1] >= b'0'
-                && release.tag_name.as_bytes()[1] <= b'9')
-                || (release.tag_name.as_bytes()[0] >= b'0'
-                    && release.tag_name.as_bytes()[0] <= b'9')
-            {
-                releases_result.push(release);
+
+            let tag = if let Some(t) = tag.strip_prefix(&format!("{package_name}_")) {
+                t.to_string()
             } else {
-                eprintln!("invalid tag: {}", release.tag_name);
+                tag.to_string()
+            };
+            let tag = if let Some(t) = tag.strip_prefix('v') {
+                t.to_string()
+            } else {
+                tag
+            };
+
+            let (version, build) = if let Some((version, build)) = tag.split_once('-') {
+                (version.to_string(), build.to_string())
+            } else {
+                (tag, String::new())
+            };
+
+            if version.chars().all(|c| c.is_ascii_digit() || c == '.')
+                && (build.is_empty() || build.chars().any(|c| c.is_ascii_digit()))
+            {
+                let build_number: u32 = build.parse().unwrap_or(0);
+                releases_result.push((release, (version, build_number)));
+            } else {
+                eprintln!("Invalid version when looking at {package_name}: {version} ({build})");
                 continue;
             }
         }

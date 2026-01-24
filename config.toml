@@ -103,6 +103,13 @@ repository = "neovim/neovim"
 repository = "obi1kenobi/cargo-semver-checks"
 
 [[packages]]
+repository = "oxc-project/oxc"
+name = "oxfmt"
+[[packages]]
+repository = "oxc-project/oxc"
+name = "oxlint"
+
+[[packages]]
 repository = "probe-rs/probe-rs"
 name = "probe-rs-tools"
 

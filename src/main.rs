@@ -66,20 +66,21 @@ fn main() -> Result<(), anyhow::Error> {
             for package in &config.packages {
                 let repo_packages = &repo_packages;
 
-                let (repository, releases) = match gh.query_releases(&package.repository).await {
-                    Ok((repository, releases)) => (repository, releases),
-                    Err(e) => {
-                        eprintln!("Error: {e}");
-                        result.insert(
-                            package.name.clone(),
-                            vec![VersionPackagingStatus {
-                                version: None,
-                                status: package_generation::PackagingStatus::github_failed(),
-                            }],
-                        );
-                        continue;
-                    }
-                };
+                let (repository, releases) =
+                    match gh.query_releases(&package.repository, &package.name).await {
+                        Ok((repository, releases)) => (repository, releases),
+                        Err(e) => {
+                            eprintln!("Error: {e}");
+                            result.insert(
+                                package.name.clone(),
+                                vec![VersionPackagingStatus {
+                                    version: None,
+                                    status: package_generation::PackagingStatus::github_failed(),
+                                }],
+                            );
+                            continue;
+                        }
+                    };
 
                 result.insert(
                     package.name.clone(),
