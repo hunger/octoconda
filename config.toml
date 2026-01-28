@@ -114,6 +114,9 @@ repository = "probe-rs/probe-rs"
 name = "probe-rs-tools"
 
 [[packages]]
+repository = "runlevel5/htop-rs"
+
+[[packages]]
 repository = "rgwood/systemctl-tui"
 
 [[packages]]

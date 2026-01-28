@@ -273,44 +273,78 @@ fn extract_about(
     repository: &octocrab::models::Repository,
     asset: &octocrab::models::repos::Asset,
 ) -> String {
-    let digest = extract_digest(asset)
-        .map(|(algo, value)| format!(" with\n    {algo}: {value}"))
-        .unwrap_or_default();
-    let mut result = format!(
-        r#"about:
-  repository: {1}
-  description: |
-    Repackaged binaries found at
-    {3}{4}
-
-    This is version {2} of the repository {0} on github"#,
-        repository
+    let extra_section = {
+        let upstream_digest = extract_digest(asset)
+            .map(|(algo, digest)| format!("\n  upstream-{algo}: \"{digest}\""))
+            .unwrap_or_default();
+        let upstream_version = format!("\n  upstream-version: \"{package_version}\"");
+        let upstream_repository = repository
             .html_url
             .as_ref()
-            .map(|u| u.path().to_string())
-            .unwrap(),
-        repository.html_url.as_ref().unwrap(),
-        package_version,
-        asset.browser_download_url,
-        digest
-    );
-    if let Some(homepage) = &repository.homepage
-        && !homepage.is_empty()
-    {
-        result.push_str(&format!("\n  homepage: \"{homepage}\""));
-    }
-    if let Some(license) = &repository.license {
-        // Fix outdated licenses
-        let license_info = match license.spdx_id.as_str() {
-            "GPL-3.0" => "GPL-3.0-only",
-            l => l,
+            .map(|u| u.path()[1..].to_string()) // strip leading `/`
+            .map(|u| format!("\n  upstream-repository: \"{u}\""))
+            .unwrap_or_default();
+        let download_url = format!(
+            "\n  release-download-url: \"{}\"",
+            asset.browser_download_url
+        );
+        format!(
+            "extra:\n  upstream-forge: github.com{upstream_digest}{upstream_version}{upstream_repository}{download_url}\n"
+        )
+    };
+
+    let about_section = {
+        let homepage = if let Some(homepage) = &repository.homepage
+            && !homepage.is_empty()
+        {
+            format!("  homepage: \"{homepage}\"\n")
+        } else {
+            String::new()
         };
-        result.push_str(&format!("\n  license: \"{}\"", license_info));
-    }
-    if let Some(description) = &repository.description {
-        result.push_str(&format!("\n  summary: \"{description}\""));
-    }
-    result
+
+        let license = if let Some(license) = &repository.license {
+            // Fix outdated licenses
+            let license_info = match license.spdx_id.as_str() {
+                "GPL-3.0" => "GPL-3.0-only",
+                l => l,
+            };
+            format!("\n  license: \"{}\"", license_info)
+        } else {
+            String::new()
+        };
+        let summary_text = if let Some(description) = &repository.description {
+            description.to_owned()
+        } else {
+            String::new()
+        };
+        let summary = if let Some(description) = &repository.description {
+            format!("\n  summary: \"{}\"", description)
+        } else {
+            String::new()
+        };
+
+        format!(
+            r#"
+about:
+  description: >
+    {summary_text}
+
+    ... repackaged from github release.
+
+    No files were modified, so all SHAs should match the github release files.
+    Files might have been moved, but no files should have been added or removed
+    (except for obvious junk files).
+
+    Check the extra package data for details on where the github release file was
+    taken from.
+{homepage}{license}{summary}"#,
+        )
+    };
+
+    format!(
+        r#"{extra_section}
+{about_section}"#
+    )
 }
 
 fn generate_rattler_build_recipe(
