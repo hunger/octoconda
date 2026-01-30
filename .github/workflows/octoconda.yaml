@@ -55,7 +55,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: cargo run -- "--work-dir=${{ env.WORK_DIR }}" "--config-file=${{ env.CONFIG_FILE }}"
 
-      - name: Build and Upload Packages
+      - name: Build and upload packages
         run: |
           chmod +x "${GITHUB_WORKSPACE}/scripts/package_and_upload_all.sh" \
             && (\

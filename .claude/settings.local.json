@@ -1,7 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Bash(cargo build:*)"
+      "WebFetch(domain:github.com)"
     ]
   }
 }

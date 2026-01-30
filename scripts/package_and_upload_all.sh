@@ -38,6 +38,7 @@ for platform in "${CURRENT}/"*/; do
               && rattler-build publish \
                   --to "https://prefix.dev/${TARGET_CHANNEL}" \
                   --build-number=+1 \
+                  --generate-attestation \
                   --target-platform="${platform}" 2>&1 \
                       | grep -v 'Ignoring prefix-detection for:' \
                       | grep -v '├─ extras/' \
