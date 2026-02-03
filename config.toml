@@ -79,6 +79,8 @@ repository = "jj-vcs/jj"
 repository = "junegunn/fzf"
 
 [[packages]]
+repository = "jordond/jolt"
+[[packages]]
 repository = "j178/prek"
 
 [[packages]]
