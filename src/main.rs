@@ -90,6 +90,13 @@ fn main() -> Result<(), anyhow::Error> {
                         temporary_directory.path(),
                     )?,
                 );
+                if result.len() > 250 {
+                    eprintln!(
+                        "Package limit reached after {} packages: SKIPPING package generation",
+                        result.len()
+                    );
+                    break;
+                }
             }
 
             report_status(&temporary_directory, &result)?;
