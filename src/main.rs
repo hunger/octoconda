@@ -44,6 +44,7 @@ fn main() -> Result<(), anyhow::Error> {
 
     package_generation::generate_build_script(temporary_directory.path())?;
     package_generation::generate_env_file(temporary_directory.path(), &config)?;
+    eprintln!("Workdir is set up");
 
     tokio::runtime::Builder::new_multi_thread()
         .enable_all()
@@ -56,6 +57,8 @@ fn main() -> Result<(), anyhow::Error> {
                 config.packages.iter().map(|p| p.name.as_str()),
             )
             .await?;
+
+            eprintln!("Conda: Channel information collected");
 
             let gh = github::Github::new()?;
 

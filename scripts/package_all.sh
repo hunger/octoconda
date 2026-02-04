@@ -23,19 +23,6 @@ for platform in "${CURRENT}/"*/; do
     echo "*** Processing ${platform} in ${PLATFORM_DIR}"
 
     for package in "${PLATFORM_DIR}/"*/; do
-      if [ "$count" -ge 250 ]; then
-        echo "250 packages processed, exiting early, leaving the rest for later"
-
-        { \
-          echo ; \
-          echo "## Package build" ; \
-          echo ; \
-          echo "${count} of ${RECIPE_COUNT} packages processed successfully. RATE LIMITED"; \
-        } >> report.txt
-
-        exit 0
-      fi
-
       PACKAGE_DIR="${package}"
       package=$(basename "${PACKAGE_DIR}")
       # Check if it's actually a directory

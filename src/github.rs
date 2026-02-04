@@ -41,6 +41,8 @@ impl Github {
     )> {
         use tokio_stream::StreamExt;
 
+        eprintln!("GH: querying {}/{}", repository.owner, repository.repo);
+
         let mut releases_result = Vec::new();
 
         let repo = self.octocrab.repos(&repository.owner, &repository.repo);
