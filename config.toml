@@ -2,30 +2,686 @@
 channel = "github-releases"
 
 [[packages]]
+repository = "01mf02/jaq"
+
+[[packages]]
+repository = "1xyz/pryrite"
+
+[[packages]]
+repository = "8051Enthusiast/biodiff"
+
+[[packages]]
+repository = "99designs/aws-vault"
+
+[[packages]]
+repository = "a-h/templ"
+
+[[packages]]
+repository = "a8m/envsubst"
+
+[[packages]]
+repository = "aakso/ssh-inscribe"
+
+[[packages]]
+repository = "aandrew-me/tgpt"
+
+[[packages]]
+repository = "abhimanyu003/sttr"
+
+[[packages]]
+repository = "abhinav/doc2go"
+
+[[packages]]
+repository = "abice/go-enum"
+
+[[packages]]
+repository = "abiosoft/colima"
+
+[[packages]]
+repository = "abs-lang/abs"
+
+[[packages]]
+repository = "acheronfail/repgrep"
+
+[[packages]]
+repository = "achristmascarl/rainfrog"
+
+[[packages]]
+repository = "acorn-io/runtime"
+
+[[packages]]
+repository = "actions/go-versions"
+
+[[packages]]
+repository = "Adembc/lazyssh"
+
+[[packages]]
+repository = "adhocteam/ssm"
+
+[[packages]]
+repository = "aduros/wasm4"
+
+[[packages]]
+repository = "aereal/jsondiff"
+
+[[packages]]
+repository = "afnanenayet/diffsitter"
+
+[[packages]]
+repository = "AGWA/git-crypt"
+
+[[packages]]
+repository = "ahmetb/kubectl-tree"
+
+[[packages]]
+repository = "ahmetb/kubectx"
+
+[[packages]]
+repository = "air-verse/air"
+
+[[packages]]
+repository = "airbytehq/abctl"
+
+[[packages]]
 repository = "ajeetdsouza/zoxide"
+
+[[packages]]
+repository = "akiomik/mado"
+
+[[packages]]
+repository = "alajmo/mani"
+
+[[packages]]
+repository = "alcideio/rbac-tool"
+
+[[packages]]
+repository = "alebeck/boring"
+
+[[packages]]
+repository = "AlexanderGrooff/mermaid-ascii"
+
+[[packages]]
+repository = "alexellis/arkade"
+
+[[packages]]
+repository = "alexellis/k3sup"
+
+[[packages]]
+repository = "alexellis/kubetrim"
+
+[[packages]]
+repository = "AlexNabokikh/tfsort"
+
+[[packages]]
+repository = "alexpasmantier/television"
+
+[[packages]]
+repository = "allero-io/allero"
+
+[[packages]]
+repository = "allyring/pvw"
+
+[[packages]]
+repository = "Aloxaf/silicon"
+
+[[packages]]
+repository = "altsem/gitu"
+
+[[packages]]
+repository = "alvinunreal/tmuxai"
+
+[[packages]]
+repository = "amacneil/dbmate"
+
+[[packages]]
+repository = "amalshaji/portr"
+
+[[packages]]
+repository = "amber-lang/amber"
+
+[[packages]]
+repository = "amir20/dtop"
+
+[[packages]]
+repository = "ampcode/zvelte-check"
+
+[[packages]]
+repository = "anchore/grype"
+
+[[packages]]
+repository = "anchore/quill"
+
+[[packages]]
+repository = "anchore/syft"
+
+[[packages]]
+repository = "andreazorzetto/yh"
+
+[[packages]]
+repository = "andrewkroh/gvm"
+
+[[packages]]
+repository = "andreybleme/lazycontainer"
+
+[[packages]]
+repository = "ankitpokhrel/jira-cli"
+
+[[packages]]
+repository = "anomalyco/opencode"
+
+[[packages]]
+repository = "anordal/shellharden"
+
+[[packages]]
+repository = "antham/gommit"
+
+[[packages]]
+repository = "antonmedv/fx"
+
+[[packages]]
+repository = "antonmedv/walk"
+
+[[packages]]
+repository = "apache/camel-k"
+
+[[packages]]
+repository = "apache/maven-mvnd"
+
+[[packages]]
+repository = "aporia-ai/kubesurvival"
+
+[[packages]]
+repository = "apple/container"
+
+[[packages]]
+repository = "apple/pkl"
+
+[[packages]]
+repository = "apple/pkl-go"
+
+[[packages]]
+repository = "aptly-dev/aptly"
+
+[[packages]]
+repository = "aquaproj/aqua-registry-updater"
+
+[[packages]]
+repository = "aquaproj/example-go-slsa-provenance"
+
+[[packages]]
+repository = "aquaproj/registry-tool"
+
+[[packages]]
+repository = "aquasecurity/chain-bench"
+
+[[packages]]
+repository = "aquasecurity/kube-bench"
+
+[[packages]]
+repository = "aquasecurity/kubectl-who-can"
+
+[[packages]]
+repository = "aquasecurity/starboard"
+
+[[packages]]
+repository = "aquasecurity/tfsec"
+
+[[packages]]
+repository = "aquasecurity/trivy"
+
+[[packages]]
+repository = "arch-go/arch-go"
+
+[[packages]]
+repository = "arduino/arduino-cli"
+
+[[packages]]
+repository = "arduino/arduino-language-server"
+
+[[packages]]
+repository = "argoproj-labs/argocd-autopilot"
+
+[[packages]]
+repository = "argoproj-labs/argocd-image-updater"
+
+[[packages]]
+repository = "argoproj/argo-cd"
+
+[[packages]]
+repository = "argoproj/argo-rollouts"
+
+[[packages]]
+repository = "argoproj/argo-workflows"
+
+[[packages]]
+repository = "aristocratos/btop"
+
+[[packages]]
+repository = "arl/gitmux"
+
+[[packages]]
+repository = "Arriven/db1000n"
+
+[[packages]]
+repository = "arrow2nd/nekome"
+
+[[packages]]
+repository = "arrow2nd/nimotsu"
+
+[[packages]]
+repository = "artempyanykh/marksman"
+
+[[packages]]
+repository = "artemsalimov/jenkins-job-cli"
+
+[[packages]]
+repository = "arttor/helmify"
+
+[[packages]]
+repository = "arxanas/git-branchless"
+
+[[packages]]
+repository = "asciidoctor/asciidoctor-reveal.js"
+
+[[packages]]
+repository = "asciimoo/wuzz"
+
+[[packages]]
+repository = "asciinema/agg"
+
+[[packages]]
+repository = "asciinema/asciinema"
+
+[[packages]]
+repository = "assetnote/surf"
 
 [[packages]]
 repository = "ast-grep/ast-grep"
 
 [[packages]]
+repository = "astefanutti/kubebox"
+
+[[packages]]
+repository = "astral-sh/ruff"
+
+[[packages]]
+repository = "astral-sh/rye"
+
+[[packages]]
+repository = "astral-sh/ty"
+
+[[packages]]
+repository = "astral-sh/uv"
+
+[[packages]]
+repository = "atc0005/send2teams"
+
+[[packages]]
 repository = "atuinsh/atuin"
+
+[[packages]]
+repository = "aurc/loggo"
+
+[[packages]]
+repository = "auth0/auth0-cli"
+
+[[packages]]
+repository = "authzed/zed"
+
+[[packages]]
+repository = "autobrr/mkbrr"
+
+[[packages]]
+repository = "Automattic/harper"
+
+[[packages]]
+repository = "AvitalTamir/cyphernetes"
+
+[[packages]]
+repository = "aws-cloudformation/rain"
+
+[[packages]]
+repository = "aws/amazon-ec2-instance-selector"
+
+[[packages]]
+repository = "aws/amazon-ec2-spot-interrupter"
+
+[[packages]]
+repository = "aws/aws-sam-cli"
+
+[[packages]]
+repository = "aws/copilot-cli"
+
+[[packages]]
+repository = "awslabs/dynein"
+
+[[packages]]
+repository = "awslabs/eks-auto-mode-ebs-migration-tool"
+
+[[packages]]
+repository = "awslabs/eks-node-viewer"
+
+[[packages]]
+repository = "awslabs/kubernetes-iteration-toolkit"
+
+[[packages]]
+repository = "awslabs/soci-snapshotter"
+
+[[packages]]
+repository = "awslabs/ssosync"
+
+[[packages]]
+repository = "awslabs/yesiscan"
+
+[[packages]]
+repository = "axllent/mailpit"
 
 [[packages]]
 repository = "axodotdev/cargo-dist"
 
 [[packages]]
+repository = "ayoisaiah/f2"
+
+[[packages]]
+repository = "Azure/aks-engine"
+
+[[packages]]
+repository = "Azure/aztfexport"
+
+[[packages]]
+repository = "Azure/azure-dev"
+
+[[packages]]
+repository = "Azure/bicep"
+
+[[packages]]
+repository = "Azure/draft"
+
+[[packages]]
+repository = "Azure/kubelogin"
+
+[[packages]]
+repository = "babarot/afx"
+
+[[packages]]
+repository = "babarot/changed-objects"
+
+[[packages]]
+repository = "babarot/gist"
+
+[[packages]]
+repository = "babarot/git-bump"
+
+[[packages]]
+repository = "babarot/github-labeler"
+
+[[packages]]
+repository = "babarot/gomi"
+
+[[packages]]
+repository = "babarot/iap_curl"
+
+[[packages]]
+repository = "babarot/stein"
+
+[[packages]]
+repository = "babarot/vtest"
+
+[[packages]]
+repository = "bahdotsh/wrkflw"
+
+[[packages]]
+repository = "banzaicloud/banzai-cli"
+
+[[packages]]
+repository = "barnybug/cli53"
+
+[[packages]]
+repository = "barthr/redo"
+
+[[packages]]
+repository = "bazelbuild/bazel"
+
+[[packages]]
+repository = "bazelbuild/bazel-watcher"
+
+[[packages]]
+repository = "bazelbuild/bazelisk"
+
+[[packages]]
+repository = "bazelbuild/buildtools"
+
+[[packages]]
+repository = "bcicen/ctop"
+
+[[packages]]
+repository = "bcicen/slackcat"
+
+[[packages]]
+repository = "BeaconBay/ck"
+
+[[packages]]
+repository = "Bearer/gon"
+
+[[packages]]
+repository = "becheran/mlc"
+
+[[packages]]
+repository = "becheran/roumon"
+
+[[packages]]
+repository = "benbjohnson/litestream"
+
+[[packages]]
+repository = "benchkram/bob"
+
+[[packages]]
+repository = "bengadbois/pewpew"
+
+[[packages]]
+repository = "bensadeh/tailspin"
+
+[[packages]]
+repository = "bep/s3deploy"
+
+[[packages]]
 repository = "bergercookie/asm-lsp"
 
-# ### TODO: Strange release tag names
-# [[packages]]
-# repository = "biomejs/biome"
+[[packages]]
+repository = "BeryJu/korb"
+
+[[packages]]
+repository = "bflad/tfproviderdocs"
+
+[[packages]]
+repository = "bflad/tfproviderlint"
+
+[[packages]]
+repository = "binwiederhier/ntfy"
+
+[[packages]]
+repository = "biomejs/biome"
+
+[[packages]]
+repository = "birdayz/kaf"
+
+[[packages]]
+repository = "BishopFox/cloudfox"
+
+[[packages]]
+repository = "bitnami-labs/sealed-secrets"
+
+[[packages]]
+repository = "bitnami/charts-syncer"
+
+[[packages]]
+repository = "bitwarden/clients"
+
+[[packages]]
+repository = "bitwarden/sdk-sm"
+
+[[packages]]
+repository = "bjesus/pipet"
+
+[[packages]]
+repository = "blacknon/hwatch"
+
+[[packages]]
+repository = "block/goose"
+
+[[packages]]
+repository = "blopker/codebook"
 
 [[packages]]
 repository = "blopker/codebook"
 name = "codebook-lsp"
 
 [[packages]]
+repository = "bloznelis/typioca"
+
+[[packages]]
+repository = "blst-security/cherrybomb"
+
+[[packages]]
+repository = "bmf-san/ggc"
+
+[[packages]]
+repository = "bodaay/HuggingFaceModelDownloader"
+
+[[packages]]
+repository = "Boeing/config-file-validator"
+
+[[packages]]
+repository = "bojand/ghz"
+
+[[packages]]
+repository = "bomctl/bomctl"
+
+[[packages]]
+repository = "bonnefoa/kubectl-fzf"
+
+[[packages]]
+repository = "bootandy/dust"
+
+[[packages]]
+repository = "borgbackup/borg"
+
+[[packages]]
+repository = "boyter/scc"
+
+[[packages]]
+repository = "boz/kail"
+
+[[packages]]
+repository = "br0xen/boltbrowser"
+
+[[packages]]
+repository = "breml/tfreveal"
+
+[[packages]]
+repository = "bridgecrewio/checkov"
+
+[[packages]]
+repository = "bridgecrewio/yor"
+
+[[packages]]
+repository = "brigadecore/brigade"
+
+[[packages]]
+repository = "bronze1man/yaml2json"
+
+[[packages]]
+repository = "brumhard/krewfile"
+
+[[packages]]
+repository = "budimanjojo/talhelper"
+
+[[packages]]
+repository = "bufbuild/buf"
+
+[[packages]]
+repository = "bufbuild/protoc-gen-validate"
+
+[[packages]]
+repository = "Builditluc/wiki-tui"
+
+[[packages]]
+repository = "buildkite/agent"
+
+[[packages]]
+repository = "buildkite/cli"
+
+[[packages]]
+repository = "buildpacks/pack"
+
+[[packages]]
 repository = "BurntSushi/ripgrep"
+
+[[packages]]
+repository = "BurntSushi/xsv"
+
+[[packages]]
+repository = "busser/murmur"
+
+[[packages]]
+repository = "busser/tfautomv"
+
+[[packages]]
+repository = "busser/tftree"
+
+[[packages]]
+repository = "bvaisvil/zenith"
+
+[[packages]]
+repository = "Byron/dua-cli"
+
+[[packages]]
+repository = "bytecodealliance/wasm-pkg-tools"
+
+[[packages]]
+repository = "bytecodealliance/wasm-tools"
+
+[[packages]]
+repository = "bytecodealliance/wasmtime"
+
+[[packages]]
+repository = "bytecodealliance/wrpc"
+
+[[packages]]
+repository = "ByteNess/aws-vault"
+
+[[packages]]
+repository = "c-bata/kube-prompt"
+
+[[packages]]
+repository = "c1982/bomberman"
+
+[[packages]]
+repository = "caarlos0/fork-cleaner"
+
+[[packages]]
+repository = "caarlos0/mdtree"
+
+[[packages]]
+repository = "caarlos0/svu"
+
+[[packages]]
+repository = "caddyserver/caddy"
+
+[[packages]]
+repository = "cameron-martin/bazel-lsp"
+
+[[packages]]
+repository = "Canop/dysk"
+
+[[packages]]
+repository = "Canop/rhit"
+
+[[packages]]
+repository = "cantino/mcfly"
+
+[[packages]]
+repository = "carapace-sh/carapace-bin"
 
 [[packages]]
 repository = "cargo-bins/cargo-binstall"
@@ -34,34 +690,1459 @@ repository = "cargo-bins/cargo-binstall"
 repository = "cargo-generate/cargo-generate"
 
 [[packages]]
+repository = "carthage-software/mago"
+
+[[packages]]
+repository = "carvel-dev/imgpkg"
+
+[[packages]]
+repository = "carvel-dev/kapp"
+
+[[packages]]
+repository = "carvel-dev/kbld"
+
+[[packages]]
+repository = "carvel-dev/kwt"
+
+[[packages]]
+repository = "carvel-dev/vendir"
+
+[[packages]]
+repository = "carvel-dev/ytt"
+
+[[packages]]
 repository = "casey/just"
+
+[[packages]]
+repository = "cbroglie/mustache"
+
+[[packages]]
+repository = "cea-hpc/sshproxy"
+
+[[packages]]
+repository = "cert-manager/cert-manager"
+
+[[packages]]
+repository = "cert-manager/cmctl"
+
+[[packages]]
+repository = "chaaz/versio"
+
+[[packages]]
+repository = "chainguard-dev/apko"
+
+[[packages]]
+repository = "chainguard-dev/melange"
+
+[[packages]]
+repository = "chainloop-dev/chainloop"
+
+[[packages]]
+repository = "chanzuckerberg/fogg"
+
+[[packages]]
+repository = "chaqchase/lla"
+
+[[packages]]
+repository = "charmbracelet/charm"
+
+[[packages]]
+repository = "charmbracelet/crush"
+
+[[packages]]
+repository = "charmbracelet/freeze"
+
+[[packages]]
+repository = "charmbracelet/glow"
+
+[[packages]]
+repository = "charmbracelet/gum"
+
+[[packages]]
+repository = "charmbracelet/mods"
+
+[[packages]]
+repository = "charmbracelet/skate"
+
+[[packages]]
+repository = "charmbracelet/vhs"
+
+[[packages]]
+repository = "chatwork/kibertas"
+
+[[packages]]
+repository = "che-incubator/chectl"
+
+[[packages]]
+repository = "cheat/cheat"
+
+[[packages]]
+repository = "checkmake/checkmake"
+
+[[packages]]
+repository = "Checkmarx/kics"
+
+[[packages]]
+repository = "chenjiandongx/kubectl-images"
+
+[[packages]]
+repository = "chevdor/tera-cli"
+
+[[packages]]
+repository = "chime/mani-diffy"
+
+[[packages]]
+repository = "chmln/handlr"
+
+[[packages]]
+repository = "chmln/sd"
+
+[[packages]]
+repository = "chmouel/snazy"
+
+[[packages]]
+repository = "chriswalz/bit"
+
+[[packages]]
+repository = "Cian911/switchboard"
+
+[[packages]]
+repository = "cilium/cilium-cli"
+
+[[packages]]
+repository = "cilium/hubble"
+
+[[packages]]
+repository = "CircleCI-Public/circleci-cli"
+
+[[packages]]
+repository = "cirruslabs/cirrus-cli"
+
+[[packages]]
+repository = "cirruslabs/tart"
+
+[[packages]]
+repository = "citrusframework/yaks"
+
+[[packages]]
+repository = "civo/cli"
+
+[[packages]]
+repository = "ck-zhang/reddix"
+
+[[packages]]
+repository = "clamoriniere/crd-to-markdown"
 
 [[packages]]
 repository = "ClementTsang/bottom"
 
 [[packages]]
+repository = "cli/cli"
+
+[[packages]]
+repository = "climech/grit"
+
+[[packages]]
+repository = "clog-tool/clog-cli"
+
+[[packages]]
+repository = "clok/sm"
+
+[[packages]]
+repository = "cloud-hypervisor/cloud-hypervisor"
+
+[[packages]]
+repository = "cloud66-oss/copper"
+
+[[packages]]
+repository = "cloudflare/cf-terraforming"
+
+[[packages]]
+repository = "cloudflare/cfssl"
+
+[[packages]]
+repository = "cloudflare/cloudflared"
+
+[[packages]]
+repository = "cloudflare/gokey"
+
+[[packages]]
+repository = "cloudflare/pint"
+
+[[packages]]
+repository = "cloudfoundry/bosh-cli"
+
+[[packages]]
+repository = "cloudfoundry/credhub-cli"
+
+[[packages]]
+repository = "cloudfoundry/uaa-cli"
+
+[[packages]]
+repository = "cloudnative-pg/cloudnative-pg"
+
+[[packages]]
+repository = "cloudposse/atmos"
+
+[[packages]]
+repository = "cloudposse/github-commenter"
+
+[[packages]]
+repository = "cloudposse/slack-notifier"
+
+[[packages]]
+repository = "cloudquery/cloudquery"
+
+[[packages]]
+repository = "cloudspannerecosystem/spool"
+
+[[packages]]
+repository = "cloudspannerecosystem/wrench"
+
+[[packages]]
+repository = "cloudspannerecosystem/yo"
+
+[[packages]]
+repository = "cloverrose/connectnew"
+
+[[packages]]
+repository = "cloverrose/mockguard"
+
+[[packages]]
+repository = "cloverrose/pkgdep"
+
+[[packages]]
+repository = "cloverrose/unusedinterface"
+
+[[packages]]
+repository = "cloverstd/tcping"
+
+[[packages]]
+repository = "clowdhaus/eksup"
+
+[[packages]]
+repository = "cnosuke/kushi"
+
+[[packages]]
+repository = "cnrancher/autok3s"
+
+[[packages]]
+repository = "cococonscious/koji"
+
+[[packages]]
+repository = "cocogitto/cocogitto"
+
+[[packages]]
+repository = "Code-Hex/gqldoc"
+
+[[packages]]
+repository = "coder/coder"
+
+[[packages]]
+repository = "coder3101/protols"
+
+[[packages]]
+repository = "codesenberg/bombardier"
+
+[[packages]]
+repository = "commercialhaskell/stack"
+
+[[packages]]
+repository = "compose/transporter"
+
+[[packages]]
+repository = "comtrya/comtrya"
+
+[[packages]]
+repository = "concourse/concourse"
+
+[[packages]]
+repository = "container-tools/spectrum"
+
+[[packages]]
+repository = "container2wasm/container2wasm"
+
+[[packages]]
+repository = "containerd/containerd"
+
+[[packages]]
+repository = "containerd/fuse-overlayfs-snapshotter"
+
+[[packages]]
+repository = "containerd/nerdctl"
+
+[[packages]]
+repository = "containerd/stargz-snapshotter"
+
+[[packages]]
+repository = "containers/conmon"
+
+[[packages]]
+repository = "containers/crun"
+
+[[packages]]
+repository = "containers/fuse-overlayfs"
+
+[[packages]]
+repository = "containers/gvisor-tap-vsock"
+
+[[packages]]
+repository = "containers/kubernetes-mcp-server"
+
+[[packages]]
+repository = "containrrr/shoutrrr"
+
+[[packages]]
+repository = "context-labs/mactop"
+
+[[packages]]
+repository = "controlplaneio/kubectl-kubesec"
+
+[[packages]]
+repository = "controlplaneio/kubesec"
+
+[[packages]]
+repository = "coreos/butane"
+
+[[packages]]
+repository = "corneliusweig/ketall"
+
+[[packages]]
+repository = "corneliusweig/rakkess"
+
+[[packages]]
+repository = "corrupt952/closest"
+
+[[packages]]
+repository = "cortesi/modd"
+
+[[packages]]
+repository = "cpisciotta/xcbeautify"
+
+[[packages]]
+repository = "CQLabs/homebrew-dcm"
+
+[[packages]]
 repository = "crate-ci/cargo-release"
+
+[[packages]]
+repository = "crate-ci/committed"
+
+[[packages]]
+repository = "crate-ci/typos"
+
+[[packages]]
+repository = "crazy-max/diun"
+
+[[packages]]
+repository = "crazy-max/ftpgrab"
+
+[[packages]]
+repository = "crazywhalecc/static-php-cli"
+
+[[packages]]
+repository = "create-go-app/cli"
+
+[[packages]]
+repository = "CrociDB/bulletty"
+
+[[packages]]
+repository = "Crocmagnon/fatcontext"
+
+[[packages]]
+repository = "cross-rs/cross"
+
+[[packages]]
+repository = "CrunchyData/postgres-operator-client"
+
+[[packages]]
+repository = "cswank/kcli"
+
+[[packages]]
+repository = "ctron/oidc-cli"
+
+[[packages]]
+repository = "cubefs/cubefs"
+
+[[packages]]
+repository = "cubicdaiya/nginx-build"
+
+[[packages]]
+repository = "cue-lang/cue"
+
+[[packages]]
+repository = "CyberAgent/reminder-lint"
+
+[[packages]]
+repository = "cyberark/kubeletctl"
+
+[[packages]]
+repository = "cybozu/assam"
+
+[[packages]]
+repository = "cycloidio/inframap"
+
+[[packages]]
+repository = "cycloidio/terracognita"
+
+[[packages]]
+repository = "CycloneDX/cyclonedx-cli"
+
+[[packages]]
+repository = "d-kuro/gwq"
+
+[[packages]]
+repository = "dadav/helm-schema"
+
+[[packages]]
+repository = "dag-andersen/argocd-diff-preview"
+
+[[packages]]
+repository = "dagger/container-use"
+
+[[packages]]
+repository = "dagger/dagger"
+
+[[packages]]
+repository = "dagu-org/dagu"
+
+[[packages]]
+repository = "daichirata/hammer"
+
+[[packages]]
+repository = "dalance/procs"
 
 [[packages]]
 repository = "dandavison/delta"
 
 [[packages]]
+repository = "danielfoehrKn/kubeswitch"
+
+[[packages]]
+repository = "danvergara/dblab"
+
+[[packages]]
+repository = "dapr/cli"
+
+[[packages]]
+repository = "Darth-Tech/samwise-cli"
+
+[[packages]]
+repository = "databricks/click"
+
+[[packages]]
+repository = "datadog/managed-kubernetes-auditing-toolkit"
+
+[[packages]]
+repository = "datanymizer/datanymizer"
+
+[[packages]]
+repository = "datarootsio/tf-profile"
+
+[[packages]]
+repository = "datastax-labs/astra-cli"
+
+[[packages]]
+repository = "datreeio/datree"
+
+[[packages]]
+repository = "daveshanley/vacuum"
+
+[[packages]]
 repository = "davidlattimore/wild"
+
+[[packages]]
+repository = "ddddddO/gtree"
+
+[[packages]]
+repository = "ddev/ddev"
+
+[[packages]]
+repository = "dduan/tre"
+
+[[packages]]
+repository = "defenseunicorns/uds-cli"
+
+[[packages]]
+repository = "deggja/netfetch"
+
+[[packages]]
+repository = "DelineaXPM/dsv-cli"
+
+[[packages]]
+repository = "DeNA/unity-meta-check"
+
+[[packages]]
+repository = "denisidoro/navi"
+
+[[packages]]
+repository = "denizgursoy/gotouch"
+
+[[packages]]
+repository = "denoland/deno"
+
+[[packages]]
+repository = "dependabot/cli"
+
+[[packages]]
+repository = "derailed/k9s"
+
+[[packages]]
+repository = "derailed/popeye"
+
+[[packages]]
+repository = "deref/exo"
+
+[[packages]]
+repository = "deviceinsight/kafkactl"
+
+[[packages]]
+repository = "devops-kung-fu/bomber"
+
+[[packages]]
+repository = "devops-works/dw-query-digest"
+
+[[packages]]
+repository = "devops-works/egress-auditor"
+
+[[packages]]
+repository = "devspace-sh/devspace"
+
+[[packages]]
+repository = "dex4er/tf"
+
+[[packages]]
+repository = "dhall-lang/dhall-haskell"
+
+[[packages]]
+repository = "dhth/bmm"
+
+[[packages]]
+repository = "digitalocean/doctl"
+
+[[packages]]
+repository = "dimo414/bkt"
+
+[[packages]]
+repository = "dimonomid/nerdlog"
+
+[[packages]]
+repository = "dineshba/tf-summarize"
+
+[[packages]]
+repository = "dinoDanic/diny"
+
+[[packages]]
+repository = "direnv/direnv"
+
+[[packages]]
+repository = "dispatchrun/wzprof"
+
+[[packages]]
+repository = "distribution/distribution"
+
+[[packages]]
+repository = "dlvhdr/diffnav"
+
+[[packages]]
+repository = "dlvhdr/gh-dash"
 
 [[packages]]
 repository = "dmmulroy/jj-starship"
 
 [[packages]]
+repository = "dmtrKovalenko/blendr"
+
+[[packages]]
+repository = "dnnrly/abbreviate"
+
+[[packages]]
+repository = "dnote/dnote"
+
+[[packages]]
+repository = "docker/buildx"
+
+[[packages]]
+repository = "docker/cagent"
+
+[[packages]]
+repository = "docker/compose"
+
+[[packages]]
+repository = "docker/hub-tool"
+
+[[packages]]
+repository = "dodobrands/Peekie"
+
+[[packages]]
+repository = "doitintl/kube-no-trouble"
+
+[[packages]]
+repository = "dolthub/dolt"
+
+[[packages]]
+repository = "dominikh/go-tools"
+
+[[packages]]
+repository = "domoritz/arrow-tools"
+
+[[packages]]
+repository = "dotenv-linter/dotenv-linter"
+
+[[packages]]
+repository = "dotenvx/dotenvx"
+
+[[packages]]
+repository = "doy/rbw"
+
+[[packages]]
+repository = "dprint/dprint"
+
+[[packages]]
+repository = "drager/wasm-pack"
+
+[[packages]]
+repository = "drlau/akashi"
+
+[[packages]]
+repository = "dstotijn/hetty"
+
+[[packages]]
+repository = "dtan4/ghrls"
+
+[[packages]]
+repository = "dtan4/k8sec"
+
+[[packages]]
+repository = "dtan4/k8stail"
+
+[[packages]]
+repository = "dtan4/s3url"
+
+[[packages]]
+repository = "dthagard/tforganize"
+
+[[packages]]
+repository = "ducaale/xh"
+
+[[packages]]
+repository = "duckdb/duckdb"
+
+[[packages]]
+repository = "dundee/gdu"
+
+[[packages]]
+repository = "dustinblackman/oatmeal"
+
+[[packages]]
+repository = "dutchcoders/cloudman"
+
+[[packages]]
+repository = "dwisiswant0/tlder"
+
+[[packages]]
+repository = "dyne/slangroom-exec"
+
+[[packages]]
+repository = "dyne/zenroom"
+
+[[packages]]
+repository = "earthly/earthly"
+
+[[packages]]
+repository = "ebi-yade/ecresolve"
+
+[[packages]]
+repository = "EdenEast/repo"
+
+[[packages]]
+repository = "editorconfig-checker/editorconfig-checker"
+
+[[packages]]
+repository = "EdJoPaTo/mqttui"
+
+[[packages]]
+repository = "edoardottt/depsdev"
+
+[[packages]]
+repository = "eficode/wait-for"
+
+[[packages]]
+repository = "ekristen/aws-nuke"
+
+[[packages]]
+repository = "eksctl-io/eksctl"
+
+[[packages]]
+repository = "ekzhang/bore"
+
+[[packages]]
+repository = "electric-saw/kafta"
+
+[[packages]]
+repository = "elkowar/pipr"
+
+[[packages]]
+repository = "elsesiy/kubectl-view-secret"
+
+[[packages]]
 repository = "EmbarkStudios/cargo-about"
+
+[[packages]]
+repository = "EmbarkStudios/cargo-deny"
+
+[[packages]]
+repository = "emirozer/kubectl-doctor"
+
+[[packages]]
+repository = "enokawa/taskdiff"
+
+[[packages]]
+repository = "env0/terratag"
+
+[[packages]]
+repository = "EnvCLI/EnvCLI"
+
+[[packages]]
+repository = "Epistates/treemd"
+
+[[packages]]
+repository = "equinix-labs/otel-cli"
+
+[[packages]]
+repository = "erebe/wstunnel"
+
+[[packages]]
+repository = "ericchiang/pup"
+
+[[packages]]
+repository = "ernoaapa/kubectl-warp"
+
+[[packages]]
+repository = "errata-ai/vale"
 
 [[packages]]
 repository = "est31/cargo-udeps"
 
 [[packages]]
+repository = "estesp/manifest-tool"
+
+[[packages]]
+repository = "etcd-io/etcd"
+
+[[packages]]
+repository = "eth-p/bat-extras"
+
+[[packages]]
+repository = "everstake/bip39"
+
+[[packages]]
+repository = "evilmartians/lefthook"
+
+[[packages]]
+repository = "exercism/cli"
+
+[[packages]]
+repository = "exoscale/cli"
+
+[[packages]]
+repository = "external-secrets/external-secrets"
+
+[[packages]]
 repository = "eza-community/eza"
 
 [[packages]]
+repository = "F1bonacc1/process-compose"
+
+[[packages]]
+repository = "fabpot/local-php-security-checker"
+
+[[packages]]
+repository = "facebook/buck2"
+
+[[packages]]
+repository = "FairwindsOps/gonogo"
+
+[[packages]]
+repository = "FairwindsOps/nova"
+
+[[packages]]
+repository = "FairwindsOps/pluto"
+
+[[packages]]
+repository = "FairwindsOps/polaris"
+
+[[packages]]
+repository = "FairwindsOps/rbac-lookup"
+
+[[packages]]
+repository = "FalconForceTeam/FalconHound"
+
+[[packages]]
+repository = "fastfetch-cli/fastfetch"
+
+[[packages]]
+repository = "fastly/cli"
+
+[[packages]]
+repository = "fastly/terrctl"
+
+[[packages]]
+repository = "fatedier/frp"
+
+[[packages]]
+repository = "fe3dback/go-arch-lint"
+
+[[packages]]
+repository = "FeLvi-zzz/tentez"
+
+[[packages]]
+repository = "ffuf/ffuf"
+
+[[packages]]
+repository = "fiatjaf/jiq"
+
+[[packages]]
+repository = "filebrowser/filebrowser"
+
+[[packages]]
+repository = "filhodanuvem/gitql"
+
+[[packages]]
+repository = "FiloSottile/age"
+
+[[packages]]
+repository = "FiloSottile/mkcert"
+
+[[packages]]
+repository = "fioncat/otree"
+
+[[packages]]
+repository = "firebase/firebase-tools"
+
+[[packages]]
+repository = "firecow/gitlab-ci-local"
+
+[[packages]]
+repository = "firecracker-microvm/firecracker"
+
+[[packages]]
+repository = "firecracker-microvm/firectl"
+
+[[packages]]
 repository = "fish-shell/fish-shell"
+
+[[packages]]
+repository = "fishi0x01/vsh"
+
+[[packages]]
+repository = "fission/fission"
+
+[[packages]]
+repository = "flatt-security/shisho"
+
+[[packages]]
+repository = "flosell/iam-policy-json-to-terraform"
+
+[[packages]]
+repository = "flux-iac/tofu-controller"
+
+[[packages]]
+repository = "fluxcd/flux2"
+
+[[packages]]
+repository = "folbricht/desync"
+
+[[packages]]
+repository = "foresterre/cargo-msrv"
+
+[[packages]]
+repository = "fortio/fortio"
+
+[[packages]]
+repository = "foundry-rs/foundry"
+
+[[packages]]
+repository = "freshautomations/stoml"
+
+[[packages]]
+repository = "fujiapple852/trippy"
+
+[[packages]]
+repository = "fujiwara/apprun-cli"
+
+[[packages]]
+repository = "fujiwara/awslim"
+
+[[packages]]
+repository = "fujiwara/cfft"
+
+[[packages]]
+repository = "fujiwara/ecrm"
+
+[[packages]]
+repository = "fujiwara/ecsta"
+
+[[packages]]
+repository = "fujiwara/greenlight"
+
+[[packages]]
+repository = "fujiwara/grpcp"
+
+[[packages]]
+repository = "fujiwara/iam-policy-finder"
+
+[[packages]]
+repository = "fujiwara/kinesis-tailf"
+
+[[packages]]
+repository = "fujiwara/knockrd"
+
+[[packages]]
+repository = "fujiwara/lambroll"
+
+[[packages]]
+repository = "fujiwara/lamux"
+
+[[packages]]
+repository = "fujiwara/maprobe"
+
+[[packages]]
+repository = "fujiwara/riex"
+
+[[packages]]
+repository = "fujiwara/s3mover"
+
+[[packages]]
+repository = "fujiwara/stretcher"
+
+[[packages]]
+repository = "fujiwara/tfstate-lookup"
+
+[[packages]]
+repository = "fujiwara/tncl"
+
+[[packages]]
+repository = "fujiwara/tracer"
+
+[[packages]]
+repository = "fukubaka0825/tffmtmd"
+
+[[packages]]
+repository = "fullstorydev/grpcui"
+
+[[packages]]
+repository = "fullstorydev/grpcurl"
+
+[[packages]]
+repository = "funbiscuit/spacedisplay-rs"
+
+[[packages]]
+repository = "Fusion/gogo"
+
+[[packages]]
+repository = "future-architect/tftarget"
+
+[[packages]]
+repository = "g-plane/pnpm-shell-completion"
+
+[[packages]]
+repository = "gabeduke/kubectl-iexec"
+
+[[packages]]
+repository = "gabrie30/ghorg"
+
+[[packages]]
+repository = "gardener/docforge"
+
+[[packages]]
+repository = "Gaurav-Gosain/tuios"
+
+[[packages]]
+repository = "gcla/termshark"
+
+[[packages]]
+repository = "gdubicki/ets"
+
+[[packages]]
+repository = "gefyrahq/gefyra"
+
+[[packages]]
+repository = "genuinetools/amicontained"
+
+[[packages]]
+repository = "genuinetools/img"
+
+[[packages]]
+repository = "genuinetools/reg"
+
+[[packages]]
+repository = "geofffranks/spruce"
+
+[[packages]]
+repository = "gesquive/git-user"
+
+[[packages]]
+repository = "getanteon/anteon"
+
+[[packages]]
+repository = "Getdeck/getdeck"
+
+[[packages]]
+repository = "getgauge/gauge"
+
+[[packages]]
+repository = "getporter/porter"
+
+[[packages]]
+repository = "getsavvyinc/savvy-cli"
+
+[[packages]]
+repository = "getsentry/sentry-cli"
+
+[[packages]]
+repository = "getsops/sops"
+
+[[packages]]
+repository = "getzola/zola"
+
+[[packages]]
+repository = "GhostTroops/scan4all"
+
+[[packages]]
+repository = "ginuerzh/gost"
+
+[[packages]]
+repository = "git-bug/git-bug"
+
+[[packages]]
+repository = "git-chglog/git-chglog"
+
+[[packages]]
+repository = "git-lfs/git-lfs"
+
+[[packages]]
+repository = "git-town/git-town"
+
+[[packages]]
+repository = "GitGuardian/ggshield"
+
+[[packages]]
+repository = "github-release/github-release"
+
+[[packages]]
+repository = "github/copilot-cli"
+
+[[packages]]
+repository = "github/copilot-language-server-release"
+
+[[packages]]
+repository = "github/gh-ost"
+
+[[packages]]
+repository = "github/git-sizer"
+
+[[packages]]
+repository = "github/github-mcp-server"
+
+[[packages]]
+repository = "github/licensed"
+
+[[packages]]
+repository = "gitleaks/gitleaks"
+
+[[packages]]
+repository = "gittools/gitversion"
+
+[[packages]]
+repository = "gittower/git-flow-next"
+
+[[packages]]
+repository = "gittuf/gittuf"
+
+[[packages]]
+repository = "gitui-org/gitui"
+
+[[packages]]
+repository = "gleam-lang/gleam"
+
+[[packages]]
+repository = "go-acme/lego"
+
+[[packages]]
+repository = "go-gost/gost"
+
+[[packages]]
+repository = "go-jira/jira"
+
+[[packages]]
+repository = "go-semantic-release/semantic-release"
+
+[[packages]]
+repository = "go-simpler/goversion"
+
+[[packages]]
+repository = "go-simpler/sloglint"
+
+[[packages]]
+repository = "go-swagger/go-swagger"
+
+[[packages]]
+repository = "go-task/task"
+
+[[packages]]
+repository = "go-to-k/cls3"
+
+[[packages]]
+repository = "go-to-k/delstack"
+
+[[packages]]
+repository = "go-to-k/lamver"
+
+[[packages]]
+repository = "goark/depm"
+
+[[packages]]
+repository = "goark/gimei-cli"
+
+[[packages]]
+repository = "goark/gnkf"
+
+[[packages]]
+repository = "goccy/bigquery-emulator"
+
+[[packages]]
+repository = "godotengine/godot"
+
+[[packages]]
+repository = "gogs/gogs"
+
+[[packages]]
+repository = "goharbor/harbor-cli"
+
+[[packages]]
+repository = "gohugoio/hugo"
+
+[[packages]]
+repository = "gojuno/minimock"
+
+[[packages]]
+repository = "gokcehan/lf"
+
+[[packages]]
+repository = "golang-migrate/migrate"
+
+[[packages]]
+repository = "golang/mock"
+
+[[packages]]
+repository = "golangci/golangci-lint"
+
+[[packages]]
+repository = "golangci/golines"
+
+[[packages]]
+repository = "golangci/misspell"
+
+[[packages]]
+repository = "gomods/athens"
+
+[[packages]]
+repository = "GoodwayGroup/gwvault"
+
+[[packages]]
+repository = "goodwithtech/dockle"
+
+[[packages]]
+repository = "google/addlicense"
+
+[[packages]]
+repository = "google/gke-policy-automation"
+
+[[packages]]
+repository = "google/go-containerregistry"
+
+[[packages]]
+repository = "google/go-jsonnet"
+
+[[packages]]
+repository = "google/jsonnet"
+
+[[packages]]
+repository = "google/keep-sorted"
+
+[[packages]]
+repository = "google/mtail"
+
+[[packages]]
+repository = "google/osv-scanner"
+
+[[packages]]
+repository = "google/yamlfmt"
+
+[[packages]]
+repository = "googleapis/api-linter"
+
+[[packages]]
+repository = "GoogleCloudPlatform/berglas"
+
+[[packages]]
+repository = "GoogleCloudPlatform/kubectl-ai"
+
+[[packages]]
+repository = "GoogleCloudPlatform/terraformer"
+
+[[packages]]
+repository = "GoogleContainerTools/container-structure-test"
+
+[[packages]]
+repository = "gopasspw/gopass"
+
+[[packages]]
+repository = "goph/licensei"
+
+[[packages]]
+repository = "gopinath-langote/1build"
+
+[[packages]]
+repository = "goreleaser/goreleaser"
+
+[[packages]]
+repository = "goreleaser/nfpm"
+
+[[packages]]
+repository = "goss-org/goss"
+
+[[packages]]
+repository = "GoTestTools/gotestfmt"
+
+[[packages]]
+repository = "gotestyourself/gotestsum"
+
+[[packages]]
+repository = "gotify/cli"
+
+[[packages]]
+repository = "gptscript-ai/gptscript"
+
+[[packages]]
+repository = "gradle/gradle-distributions"
+
+[[packages]]
+repository = "graelo/pumas"
+
+[[packages]]
+repository = "grafana/alloy"
+
+[[packages]]
+repository = "grafana/grafana-kiosk"
+
+[[packages]]
+repository = "grafana/grafanactl"
+
+[[packages]]
+repository = "grafana/grizzly"
+
+[[packages]]
+repository = "grafana/jsonnet-language-server"
+
+[[packages]]
+repository = "grafana/k6"
+
+[[packages]]
+repository = "grafana/loki"
+
+[[packages]]
+repository = "grafana/mcp-grafana"
+
+[[packages]]
+repository = "grafana/mimir"
+
+[[packages]]
+repository = "grafana/tanka"
+
+[[packages]]
+repository = "grafana/xk6"
+
+[[packages]]
+repository = "grampelberg/kty"
+
+[[packages]]
+repository = "greymd/teip"
+
+[[packages]]
+repository = "grpc-ecosystem/grpc-gateway"
+
+[[packages]]
+repository = "grpc-ecosystem/grpc-health-probe"
+
+[[packages]]
+repository = "grpc/grpc-go"
+
+[[packages]]
+repository = "gruntwork-io/boilerplate"
+
+[[packages]]
+repository = "gruntwork-io/fetch"
+
+[[packages]]
+repository = "gruntwork-io/git-xargs"
+
+[[packages]]
+repository = "gruntwork-io/kubergrunt"
+
+[[packages]]
+repository = "gruntwork-io/terragrunt"
+
+[[packages]]
+repository = "gsamokovarov/jump"
+
+[[packages]]
+repository = "guptarohit/asciigraph"
+
+[[packages]]
+repository = "guumaster/hostctl"
+
+[[packages]]
+repository = "hadolint/hadolint"
+
+[[packages]]
+repository = "hairyhenderson/gomplate"
+
+[[packages]]
+repository = "handlename/awsc"
+
+[[packages]]
+repository = "handlename/let-rds-sleep"
+
+[[packages]]
+repository = "handlename/ssmwrap"
+
+[[packages]]
+repository = "harelba/q"
+
+[[packages]]
+repository = "harness/drone-cli"
+
+[[packages]]
+repository = "hashicorp/copywrite"
+
+[[packages]]
+repository = "hashicorp/go-getter"
+
+[[packages]]
+repository = "hashicorp/terraform-plugin-docs"
+
+[[packages]]
+repository = "hashicorp/vagrant"
+
+[[packages]]
+repository = "hasura/graphql-engine"
+
+[[packages]]
+repository = "hatoo/oha"
+
+[[packages]]
+repository = "hay-kot/scaffold"
+
+[[packages]]
+repository = "heartbeatsjp/check-tls-cert"
+
+[[packages]]
+repository = "helix-editor/helix"
+
+[[packages]]
+repository = "hellux/jotdown"
+
+[[packages]]
+repository = "helm/chart-releaser"
+
+[[packages]]
+repository = "helm/chart-testing"
+
+[[packages]]
+repository = "helmfile/helmfile"
+
+[[packages]]
+repository = "helmfile/vals"
+
+[[packages]]
+repository = "helmwave/helmwave"
+
+[[packages]]
+repository = "hetznercloud/cli"
+
+[[packages]]
+repository = "hexdigest/gowrap"
+
+[[packages]]
+repository = "hhatto/gocloc"
+
+[[packages]]
+repository = "hherman1/gq"
+
+[[packages]]
+repository = "hidetatz/kubecolor"
+
+[[packages]]
+repository = "high-moctane/mocword"
+
+[[packages]]
+repository = "high-moctane/nextword"
+
+[[packages]]
+repository = "hirosassa/ksnotify"
+
+[[packages]]
+repository = "hirosassa/tfcmt-gitlab"
+
+[[packages]]
+repository = "hirose31/s3surfer"
+
+[[packages]]
+repository = "hmarr/codeowners"
+
+[[packages]]
+repository = "hokaccha/spannerdef"
+
+[[packages]]
+repository = "homeport/dyff"
+
+[[packages]]
+repository = "homeport/havener"
+
+[[packages]]
+repository = "hougesen/mdsf"
+
+[[packages]]
+repository = "houseabsolute/omegasort"
+
+[[packages]]
+repository = "houseabsolute/ubi"
+
+[[packages]]
+repository = "howardjohn/kubeconfig-proxy"
+
+[[packages]]
+repository = "hrmsk66/terraformify"
+
+[[packages]]
+repository = "hytromo/mimosa"
+
+[[packages]]
+repository = "ianlewis/todos"
+
+[[packages]]
+repository = "iann0036/iamlive"
+
+[[packages]]
+repository = "iawia002/lux"
+
+[[packages]]
+repository = "IBM-Cloud/redli"
+
+[[packages]]
+repository = "ibotta/sopstool"
 
 [[packages]]
 repository = "idursun/jjui"
@@ -70,53 +2151,1963 @@ repository = "idursun/jjui"
 repository = "ifd3f/caligula"
 
 [[packages]]
+repository = "iffse/pay-respects"
+
+[[packages]]
+repository = "igor-petruk/scriptisto"
+
+[[packages]]
+repository = "ikanago/omekasy"
+
+[[packages]]
+repository = "ikawaha/kagome"
+
+[[packages]]
+repository = "ilaif/goplicate"
+
+[[packages]]
+repository = "im2nguyen/rover"
+
+[[packages]]
+repository = "imsnif/bandwhich"
+
+[[packages]]
+repository = "imuxin/kubectl-watch"
+
+[[packages]]
+repository = "in-toto/witness"
+
+[[packages]]
+repository = "incu6us/goimports-reviser"
+
+[[packages]]
+repository = "infracost/infracost"
+
+[[packages]]
+repository = "inlets/inlets-pro"
+
+[[packages]]
+repository = "inlets/inletsctl"
+
+[[packages]]
+repository = "inlets/mixctl"
+
+[[packages]]
+repository = "innobead/huber"
+
+[[packages]]
+repository = "inovex/CalendarSync"
+
+[[packages]]
+repository = "instrumenta/kubeval"
+
+[[packages]]
+repository = "int128/cronjob-runner"
+
+[[packages]]
+repository = "int128/ghcp"
+
+[[packages]]
+repository = "int128/kauthproxy"
+
+[[packages]]
+repository = "int128/kubectl-external-forward"
+
+[[packages]]
+repository = "int128/kubelogin"
+
+[[packages]]
+repository = "int128/yamlpatch"
+
+[[packages]]
+repository = "interlynk-io/sbomqs"
+
+[[packages]]
+repository = "iovisor/kubectl-trace"
+
+[[packages]]
+repository = "ip7z/7zip"
+
+[[packages]]
+repository = "ipfs/kubo"
+
+[[packages]]
+repository = "ipinfo/cli"
+
+[[packages]]
+repository = "ipld/go-car"
+
+[[packages]]
+repository = "ismaelgv/rnr"
+
+[[packages]]
+repository = "istio/istio"
+
+[[packages]]
+repository = "itamae-kitchen/mitamae"
+
+[[packages]]
+repository = "itaysk/kubectl-neat"
+
+[[packages]]
+repository = "itchyny/bed"
+
+[[packages]]
+repository = "itchyny/fillin"
+
+[[packages]]
+repository = "itchyny/gojo"
+
+[[packages]]
+repository = "itchyny/gojq"
+
+[[packages]]
+repository = "itchyny/json2yaml"
+
+[[packages]]
+repository = "itchyny/maze"
+
+[[packages]]
+repository = "itchyny/mmv"
+
+[[packages]]
+repository = "ivaaaan/smug"
+
+[[packages]]
+repository = "ivanilves/lstags"
+
+[[packages]]
+repository = "IxDay/mruby"
+
+[[packages]]
+repository = "iximiuz/kexp"
+
+[[packages]]
+repository = "iyear/tdl"
+
+[[packages]]
+repository = "j178/prek"
+
+[[packages]]
+repository = "jacek-kurlit/pik"
+
+[[packages]]
+repository = "jackchuka/confluence-md"
+
+[[packages]]
+repository = "jackchuka/mdschema"
+
+[[packages]]
+repository = "jacobdeichert/mask"
+
+[[packages]]
+repository = "jamesWoolfenden/pike"
+
+[[packages]]
+repository = "jamf/Notifier"
+
+[[packages]]
+repository = "jamietsao/random-winner"
+
+[[packages]]
+repository = "JanDeDobbeleer/oh-my-posh"
+
+[[packages]]
+repository = "jbangdev/jbang"
+
+[[packages]]
+repository = "jckuester/terradozer"
+
+[[packages]]
+repository = "jdx/hk"
+
+[[packages]]
+repository = "jdx/mise"
+
+[[packages]]
+repository = "jdx/pitchfork"
+
+[[packages]]
+repository = "jdx/usage"
+
+[[packages]]
+repository = "jedisct1/minisign"
+
+[[packages]]
+repository = "jedisct1/piknik"
+
+[[packages]]
+repository = "jenkins-x/jx"
+
+[[packages]]
+repository = "jenkins-zh/jenkins-cli"
+
+[[packages]]
+repository = "jesseduffield/horcrux"
+
+[[packages]]
+repository = "jesseduffield/lazydocker"
+
+[[packages]]
 repository = "jesseduffield/lazygit"
+
+[[packages]]
+repository = "jesseduffield/lazynpm"
+
+[[packages]]
+repository = "jessfraz/dockfmt"
+
+[[packages]]
+repository = "jetify-com/devbox"
+
+[[packages]]
+repository = "jez/as-tree"
+
+[[packages]]
+repository = "JFryy/qq"
+
+[[packages]]
+repository = "jiro4989/ojosama"
+
+[[packages]]
+repository = "jiro4989/relma"
+
+[[packages]]
+repository = "jiro4989/textimg"
+
+[[packages]]
+repository = "jirutka/tty-copy"
 
 [[packages]]
 repository = "jj-vcs/jj"
 
 [[packages]]
-repository = "junegunn/fzf"
+repository = "jkfran/killport"
+
+[[packages]]
+repository = "jmespath/jp"
+
+[[packages]]
+repository = "joehillen/sysz"
+
+[[packages]]
+repository = "joerdav/xc"
+
+[[packages]]
+repository = "johnkerl/miller"
+
+[[packages]]
+repository = "JohnnyMorganz/StyLua"
+
+[[packages]]
+repository = "jonaslu/ain"
 
 [[packages]]
 repository = "jordond/jolt"
+
 [[packages]]
-repository = "j178/prek"
+repository = "jorgerojas26/lazysql"
+
+[[packages]]
+repository = "josephburnett/jd"
+
+[[packages]]
+repository = "joshdk/retry"
+
+[[packages]]
+repository = "joshmedeski/sesh"
+
+[[packages]]
+repository = "jpbruinsslot/slack-term"
+
+[[packages]]
+repository = "jpillora/chisel"
+
+[[packages]]
+repository = "jqlang/jq"
+
+[[packages]]
+repository = "jreisinger/checkip"
+
+[[packages]]
+repository = "jreleaser/jreleaser"
+
+[[packages]]
+repository = "jscaltreto/eks-auth"
+
+[[packages]]
+repository = "jsonnet-bundler/jsonnet-bundler"
+
+[[packages]]
+repository = "jstemmer/go-junit-report"
+
+[[packages]]
+repository = "jtyr/gbt"
+
+[[packages]]
+repository = "juan-leon/lowcharts"
+
+[[packages]]
+repository = "juanfont/headscale"
+
+[[packages]]
+repository = "jubako/arx"
+
+[[packages]]
+repository = "juicedata/juicefs"
+
+[[packages]]
+repository = "Julien-R44/fast-ssh"
+
+[[packages]]
+repository = "juliosueiras/terraform-lsp"
+
+[[packages]]
+repository = "jumppad-labs/jumppad"
+
+[[packages]]
+repository = "junegunn/fzf"
+
+[[packages]]
+repository = "just-every/code"
+
+[[packages]]
+repository = "justjanne/powerline-go"
+
+[[packages]]
+repository = "justmiles/go-markdown2confluence"
+
+[[packages]]
+repository = "jwilder/dockerize"
+
+[[packages]]
+repository = "k0sproject/k0s"
+
+[[packages]]
+repository = "k0sproject/k0sctl"
+
+[[packages]]
+repository = "k1LoW/awsdo"
+
+[[packages]]
+repository = "k1LoW/coglet"
+
+[[packages]]
+repository = "k1LoW/concrun"
+
+[[packages]]
+repository = "k1LoW/cuestr"
+
+[[packages]]
+repository = "k1LoW/deck"
+
+[[packages]]
+repository = "k1LoW/gh-do"
+
+[[packages]]
+repository = "k1LoW/gh-setup"
+
+[[packages]]
+repository = "k1LoW/git-wt"
+
+[[packages]]
+repository = "k1LoW/gostyle"
+
+[[packages]]
+repository = "k1LoW/hclstr"
+
+[[packages]]
+repository = "k1LoW/ndiag"
+
+[[packages]]
+repository = "k1LoW/octocov"
+
+[[packages]]
+repository = "k1LoW/oldstable"
+
+[[packages]]
+repository = "k1LoW/roots"
+
+[[packages]]
+repository = "k1LoW/runn"
+
+[[packages]]
+repository = "k1LoW/stubin"
+
+[[packages]]
+repository = "k1LoW/tailor-log"
+
+[[packages]]
+repository = "k1LoW/tbls"
+
+[[packages]]
+repository = "k1LoW/tbls-ask"
+
+[[packages]]
+repository = "k1LoW/tbls-driver-tailordb"
+
+[[packages]]
+repository = "k1LoW/tmpmod"
+
+[[packages]]
+repository = "k3d-io/k3d"
+
+[[packages]]
+repository = "k3s-io/k3s"
+
+[[packages]]
+repository = "k8sgpt-ai/k8sgpt"
+
+[[packages]]
+repository = "kachick/selfup"
+
+[[packages]]
+repository = "kahing/goofys"
+
+[[packages]]
+repository = "kamadorueda/alejandra"
+
+[[packages]]
+repository = "Kampfkarren/selene"
+
+[[packages]]
+repository = "kanisterio/kanister"
+
+[[packages]]
+repository = "kashav/fsql"
+
+[[packages]]
+repository = "kastenhq/external-tools"
+
+[[packages]]
+repository = "kastenhq/kubestr"
+
+[[packages]]
+repository = "kattouf/ProgressLine"
+
+[[packages]]
+repository = "kawaz/authsock-filter"
+
+[[packages]]
+repository = "kayac/ecspresso"
+
+[[packages]]
+repository = "kayac/go-katsubushi"
+
+[[packages]]
+repository = "kaytu-io/kaytu"
+
+[[packages]]
+repository = "kcl-lang/cli"
+
+[[packages]]
+repository = "kcl-lang/kcl"
+
+[[packages]]
+repository = "kcp-dev/kcp"
+
+[[packages]]
+repository = "kdash-rs/kdash"
+
+[[packages]]
+repository = "kdheepak/taskwarrior-tui"
+
+[[packages]]
+repository = "keidarcy/e1s"
+
+[[packages]]
+repository = "keilerkonzept/terraform-module-versions"
+
+[[packages]]
+repository = "keisku/kubectl-explore"
+
+[[packages]]
+repository = "KeisukeYamashita/commitlint-rs"
+
+[[packages]]
+repository = "kellyjonbrazil/jc"
+
+[[packages]]
+repository = "kentaro-m/md2confl"
+
+[[packages]]
+repository = "kettle11/devserver"
+
+[[packages]]
+repository = "kevincobain2000/gobrew"
+
+[[packages]]
+repository = "kevwan/depu"
+
+[[packages]]
+repository = "kevwan/tproxy"
+
+[[packages]]
+repository = "KhronosGroup/KTX-Software"
+
+[[packages]]
+repository = "kiali/kiali"
+
+[[packages]]
+repository = "Kitware/CMake"
+
+[[packages]]
+repository = "kkdai/youtube"
+
+[[packages]]
+repository = "kkinnear/zprint"
+
+[[packages]]
+repository = "kluctl/kluctl"
+
+[[packages]]
+repository = "knadh/listmonk"
+
+[[packages]]
+repository = "knative/client"
+
+[[packages]]
+repository = "knative/func"
+
+[[packages]]
+repository = "knqyf263/cob"
+
+[[packages]]
+repository = "knqyf263/go-plugin"
+
+[[packages]]
+repository = "knqyf263/pet"
+
+[[packages]]
+repository = "knqyf263/sou"
+
+[[packages]]
+repository = "knqyf263/utern"
+
+[[packages]]
+repository = "ko-build/ko"
+
+[[packages]]
+repository = "ko1nksm/getoptions"
+
+[[packages]]
+repository = "ko1nksm/shdotenv"
+
+[[packages]]
+repository = "koalaman/shellcheck"
+
+[[packages]]
+repository = "koki-develop/clive"
+
+[[packages]]
+repository = "koki-develop/gat"
+
+[[packages]]
+repository = "koki-develop/moview"
+
+[[packages]]
+repository = "koki-develop/sheep"
+
+[[packages]]
+repository = "koluku/s3s"
+
+[[packages]]
+repository = "Kong/deck"
+
+[[packages]]
+repository = "konradsz/igrep"
+
+[[packages]]
+repository = "kool-dev/kool"
+
+[[packages]]
+repository = "kopia/kopia"
+
+[[packages]]
+repository = "Kotlin/kotlin-interactive-shell"
+
+[[packages]]
+repository = "koyeb/koyeb-cli"
+
+[[packages]]
+repository = "kptdev/kpt"
+
+[[packages]]
+repository = "krallin/tini"
+
+[[packages]]
+repository = "kreuzwerker/awsu"
+
+[[packages]]
+repository = "kreuzwerker/envplate"
+
+[[packages]]
+repository = "kreuzwerker/m1-terraform-provider-helper"
+
+[[packages]]
+repository = "ktock/buildg"
+
+[[packages]]
+repository = "ktr0731/evans"
+
+[[packages]]
+repository = "kubecfg/kubecfg"
+
+[[packages]]
+repository = "kubecolor/kubecolor"
+
+[[packages]]
+repository = "kubecost/kubectl-cost"
+
+[[packages]]
+repository = "kubemq-io/kubemqctl"
+
+[[packages]]
+repository = "kubepug/kubepug"
+
+[[packages]]
+repository = "kubermatic/kubeone"
+
+[[packages]]
+repository = "kubernetes-retired/kubefed"
+
+[[packages]]
+repository = "kubernetes-sigs/aws-iam-authenticator"
+
+[[packages]]
+repository = "kubernetes-sigs/cloud-provider-kind"
+
+[[packages]]
+repository = "kubernetes-sigs/cluster-api"
+
+[[packages]]
+repository = "kubernetes-sigs/controller-runtime"
+
+[[packages]]
+repository = "kubernetes-sigs/cri-tools"
+
+[[packages]]
+repository = "kubernetes-sigs/gwctl"
+
+[[packages]]
+repository = "kubernetes-sigs/ingress2gateway"
+
+[[packages]]
+repository = "kubernetes-sigs/kind"
+
+[[packages]]
+repository = "kubernetes-sigs/krew"
+
+[[packages]]
+repository = "kubernetes-sigs/kubebuilder"
+
+[[packages]]
+repository = "kubernetes-sigs/kustomize"
+
+[[packages]]
+repository = "kubernetes-sigs/kwok"
+
+[[packages]]
+repository = "kubernetes-sigs/zeitgeist"
+
+[[packages]]
+repository = "kubernetes/kompose"
+
+[[packages]]
+repository = "kubernetes/kops"
+
+[[packages]]
+repository = "kubernetes/minikube"
+
+[[packages]]
+repository = "kubernetes/node-problem-detector"
+
+[[packages]]
+repository = "kubescape/kubescape"
+
+[[packages]]
+repository = "kubeshark/kubeshark"
+
+[[packages]]
+repository = "kubesphere/kubeeye"
+
+[[packages]]
+repository = "kubevela/kubevela"
+
+[[packages]]
+repository = "kubevious/cli"
+
+[[packages]]
+repository = "kubevirt/kubevirt"
+
+[[packages]]
+repository = "kubewarden/kwctl"
+
+[[packages]]
+repository = "kudobuilder/kuttl"
+
+[[packages]]
+repository = "kurehajime/dajarep"
+
+[[packages]]
+repository = "kurehajime/kuzusi"
+
+[[packages]]
+repository = "kurehajime/pong-command"
+
+[[packages]]
+repository = "KusionStack/kusion"
+
+[[packages]]
+repository = "kvz/json2hcl"
+
+[[packages]]
+repository = "kyma-project/cli"
+
+[[packages]]
+repository = "kyoh86/richgo"
+
+[[packages]]
+repository = "kyoshidajp/dep-doctor"
+
+[[packages]]
+repository = "kyoshidajp/ghkw"
+
+[[packages]]
+repository = "kyverno/chainsaw"
+
+[[packages]]
+repository = "kyverno/kyverno"
+
+[[packages]]
+repository = "Ladicle/kubectl-rolesum"
+
+[[packages]]
+repository = "laktak/zfind"
+
+[[packages]]
+repository = "Lallassu/gorss"
+
+[[packages]]
+repository = "lasantosr/intelli-shell"
+
+[[packages]]
+repository = "lasiar/canonicalheader"
+
+[[packages]]
+repository = "lc/gau"
+
+[[packages]]
+repository = "ldez/prm"
+
+[[packages]]
+repository = "leg100/pug"
+
+[[packages]]
+repository = "legal90/awscurl"
+
+[[packages]]
+repository = "leoafarias/fvm"
+
+[[packages]]
+repository = "lewispeckover/consulator"
+
+[[packages]]
+repository = "LGUG2Z/komorebi"
+
+[[packages]]
+repository = "LGUG2Z/whkd"
+
+[[packages]]
+repository = "liamg/comet"
+
+[[packages]]
+repository = "liamg/dismember"
+
+[[packages]]
+repository = "liamg/extrude"
+
+[[packages]]
+repository = "liamg/gitjacker"
+
+[[packages]]
+repository = "liamg/memit"
+
+[[packages]]
+repository = "liamg/pax"
+
+[[packages]]
+repository = "liamg/scout"
+
+[[packages]]
+repository = "liamg/traitor"
+
+[[packages]]
+repository = "libbpf/bpftool"
+
+[[packages]]
+repository = "librespeed/speedtest-cli"
+
+[[packages]]
+repository = "Lifailon/lazyjournal"
+
+[[packages]]
+repository = "liggitt/audit2rbac"
+
+[[packages]]
+repository = "lima-vm/lima"
+
+[[packages]]
+repository = "lima-vm/sshocker"
+
+[[packages]]
+repository = "lindell/multi-gitter"
+
+[[packages]]
+repository = "linebender/resvg"
+
+[[packages]]
+repository = "linkerd/linkerd2"
+
+[[packages]]
+repository = "lintnet/lintnet"
+
+[[packages]]
+repository = "linuxkit/linuxkit"
+
+[[packages]]
+repository = "liquidmetal-dev/flintlock"
+
+[[packages]]
+repository = "livebud/bud"
+
+[[packages]]
+repository = "livesense-inc/go-aws-s3get"
+
+[[packages]]
+repository = "livesense-inc/go-simple-http-redirector"
+
+[[packages]]
+repository = "liweiyi88/gosnakego"
+
+[[packages]]
+repository = "llogick/zigscient"
+
+[[packages]]
+repository = "localstack/localstack-cli"
+
+[[packages]]
+repository = "loeffel-io/ls-lint"
+
+[[packages]]
+repository = "loft-sh/devpod"
+
+[[packages]]
+repository = "loft-sh/vcluster"
+
+[[packages]]
+repository = "logdyhq/logdy-core"
+
+[[packages]]
+repository = "lotabout/rargs"
+
+[[packages]]
+repository = "lsd-rs/lsd"
+
+[[packages]]
+repository = "LuaLS/lua-language-server"
+
+[[packages]]
+repository = "luau-lang/luau"
+
+[[packages]]
+repository = "LucasPickering/slumber"
+
+[[packages]]
+repository = "LukeChannings/deno-arm64"
+
+[[packages]]
+repository = "lusingander/ddv"
+
+[[packages]]
+repository = "lusingander/serie"
+
+[[packages]]
+repository = "lusingander/stu"
+
+[[packages]]
+repository = "lxc/incus"
+
+[[packages]]
+repository = "lycheeverse/lychee"
+
+[[packages]]
+repository = "m7medVision/lazycommit"
+
+[[packages]]
+repository = "maaslalani/invoice"
+
+[[packages]]
+repository = "maaslalani/slides"
+
+[[packages]]
+repository = "Macchina-CLI/macchina"
+
+[[packages]]
+repository = "mackee/go-readability"
+
+[[packages]]
+repository = "Macmod/godap"
+
+[[packages]]
+repository = "madelynnblue/sqlfmt"
+
+[[packages]]
+repository = "Madh93/tpm"
+
+[[packages]]
+repository = "magefile/mage"
+
+[[packages]]
+repository = "magodo/pipeform"
+
+[[packages]]
+repository = "makew0rld/didder"
+
+[[packages]]
+repository = "making/rsc"
+
+[[packages]]
+repository = "makiuchi-d/arelo"
+
+[[packages]]
+repository = "mame/wsl2-ssh-agent"
+
+[[packages]]
+repository = "manabusakai/tdtidy"
+
+[[packages]]
+repository = "mantil-io/mantil"
+
+[[packages]]
+repository = "marcosnils/bin"
+
+[[packages]]
+repository = "marp-team/marp-cli"
+
+[[packages]]
+repository = "mas-cli/mas"
+
+[[packages]]
+repository = "mashiike/acrun"
+
+[[packages]]
+repository = "mashiike/prepalert"
+
+[[packages]]
+repository = "mashiike/redshift-credentials"
+
+[[packages]]
+repository = "mashiike/stefunny"
+
+[[packages]]
+repository = "masutaka/github-nippou"
+
+[[packages]]
+repository = "mathew-fleisch/bashbot"
 
 [[packages]]
 repository = "MathiasPius/crates-lsp"
 
 [[packages]]
+repository = "matryer/moq"
+
+[[packages]]
+repository = "mattermost/mmctl"
+
+[[packages]]
+repository = "mattn/algia"
+
+[[packages]]
+repository = "mattn/bsky"
+
+[[packages]]
+repository = "mattn/cho"
+
+[[packages]]
+repository = "mattn/efm-langserver"
+
+[[packages]]
+repository = "mattn/files"
+
+[[packages]]
+repository = "mattn/gof"
+
+[[packages]]
+repository = "mattn/goreman"
+
+[[packages]]
+repository = "mattn/longcat"
+
+[[packages]]
+repository = "mattn/memo"
+
+[[packages]]
+repository = "mattn/twty"
+
+[[packages]]
+repository = "mattn/zig-update"
+
+[[packages]]
+repository = "maxpert/marmot"
+
+[[packages]]
+repository = "MaybeJustJames/zephyr"
+
+[[packages]]
+repository = "mazrean/kessoku"
+
+[[packages]]
+repository = "megaease/easeprobe"
+
+[[packages]]
+repository = "Melkeydev/go-blueprint"
+
+[[packages]]
+repository = "mercari/hcledit"
+
+[[packages]]
+repository = "mercari/tfnotify"
+
+[[packages]]
+repository = "mergestat/mergestat-lite"
+
+[[packages]]
+repository = "mesosphere/mindthegap"
+
+[[packages]]
+repository = "metalbear-co/mirrord"
+
+[[packages]]
+repository = "mfontanini/presenterm"
+
+[[packages]]
+repository = "mfridman/tparse"
+
+[[packages]]
+repository = "mgdm/htmlq"
+
+[[packages]]
+repository = "mgechev/revive"
+
+[[packages]]
+repository = "mgunyho/tere"
+
+[[packages]]
+repository = "Mic-U/ecsher"
+
+[[packages]]
 repository = "Michael-F-Bryan/mdbook-linkcheck"
+
+[[packages]]
+repository = "michidk/vscli"
+
+[[packages]]
+repository = "micro-editor/micro"
+
+[[packages]]
+repository = "microsoft/component-detection"
+
+[[packages]]
+repository = "microsoft/edit"
+
+[[packages]]
+repository = "microsoft/kiota"
+
+[[packages]]
+repository = "microsoft/ripgrep-prebuilt"
+
+[[packages]]
+repository = "mike-engel/jwt-cli"
+
+[[packages]]
+repository = "mikefarah/yq"
+
+[[packages]]
+repository = "Mikescher/better-docker-ps"
+
+[[packages]]
+repository = "miku/zek"
+
+[[packages]]
+repository = "minamijoyo/hcledit"
+
+[[packages]]
+repository = "minamijoyo/myaws"
+
+[[packages]]
+repository = "minamijoyo/tfedit"
+
+[[packages]]
+repository = "minamijoyo/tfmigrate"
+
+[[packages]]
+repository = "minamijoyo/tfschema"
+
+[[packages]]
+repository = "minamijoyo/tfupdate"
+
+[[packages]]
+repository = "minc-org/minc"
+
+[[packages]]
+repository = "miniscruff/changie"
+
+[[packages]]
+repository = "minishift/minishift"
+
+[[packages]]
+repository = "mintoolkit/mint"
+
+[[packages]]
+repository = "MiSawa/xq"
+
+[[packages]]
+repository = "mislav/hub"
+
+[[packages]]
+repository = "mistakenelf/fm"
+
+[[packages]]
+repository = "mitchellh/golicense"
+
+[[packages]]
+repository = "mitchellh/gon"
+
+[[packages]]
+repository = "mitoma/sver"
+
+[[packages]]
+repository = "mitsuhiko/insta"
+
+[[packages]]
+repository = "mitsuhiko/minijinja"
+
+[[packages]]
+repository = "mkchoi212/fac"
+
+[[packages]]
+repository = "mkubaczyk/helmsman"
+
+[[packages]]
+repository = "mmalcek/bafi"
+
+[[packages]]
+repository = "mmarkdown/mmark"
+
+[[packages]]
+repository = "moby/buildkit"
+
+[[packages]]
+repository = "momaek/authy"
+
+[[packages]]
+repository = "moncho/dry"
+
+[[packages]]
+repository = "mongodb/mongodb-atlas-cli"
+
+[[packages]]
+repository = "mono0926/LicensePlist"
+
+[[packages]]
+repository = "mooltiverse/nyx"
+
+[[packages]]
+repository = "moonrepo/moon"
+
+[[packages]]
+repository = "moonrepo/proto"
+
+[[packages]]
+repository = "MordechaiHadad/bob"
 
 [[packages]]
 repository = "mozilla/cargo-vet"
 
 [[packages]]
+repository = "mozilla/grcov"
+
+[[packages]]
+repository = "mozilla/sccache"
+
+[[packages]]
+repository = "mpalmer/action-validator"
+
+[[packages]]
+repository = "mpostument/awstaghelper"
+
+[[packages]]
+repository = "mr-karan/doggo"
+
+[[packages]]
+repository = "mrjackwills/oxker"
+
+[[packages]]
+repository = "mrjosh/helm-ls"
+
+[[packages]]
+repository = "ms-jpq/sad"
+
+[[packages]]
+repository = "msoap/shell2http"
+
+[[packages]]
+repository = "mstange/samply"
+
+[[packages]]
+repository = "mszostok/codeowners-validator"
+
+[[packages]]
+repository = "muesli/duf"
+
+[[packages]]
+repository = "muesli/gitty"
+
+[[packages]]
+repository = "muesli/markscribe"
+
+[[packages]]
+repository = "mumoshu/config-registry"
+
+[[packages]]
+repository = "mumoshu/conflint"
+
+[[packages]]
+repository = "mumoshu/variant"
+
+[[packages]]
+repository = "mumoshu/variant2"
+
+[[packages]]
+repository = "muquit/mailsend-go"
+
+[[packages]]
+repository = "MusicDin/kubitect"
+
+[[packages]]
+repository = "mutagen-io/mutagen"
+
+[[packages]]
+repository = "mutagen-io/mutagen-compose"
+
+[[packages]]
+repository = "mvdan/gofumpt"
+
+[[packages]]
+repository = "mvdan/sh"
+
+[[packages]]
+repository = "mvisonneau/approuvez"
+
+[[packages]]
+repository = "mvisonneau/gpcd"
+
+[[packages]]
+repository = "mvisonneau/s5"
+
+[[packages]]
+repository = "mvisonneau/tfcw"
+
+[[packages]]
+repository = "mvisonneau/vac"
+
+[[packages]]
 repository = "Myriad-Dreamin/tinymist"
+
+[[packages]]
+repository = "nabeken/go-github-apps"
+
+[[packages]]
+repository = "nadoo/glider"
+
+[[packages]]
+repository = "naggie/dstask"
+
+[[packages]]
+repository = "nakabonne/ali"
+
+[[packages]]
+repository = "namespacelabs/foundation"
+
+[[packages]]
+repository = "nametake/golangci-lint-langserver"
+
+[[packages]]
+repository = "nao1215/gup"
+
+[[packages]]
+repository = "nao1215/sqly"
+
+[[packages]]
+repository = "natecraddock/zf"
+
+[[packages]]
+repository = "NathanBaulch/rainbow-roads"
+
+[[packages]]
+repository = "nats-io/natscli"
+
+[[packages]]
+repository = "ned1313/terrahash"
+
+[[packages]]
+repository = "neilotoole/sq"
+
+[[packages]]
+repository = "neilpa/yajsv"
+
+[[packages]]
+repository = "nektos/act"
+
+[[packages]]
+repository = "nektro/zigmod"
 
 [[packages]]
 repository = "neocmakelsp/neocmakelsp"
 
 [[packages]]
+repository = "neondatabase/neonctl"
+
+[[packages]]
 repository = "neovim/neovim"
+
+[[packages]]
+repository = "neovim/neovim-releases"
+
+[[packages]]
+repository = "NetApp/trident"
+
+[[packages]]
+repository = "newrelic/newrelic-cli"
+
+[[packages]]
+repository = "nextest-rs/nextest"
+
+[[packages]]
+repository = "nicarl/somafm"
+
+[[packages]]
+repository = "nickel-lang/nickel"
+
+[[packages]]
+repository = "NikitaCOEUR/dirvana"
+
+[[packages]]
+repository = "nikochiko/autosaved"
+
+[[packages]]
+repository = "nil0x42/dnsanity"
+
+[[packages]]
+repository = "NimbleArchitect/kubectl-ice"
+
+[[packages]]
+repository = "ninja-build/ninja"
+
+[[packages]]
+repository = "ninxsoft/mist-cli"
+
+[[packages]]
+repository = "nishanths/license"
+
+[[packages]]
+repository = "nmstate/nmstate"
+
+[[packages]]
+repository = "noahgorstein/jqp"
+
+[[packages]]
+repository = "noborus/mdviewer"
+
+[[packages]]
+repository = "noborus/ov"
+
+[[packages]]
+repository = "noborus/trdsql"
+
+[[packages]]
+repository = "noborus/xlsxsql"
+
+[[packages]]
+repository = "nojima/httpie-go"
+
+[[packages]]
+repository = "norwoodj/helm-docs"
+
+[[packages]]
+repository = "notaryproject/notation"
+
+[[packages]]
+repository = "nucleuscloud/neosync"
+
+[[packages]]
+repository = "nuclio/nuclio"
+
+[[packages]]
+repository = "Nukesor/pueue"
+
+[[packages]]
+repository = "numtide/treefmt"
+
+[[packages]]
+repository = "nushell/nushell"
+
+[[packages]]
+repository = "nvarner/typst-lsp"
+
+[[packages]]
+repository = "o2sh/onefetch"
+
+[[packages]]
+repository = "oberblastmeister/trashy"
 
 [[packages]]
 repository = "obi1kenobi/cargo-semver-checks"
 
 [[packages]]
+repository = "octohelm/cuemod"
+
+[[packages]]
+repository = "odanado/git-pr-release-go"
+
+[[packages]]
+repository = "odigos-io/odigos"
+
+[[packages]]
+repository = "ogham/dog"
+
+[[packages]]
+repository = "ogham/exa"
+
+[[packages]]
+repository = "ohkrab/krab"
+
+[[packages]]
+repository = "oknozor/toml-bombadil"
+
+[[packages]]
+repository = "okta/okta-aws-cli"
+
+[[packages]]
+repository = "okteto/okteto"
+
+[[packages]]
+repository = "oligot/go-mod-upgrade"
+
+[[packages]]
+repository = "ollama/ollama"
+
+[[packages]]
+repository = "omegion/ssh-manager"
+
+[[packages]]
+repository = "omissis/go-jsonschema"
+
+[[packages]]
+repository = "omrikiei/ktunnel"
+
+[[packages]]
+repository = "one2nc/cloudlens"
+
+[[packages]]
+repository = "open-policy-agent/conftest"
+
+[[packages]]
+repository = "open-policy-agent/gatekeeper"
+
+[[packages]]
+repository = "open-policy-agent/opa"
+
+[[packages]]
+repository = "open-policy-agent/regal"
+
+[[packages]]
+repository = "openai/codex"
+
+[[packages]]
+repository = "openclarity/kubeclarity"
+
+[[packages]]
+repository = "openclarity/vmclarity"
+
+[[packages]]
+repository = "opencontainers/runc"
+
+[[packages]]
+repository = "openfaas/faas-cli"
+
+[[packages]]
+repository = "openfga/cli"
+
+[[packages]]
+repository = "opengrep/opengrep"
+
+[[packages]]
+repository = "openshift-online/ocm-cli"
+
+[[packages]]
+repository = "openshift-pipelines/pipelines-as-code"
+
+[[packages]]
+repository = "openshift/osdctl"
+
+[[packages]]
+repository = "openshift/rosa"
+
+[[packages]]
+repository = "opentofu/opentofu"
+
+[[packages]]
+repository = "opentofu/tofu-ls"
+
+[[packages]]
+repository = "openvex/vexctl"
+
+[[packages]]
+repository = "openziti/zrok"
+
+[[packages]]
+repository = "operator-framework/operator-registry"
+
+[[packages]]
+repository = "operator-framework/operator-sdk"
+
+[[packages]]
+repository = "oppiliappan/dijo"
+
+[[packages]]
+repository = "optiv/Mangle"
+
+[[packages]]
+repository = "Orange-OpenSource/hurl"
+
+[[packages]]
+repository = "orangekame3/stree"
+
+[[packages]]
+repository = "orangekame3/viff"
+
+[[packages]]
+repository = "oras-project/oras"
+
+[[packages]]
+repository = "orf/gping"
+
+[[packages]]
+repository = "orhun/git-cliff"
+
+[[packages]]
+repository = "orisano/dlayer"
+
+[[packages]]
+repository = "orlangure/gocovsh"
+
+[[packages]]
+repository = "ory/hydra"
+
+[[packages]]
+repository = "ossf/scorecard"
+
+[[packages]]
+repository = "osteele/gojekyll"
+
+[[packages]]
+repository = "ouch-org/ouch"
+
+[[packages]]
+repository = "out-of-cheese-error/the-way"
+
+[[packages]]
+repository = "oven-sh/bun"
+
+[[packages]]
+repository = "ovh/venom"
+
+[[packages]]
+repository = "owenlamont/ryl"
+
+[[packages]]
+repository = "owenrumney/squealer"
+
+[[packages]]
+repository = "owenthereal/upterm"
+
+[[packages]]
+repository = "Owloops/updo"
+
+[[packages]]
+repository = "oxc-project/oxc"
+
+[[packages]]
 repository = "oxc-project/oxc"
 name = "oxfmt"
+
 [[packages]]
 repository = "oxc-project/oxc"
 name = "oxlint"
+
+[[packages]]
+repository = "oxipng/oxipng"
+
+[[packages]]
+repository = "ozankasikci/dockerfile-generator"
+
+[[packages]]
+repository = "pacedotdev/oto"
+
+[[packages]]
+repository = "pachyderm/pachyderm"
+
+[[packages]]
+repository = "PaddiM8/kalker"
+
+[[packages]]
+repository = "pamburus/hl"
+
+[[packages]]
+repository = "pan-net-security/kcount"
+
+[[packages]]
+repository = "particledecay/kconf"
+
+[[packages]]
+repository = "PaulJuliusMartinez/jless"
+
+[[packages]]
+repository = "pavius/impi"
+
+[[packages]]
+repository = "pcasteran/terraform-graph-beautifier"
+
+[[packages]]
+repository = "peak/s5cmd"
+
+[[packages]]
+repository = "peco/peco"
+
+[[packages]]
+repository = "pemistahl/grex"
+
+[[packages]]
+repository = "pen-lang/pen"
+
+[[packages]]
+repository = "Percona-Lab/mysql_random_data_load"
+
+[[packages]]
+repository = "peripheryapp/periphery"
+
+[[packages]]
+repository = "perses/perses"
+
+[[packages]]
+repository = "pete911/certinfo"
+
+[[packages]]
+repository = "pete911/jwt"
+
+[[packages]]
+repository = "peteretelej/tree"
+
+[[packages]]
+repository = "pfnet-research/git-ghost"
+
+[[packages]]
+repository = "pglet/pglet"
+
+[[packages]]
+repository = "pgrok/pgrok"
+
+[[packages]]
+repository = "Phantas0s/devdash"
+
+[[packages]]
+repository = "phiresky/ripgrep-all"
+
+[[packages]]
+repository = "pimalaya/himalaya"
+
+[[packages]]
+repository = "pinterest/ktlint"
+
+[[packages]]
+repository = "pipe-cd/pipecd"
+
+[[packages]]
+repository = "Piturnah/gex"
+
+[[packages]]
+repository = "pivotal-cf/om"
+
+[[packages]]
+repository = "pivotal-cf/pivnet-cli"
+
+[[packages]]
+repository = "pkgxdev/pkgx"
+
+[[packages]]
+repository = "pkolaczk/fclones"
+
+[[packages]]
+repository = "planetscale/cli"
+
+[[packages]]
+repository = "plexsystems/sinker"
+
+[[packages]]
+repository = "plumber-cd/terraform-backend-git"
+
+[[packages]]
+repository = "Pluralith/pluralith-cli"
+
+[[packages]]
+repository = "pluveto/upgit"
+
+[[packages]]
+repository = "pnpm/pnpm"
+
+[[packages]]
+repository = "po3rin/github_link_creator"
+
+[[packages]]
+repository = "pomdtr/sunbeam"
+
+[[packages]]
+repository = "ponkio-o/ec2x"
+
+[[packages]]
+repository = "porter-dev/porter"
+
+[[packages]]
+repository = "PowerShell/PowerShell"
+
+[[packages]]
+repository = "praetorian-inc/gokart"
+
+[[packages]]
+repository = "praetorian-inc/noseyparker"
+
+[[packages]]
+repository = "pranshuparmar/witr"
+
+[[packages]]
+repository = "pre-commit/pre-commit"
+
+[[packages]]
+repository = "pressly/goose"
+
+[[packages]]
+repository = "printfn/fend"
 
 [[packages]]
 repository = "probe-rs/probe-rs"
 name = "probe-rs-tools"
 
 [[packages]]
-repository = "runlevel5/htop-rs"
+repository = "project-copacetic/copacetic"
+
+[[packages]]
+repository = "project-zot/zot"
+
+[[packages]]
+repository = "projectcalico/calico"
+
+[[packages]]
+repository = "projectdiscovery/httpx"
+
+[[packages]]
+repository = "projectdiscovery/katana"
+
+[[packages]]
+repository = "projectdiscovery/naabu"
+
+[[packages]]
+repository = "projectdiscovery/nuclei"
+
+[[packages]]
+repository = "projectdiscovery/pdtm"
+
+[[packages]]
+repository = "projectdiscovery/proxify"
+
+[[packages]]
+repository = "projectdiscovery/subfinder"
+
+[[packages]]
+repository = "projectdiscovery/tlsx"
+
+[[packages]]
+repository = "prometheus/alertmanager"
+
+[[packages]]
+repository = "prometheus/prom2json"
+
+[[packages]]
+repository = "prometheus/prometheus"
+
+[[packages]]
+repository = "prometheus/promlens"
+
+[[packages]]
+repository = "protocolbuffers/protobuf"
+
+[[packages]]
+repository = "protocolbuffers/protobuf-go"
+
+[[packages]]
+repository = "psastras/sarif-rs"
+
+[[packages]]
+repository = "pseudomuto/protoc-gen-doc"
+
+[[packages]]
+repository = "psf/black"
+
+[[packages]]
+repository = "pulumi/esc"
+
+[[packages]]
+repository = "pulumi/kubespy"
+
+[[packages]]
+repository = "pulumi/pulumi"
+
+[[packages]]
+repository = "pulumi/tf2pulumi"
+
+[[packages]]
+repository = "purpleclay/dns53"
+
+[[packages]]
+repository = "purton-tech/cloak"
+
+[[packages]]
+repository = "pvolok/mprocs"
+
+[[packages]]
+repository = "pyama86/pachanger"
+
+[[packages]]
+repository = "pypa/pipx"
+
+[[packages]]
+repository = "qarmin/czkawka"
+
+[[packages]]
+repository = "qdrant/qdrant"
+
+[[packages]]
+repository = "qnighy/clippy-reviewdog-filter"
+
+[[packages]]
+repository = "Qovery/Replibyte"
+
+[[packages]]
+repository = "quantumsheep/sshs"
+
+[[packages]]
+repository = "quarkslab/kdigger"
+
+[[packages]]
+repository = "quarto-dev/quarto-cli"
+
+[[packages]]
+repository = "quarylabs/sqruff"
+
+[[packages]]
+repository = "rajatjindal/krew-release-bot"
+
+[[packages]]
+repository = "rajatjindal/kubectl-whoami"
+
+[[packages]]
+repository = "rancher/cli"
+
+[[packages]]
+repository = "rancher/kim"
+
+[[packages]]
+repository = "rancher/rke"
+
+[[packages]]
+repository = "raskell-io/hx"
+
+[[packages]]
+repository = "raviqqe/muffet"
+
+[[packages]]
+repository = "rclone/rclone"
+
+[[packages]]
+repository = "rcoh/angle-grinder"
+
+[[packages]]
+repository = "realm/SwiftLint"
+
+[[packages]]
+repository = "rebuy-de/aws-nuke"
+
+[[packages]]
+repository = "redpanda-data/connect"
+
+[[packages]]
+repository = "redpanda-data/redpanda"
+
+[[packages]]
+repository = "reemus-dev/gitnr"
+
+[[packages]]
+repository = "regclient/regclient"
+
+[[packages]]
+repository = "release-plz/release-plz"
+
+[[packages]]
+repository = "relusc/hclconv"
+
+[[packages]]
+repository = "replicatedhq/kots"
+
+[[packages]]
+repository = "replicatedhq/outdated"
+
+[[packages]]
+repository = "reproducible-containers/diffoci"
+
+[[packages]]
+repository = "reproio/terraform-j2md"
+
+[[packages]]
+repository = "rest-sh/restish"
+
+[[packages]]
+repository = "restechnica/semverbot"
+
+[[packages]]
+repository = "restic/restic"
+
+[[packages]]
+repository = "reteps/dockerfmt"
+
+[[packages]]
+repository = "reviewdog/reviewdog"
+
+[[packages]]
+repository = "rfjakob/gocryptfs"
+
+[[packages]]
+repository = "rgreinho/tfe-cli"
 
 [[packages]]
 repository = "rgwood/systemctl-tui"
@@ -125,7 +4116,64 @@ repository = "rgwood/systemctl-tui"
 repository = "rhysd/actionlint"
 
 [[packages]]
+repository = "rhysd/dotfiles"
+
+[[packages]]
+repository = "rhysd/hgrep"
+
+[[packages]]
+repository = "rhysd/vim-startuptime"
+
+[[packages]]
+repository = "Rigellute/spotify-tui"
+
+[[packages]]
+repository = "rlmcpherson/s3gof3r"
+
+[[packages]]
+repository = "rmitchellscott/rm-version-switcher"
+
+[[packages]]
+repository = "robinovitch61/kl"
+
+[[packages]]
+repository = "robscott/kube-capacity"
+
+[[packages]]
+repository = "rogerwelin/cassowary"
+
+[[packages]]
+repository = "rogerwelin/cfnctl"
+
+[[packages]]
+repository = "rootless-containers/rootlesskit"
+
+[[packages]]
+repository = "rootless-containers/slirp4netns"
+
+[[packages]]
+repository = "ropnop/kerbrute"
+
+[[packages]]
+repository = "RoseSecurity/Kuzco"
+
+[[packages]]
+repository = "rossmacarthur/sheldon"
+
+[[packages]]
+repository = "rs/curlie"
+
+[[packages]]
 repository = "rui314/mold"
+
+[[packages]]
+repository = "runatlantis/atlantis"
+
+[[packages]]
+repository = "runlevel5/htop-rs"
+
+[[packages]]
+repository = "runmedev/runme"
 
 [[packages]]
 repository = "rust-cross/cargo-zigbuild"
@@ -134,50 +4182,1320 @@ repository = "rust-cross/cargo-zigbuild"
 repository = "rust-fuzz/cargo-fuzz"
 
 [[packages]]
+repository = "rust-lang/mdBook"
+
+[[packages]]
+repository = "rust-lang/rust-analyzer"
+
+[[packages]]
 repository = "rust-secure-code/cargo-auditable"
 
 [[packages]]
 repository = "rustic-rs/rustic"
 
 [[packages]]
+repository = "rustsec/rustsec"
+
+[[packages]]
 repository = "rvben/rumdl"
+
+[[packages]]
+repository = "ryane/kfilt"
+
+[[packages]]
+repository = "ryodocx/kube-credential-cache"
+
+[[packages]]
+repository = "ryoppippi/zigchat"
+
+[[packages]]
+repository = "RyuyaIshibashi/aws-s3-siggy"
+
+[[packages]]
+repository = "s0md3v/Smap"
+
+[[packages]]
+repository = "sachaos/go-life"
+
+[[packages]]
+repository = "sachaos/note"
+
+[[packages]]
+repository = "sachaos/tcpterm"
+
+[[packages]]
+repository = "sachaos/todoist"
+
+[[packages]]
+repository = "sachaos/toggl"
+
+[[packages]]
+repository = "sachaos/viddy"
+
+[[packages]]
+repository = "sacloud/usacloud"
+
+[[packages]]
+repository = "sagiegurari/cargo-make"
+
+[[packages]]
+repository = "sahilm/yamldiff"
+
+[[packages]]
+repository = "samuel-lucas6/Kryptor"
+
+[[packages]]
+repository = "samwho/spacer"
+
+[[packages]]
+repository = "sanathp/statusok"
+
+[[packages]]
+repository = "santhosh-tekuri/jsonschema"
+
+[[packages]]
+repository = "sarub0b0/kubetui"
+
+[[packages]]
+repository = "sass/dart-sass"
+
+[[packages]]
+repository = "sassman/t-rec-rs"
+
+[[packages]]
+repository = "satococoa/wtp"
+
+[[packages]]
+repository = "saucelabs/forwarder"
+
+[[packages]]
+repository = "sayanarijit/jf"
+
+[[packages]]
+repository = "sayanarijit/xplr"
+
+[[packages]]
+repository = "sbstp/kubie"
+
+[[packages]]
+repository = "scaleway/scaleway-cli"
+
+[[packages]]
+repository = "Scalingo/cli"
+
+[[packages]]
+repository = "scenarigo/scenarigo"
+
+[[packages]]
+repository = "schemalex/schemalex"
+
+[[packages]]
+repository = "Schniz/fnm"
+
+[[packages]]
+repository = "schollz/croc"
+
+[[packages]]
+repository = "sclevine/yj"
+
+[[packages]]
+repository = "sdslabs/gasper"
+
+[[packages]]
+repository = "secretlint/secretlint"
+
+[[packages]]
+repository = "SecureAuthCorp/oauth2c"
+
+[[packages]]
+repository = "securego/gosec"
+
+[[packages]]
+repository = "segmentio/chamber"
+
+[[packages]]
+repository = "segmentio/golines"
+
+[[packages]]
+repository = "self-actuated/actuated-cli"
+
+[[packages]]
+repository = "sethvargo/ratchet"
 
 [[packages]]
 repository = "sharkdp/bat"
 
 [[packages]]
+repository = "sharkdp/diskus"
+
+[[packages]]
+repository = "sharkdp/fd"
+
+[[packages]]
+repository = "sharkdp/hexyl"
+
+[[packages]]
 repository = "sharkdp/hyperfine"
+
+[[packages]]
+repository = "sharkdp/numbat"
+
+[[packages]]
+repository = "sharkdp/pastel"
+
+[[packages]]
+repository = "sharkdp/vivid"
+
+[[packages]]
+repository = "sheepla/fzwiki"
+
+[[packages]]
+repository = "sheepla/gofind"
+
+[[packages]]
+repository = "sheepla/longgopher"
+
+[[packages]]
+repository = "sheepla/pingu"
+
+[[packages]]
+repository = "sheepla/qiitaz"
+
+[[packages]]
+repository = "sheepla/srss"
+
+[[packages]]
+repository = "shenwei356/csvtk"
+
+[[packages]]
+repository = "shenwei356/rush"
+
+[[packages]]
+repository = "shihanng/tfvar"
+
+[[packages]]
+repository = "shinagawa-web/gomarklint"
+
+[[packages]]
+repository = "shini4i/argo-compare"
+
+[[packages]]
+repository = "sho-hata/tparagen"
+
+[[packages]]
+repository = "Shopify/ejson"
+
+[[packages]]
+repository = "Shopify/kubeaudit"
+
+[[packages]]
+repository = "Shopify/shadowenv"
+
+[[packages]]
+repository = "Shopify/toxiproxy"
+
+[[packages]]
+repository = "showwin/speedtest-go"
+
+[[packages]]
+repository = "shyiko/kubesec"
+
+[[packages]]
+repository = "sibprogrammer/xq"
+
+[[packages]]
+repository = "siderolabs/conform"
+
+[[packages]]
+repository = "siderolabs/omni"
+
+[[packages]]
+repository = "siderolabs/talos"
+
+[[packages]]
+repository = "siderolabs/theila"
+
+[[packages]]
+repository = "sigi-cli/sigi"
+
+[[packages]]
+repository = "sigoden/aichat"
+
+[[packages]]
+repository = "sigstore/cosign"
+
+[[packages]]
+repository = "sigstore/gitsign"
+
+[[packages]]
+repository = "sigstore/rekor"
+
+[[packages]]
+repository = "siketyan/ghr"
+
+[[packages]]
+repository = "simeji/jid"
+
+[[packages]]
+repository = "SimonTheLeg/konf-go"
+
+[[packages]]
+repository = "simonwhitaker/gibo"
+
+[[packages]]
+repository = "sinclairtarget/git-who"
+
+[[packages]]
+repository = "sirrend/terrap-cli"
+
+[[packages]]
+repository = "sirwart/ripsecrets"
+
+[[packages]]
+repository = "sivchari/ccowl"
+
+[[packages]]
+repository = "six-ddc/plow"
+
+[[packages]]
+repository = "sj14/kubedump"
+
+[[packages]]
+repository = "skaji/relocatable-perl"
+
+[[packages]]
+repository = "skanehira/ghost"
+
+[[packages]]
+repository = "skanehira/gjo"
+
+[[packages]]
+repository = "skanehira/rtty"
+
+[[packages]]
+repository = "skanehira/slack-reminder"
+
+[[packages]]
+repository = "skanehira/tson"
+
+[[packages]]
+repository = "skanehira/yd"
+
+[[packages]]
+repository = "Skardyy/mcat"
+
+[[packages]]
+repository = "skeema/skeema"
+
+[[packages]]
+repository = "skim-rs/skim"
+
+[[packages]]
+repository = "sl1pm4t/k2tf"
+
+[[packages]]
+repository = "slackhq/nebula"
+
+[[packages]]
+repository = "slok/agebox"
+
+[[packages]]
+repository = "slok/sloth"
+
+[[packages]]
+repository = "slsa-framework/slsa-verifier"
+
+[[packages]]
+repository = "smallstep/certificates"
+
+[[packages]]
+repository = "smallstep/cli"
+
+[[packages]]
+repository = "smartxworks/knest"
+
+[[packages]]
+repository = "smithy-lang/smithy"
+
+[[packages]]
+repository = "smtg-ai/claude-squad"
+
+[[packages]]
+repository = "snyk/cli"
+
+[[packages]]
+repository = "snyk/driftctl"
+
+[[packages]]
+repository = "snyk/parlay"
+
+[[packages]]
+repository = "so-dang-cool/dt"
+
+[[packages]]
+repository = "so-dang-cool/fib"
+
+[[packages]]
+repository = "so-dang-cool/findup"
+
+[[packages]]
+repository = "so-dang-cool/yn"
+
+[[packages]]
+repository = "soh335/shukujitsu"
+
+[[packages]]
+repository = "solidiquis/erdtree"
+
+[[packages]]
+repository = "sonatype-nexus-community/nancy"
+
+[[packages]]
+repository = "Songmu/ecschedule"
+
+[[packages]]
+repository = "Songmu/gh2changelog"
+
+[[packages]]
+repository = "Songmu/ghch"
+
+[[packages]]
+repository = "Songmu/ghg"
+
+[[packages]]
+repository = "Songmu/gitsemvers"
+
+[[packages]]
+repository = "Songmu/gocredits"
+
+[[packages]]
+repository = "Songmu/godzil"
+
+[[packages]]
+repository = "Songmu/gotesplit"
+
+[[packages]]
+repository = "Songmu/goxz"
+
+[[packages]]
+repository = "Songmu/horenso"
+
+[[packages]]
+repository = "Songmu/laminate"
+
+[[packages]]
+repository = "Songmu/make2help"
+
+[[packages]]
+repository = "Songmu/maltmill"
+
+[[packages]]
+repository = "Songmu/podbard"
+
+[[packages]]
+repository = "Songmu/r2sync"
+
+[[packages]]
+repository = "Songmu/tagpr"
+
+[[packages]]
+repository = "Songmu/timeout"
+
+[[packages]]
+repository = "sorah/mairu"
+
+[[packages]]
+repository = "sorenisanerd/gotty"
 
 [[packages]]
 repository = "sourcefrog/cargo-mutants"
 
 [[packages]]
+repository = "sourcegraph/src-cli"
+
+[[packages]]
+repository = "sourcemeta/jsonschema"
+
+[[packages]]
+repository = "spacelift-io/spacectl"
+
+[[packages]]
+repository = "speakeasy-api/speakeasy"
+
+[[packages]]
+repository = "specstoryai/getspecstory"
+
+[[packages]]
+repository = "spinel-coop/rv"
+
+[[packages]]
+repository = "spotDL/spotify-downloader"
+
+[[packages]]
+repository = "sqlc-dev/sqlc"
+
+[[packages]]
+repository = "sqldef/sqldef"
+
+[[packages]]
+repository = "sqls-server/sqls"
+
+[[packages]]
+repository = "sqshq/sampler"
+
+[[packages]]
+repository = "square/certigo"
+
+[[packages]]
+repository = "squat/kilo"
+
+[[packages]]
+repository = "srevinsaju/togomak"
+
+[[packages]]
+repository = "srl-labs/containerlab"
+
+[[packages]]
+repository = "sstadick/crabz"
+
+[[packages]]
+repository = "stacklok/frizbee"
+
+[[packages]]
+repository = "stackrox/kube-linter"
+
+[[packages]]
 repository = "starship/starship"
 
 [[packages]]
+repository = "static-web-server/static-web-server"
+
+[[packages]]
+repository = "stefanprodan/timoni"
+
+[[packages]]
+repository = "stepchowfun/docuum"
+
+[[packages]]
+repository = "stern/stern"
+
+[[packages]]
+repository = "steveyegge/beads"
+
+[[packages]]
+repository = "stoplightio/spectral"
+
+[[packages]]
+repository = "str4d/age-plugin-yubikey"
+
+[[packages]]
+repository = "str4d/rage"
+
+[[packages]]
+repository = "Stranger6667/jsonschema"
+
+[[packages]]
+repository = "streamdal/plumber"
+
+[[packages]]
+repository = "stripe/stripe-cli"
+
+[[packages]]
+repository = "stunnel/static-curl"
+
+[[packages]]
+repository = "subtrace/subtrace"
+
+[[packages]]
+repository = "sudorandom/protoc-gen-connect-openapi"
+
+[[packages]]
+repository = "sue445/plant_erd"
+
+[[packages]]
+repository = "sunny0826/kubecm"
+
+[[packages]]
+repository = "sunny0826/kubectl-pod-lens"
+
+[[packages]]
+repository = "supabase/cli"
+
+[[packages]]
+repository = "superbrothers/ksort"
+
+[[packages]]
+repository = "SUPERCILEX/fuc"
+
+[[packages]]
+repository = "SuperCuber/dotter"
+
+[[packages]]
+repository = "superfly/flyctl"
+
+[[packages]]
+repository = "suzuki-shunsuke/akoi"
+
+[[packages]]
+repository = "suzuki-shunsuke/asciinema-trim"
+
+[[packages]]
+repository = "suzuki-shunsuke/ci-info"
+
+[[packages]]
+repository = "suzuki-shunsuke/circleci-config-merge"
+
+[[packages]]
+repository = "suzuki-shunsuke/cmdx"
+
+[[packages]]
+repository = "suzuki-shunsuke/dd-time"
+
+[[packages]]
+repository = "suzuki-shunsuke/deny-self-approve"
+
+[[packages]]
+repository = "suzuki-shunsuke/disable-checkout-persist-credentials"
+
+[[packages]]
+repository = "suzuki-shunsuke/discussion-slack-notifier"
+
+[[packages]]
+repository = "suzuki-shunsuke/durl"
+
+[[packages]]
+repository = "suzuki-shunsuke/ghalint"
+
+[[packages]]
+repository = "suzuki-shunsuke/ghaperf"
+
+[[packages]]
+repository = "suzuki-shunsuke/ghatm"
+
+[[packages]]
+repository = "suzuki-shunsuke/ghcp"
+
+[[packages]]
+repository = "suzuki-shunsuke/ghd2i"
+
+[[packages]]
+repository = "suzuki-shunsuke/ghir"
+
+[[packages]]
+repository = "suzuki-shunsuke/ghomfc"
+
+[[packages]]
+repository = "suzuki-shunsuke/ghproj"
+
+[[packages]]
+repository = "suzuki-shunsuke/ghtkn"
+
+[[packages]]
+repository = "suzuki-shunsuke/git-rm-branch"
+
+[[packages]]
+repository = "suzuki-shunsuke/github-comment"
+
+[[packages]]
+repository = "suzuki-shunsuke/matchfile"
+
+[[packages]]
+repository = "suzuki-shunsuke/migrate-urfave-cli-v3"
+
+[[packages]]
+repository = "suzuki-shunsuke/mkghtag"
+
+[[packages]]
+repository = "suzuki-shunsuke/nllint"
+
+[[packages]]
+repository = "suzuki-shunsuke/pinact"
+
+[[packages]]
+repository = "suzuki-shunsuke/renovate-issue-action"
+
+[[packages]]
+repository = "suzuki-shunsuke/rgo"
+
+[[packages]]
+repository = "suzuki-shunsuke/sort-issue-template"
+
+[[packages]]
+repository = "suzuki-shunsuke/tfaction-go"
+
+[[packages]]
+repository = "suzuki-shunsuke/tfcmt"
+
+[[packages]]
+repository = "suzuki-shunsuke/tfmv"
+
+[[packages]]
+repository = "suzuki-shunsuke/tfprovidercheck"
+
+[[packages]]
+repository = "suzuki-shunsuke/tfrstate"
+
+[[packages]]
+repository = "suzuki-shunsuke/yaml2json"
+
+[[packages]]
+repository = "suzuki-shunsuke/yodoc"
+
+[[packages]]
+repository = "svenstaro/genact"
+
+[[packages]]
+repository = "svenstaro/miniserve"
+
+[[packages]]
+repository = "swaggo/swag"
+
+[[packages]]
+repository = "sxyazi/yazi"
+
+[[packages]]
+repository = "sylwit/terraform-cleaner"
+
+[[packages]]
+repository = "syncthing/syncthing"
+
+[[packages]]
+repository = "synfinatic/aws-sso-cli"
+
+[[packages]]
+repository = "sysdiglabs/kube-psp-advisor"
+
+[[packages]]
+repository = "syumai/sbx"
+
+[[packages]]
+repository = "t-kikuc/ecstop"
+
+[[packages]]
+repository = "taiki-e/cargo-llvm-cov"
+
+[[packages]]
+repository = "tailor-platform/patterner"
+
+[[packages]]
+repository = "tailor-platform/tailorctl"
+
+[[packages]]
+repository = "tailwindlabs/tailwindcss"
+
+[[packages]]
+repository = "takaishi/awscost"
+
+[[packages]]
+repository = "takaishi/tfclean"
+
+[[packages]]
+repository = "takaishi/tfdiff"
+
+[[packages]]
+repository = "takaishi/tftargets"
+
+[[packages]]
+repository = "TaKO8Ki/frum"
+
+[[packages]]
+repository = "TaKO8Ki/gobang"
+
+[[packages]]
+repository = "takumin/gjson"
+
+[[packages]]
+repository = "takumin/gyaml"
+
+[[packages]]
+repository = "takumin/zizmor-bin"
+
+[[packages]]
+repository = "tamasfe/taplo"
+
+[[packages]]
+repository = "taskctl/taskctl"
+
+[[packages]]
+repository = "tassiovirginio/try-rs"
+
+[[packages]]
+repository = "tattoy-org/tattoy"
+
+[[packages]]
+repository = "tauri-apps/tauri"
+
+[[packages]]
+repository = "tcnksm/ghr"
+
+[[packages]]
 repository = "tdejager/cargo-patch-source"
+
+[[packages]]
+repository = "tdewolff/minify"
+
+[[packages]]
+repository = "tealdeer-rs/tealdeer"
+
+[[packages]]
+repository = "technicalpickles/envsense"
+
+[[packages]]
+repository = "tektoncd/cli"
+
+[[packages]]
+repository = "TekWizely/run"
+
+[[packages]]
+repository = "Telemaco019/kubesafe"
+
+[[packages]]
+repository = "telepresenceio/telepresence"
+
+[[packages]]
+repository = "teler-sh/teler"
+
+[[packages]]
+repository = "tellerops/teller"
+
+[[packages]]
+repository = "temporalio/cli"
+
+[[packages]]
+repository = "temporalio/tctl"
+
+[[packages]]
+repository = "temporalio/temporal"
+
+[[packages]]
+repository = "tenable/terrascan"
+
+[[packages]]
+repository = "termkit/gama"
+
+[[packages]]
+repository = "terraform-docs/terraform-docs"
+
+[[packages]]
+repository = "terraform-linters/tflint"
+
+[[packages]]
+repository = "terramate-io/terramate"
+
+[[packages]]
+repository = "terrastruct/d2"
+
+[[packages]]
+repository = "terrastruct/tala"
+
+[[packages]]
+repository = "terratags/terratags"
+
+[[packages]]
+repository = "tfmigrator/cli"
+
+[[packages]]
+repository = "thanos-io/thanos"
+
+[[packages]]
+repository = "thazelart/terraform-validator"
+
+[[packages]]
+repository = "theryangeary/choose"
+
+[[packages]]
+repository = "theseus-rs/postgresql-binaries"
+
+[[packages]]
+repository = "thestormforge/optimize-controller"
+
+[[packages]]
+repository = "theupdateframework/go-tuf"
+
+[[packages]]
+repository = "theurichde/go-aws-sso"
+
+[[packages]]
+repository = "TheZoraiz/ascii-image-converter"
+
+[[packages]]
+repository = "thomasschafer/scooter"
+
+[[packages]]
+repository = "thought-machine/please"
+
+[[packages]]
+repository = "tilt-dev/ctlptl"
+
+[[packages]]
+repository = "tilt-dev/tilt"
+
+[[packages]]
+repository = "timdp/lwc"
+
+[[packages]]
+repository = "TimothyYe/skm"
+
+[[packages]]
+repository = "timvisee/ffsend"
+
+[[packages]]
+repository = "tinygo-org/tinygo"
+
+[[packages]]
+repository = "tkuchiki/alp"
+
+[[packages]]
+repository = "tkuchiki/slp"
+
+[[packages]]
+repository = "tldr-pages/tlrc"
+
+[[packages]]
+repository = "tmccombs/hcl2json"
+
+[[packages]]
+repository = "tmknom/actdocs"
+
+[[packages]]
+repository = "tofuutils/tenv"
+
+[[packages]]
+repository = "tohjustin/kube-lineage"
+
+[[packages]]
+repository = "tombi-toml/tombi"
+
+[[packages]]
+repository = "tomnomnom/gron"
+
+[[packages]]
+repository = "tomohiro/gyazo-cli"
+
+[[packages]]
+repository = "TomWright/dasel"
+
+[[packages]]
+repository = "topgrade-rs/topgrade"
+
+[[packages]]
+repository = "toshimaru/nyan"
+
+[[packages]]
+repository = "Traackr/binnacle"
+
+[[packages]]
+repository = "traefik/yaegi"
+
+[[packages]]
+repository = "transcend-io/terragrunt-atlantis-config"
+
+[[packages]]
+repository = "traviswt/gke-auth-plugin"
+
+[[packages]]
+repository = "tree-sitter/tree-sitter"
 
 [[packages]]
 repository = "tree-sitter/tree-sitter"
 name = "tree-sitter"
 
 [[packages]]
+repository = "Trendyol/kink"
+
+[[packages]]
+repository = "truffleruby/truffleruby"
+
+[[packages]]
+repository = "trufflesecurity/driftwood"
+
+[[packages]]
+repository = "trufflesecurity/trufflehog"
+
+[[packages]]
+repository = "trzsz/trzsz-ssh"
+
+[[packages]]
+repository = "tsenart/vegeta"
+
+[[packages]]
+repository = "tsl0922/ttyd"
+
+[[packages]]
+repository = "tstack/lnav"
+
+[[packages]]
+repository = "tuist/tuist"
+
+[[packages]]
 repository = "tummychow/git-absorb"
+
+[[packages]]
+repository = "turbot/flowpipe"
+
+[[packages]]
+repository = "turbot/powerpipe"
+
+[[packages]]
+repository = "turbot/steampipe"
+
+[[packages]]
+repository = "turbot/tailpipe"
+
+[[packages]]
+repository = "twpayne/chezmoi"
+
+[[packages]]
+repository = "txn2/kubefwd"
 
 [[packages]]
 repository = "typst/typst"
 
 [[packages]]
+repository = "typstyle-rs/typstyle"
+
+[[packages]]
+repository = "ubicloud/cli"
+
+[[packages]]
+repository = "umlx5h/gtrash"
+
+[[packages]]
+repository = "undistro/marvin"
+
+[[packages]]
+repository = "unfrl/dug"
+
+[[packages]]
+repository = "UpCloudLtd/upcloud-cli"
+
+[[packages]]
+repository = "updatecli/updatecli"
+
+[[packages]]
+repository = "uptrace/uptrace"
+
+[[packages]]
+repository = "upx/upx"
+
+[[packages]]
+repository = "urfave/gfmrun"
+
+[[packages]]
+repository = "utkuozdemir/pv-migrate"
+
+[[packages]]
+repository = "uutils/coreutils"
+
+[[packages]]
+repository = "uw-labs/strongbox"
+
+[[packages]]
+repository = "uzimaru0000/oglens"
+
+[[packages]]
+repository = "uzimaru0000/tv"
+
+[[packages]]
+repository = "variadico/noti"
+
+[[packages]]
+repository = "veeso/termscp"
+
+[[packages]]
+repository = "vektra/mockery"
+
+[[packages]]
+repository = "Versent/saml2aws"
+
+[[packages]]
+repository = "version-fox/vfox"
+
+[[packages]]
+repository = "vi/websocat"
+
+[[packages]]
+repository = "viaduct-ai/kustomize-sops"
+
+[[packages]]
+repository = "VictoriaMetrics/VictoriaMetrics"
+
+[[packages]]
+repository = "ViRb3/wgcf"
+
+[[packages]]
+repository = "vishaltelangre/ff"
+
+[[packages]]
+repository = "visma-prodsec/confused"
+
+[[packages]]
+repository = "vladimirvivien/ktop"
+
+[[packages]]
+repository = "vmware-archive/octant"
+
+[[packages]]
+repository = "vmware-tanzu/velero"
+
+[[packages]]
+repository = "vmware/govmomi"
+
+[[packages]]
+repository = "volta-cli/volta"
+
+[[packages]]
+repository = "wader/fq"
+
+[[packages]]
+repository = "wagoodman/dive"
+
+[[packages]]
+repository = "wakatara/harsh"
+
+[[packages]]
+repository = "wakatime/wakatime-cli"
+
+[[packages]]
+repository = "walles/moor"
+
+[[packages]]
+repository = "wallix/awless"
+
+[[packages]]
+repository = "wasmCloud/wasmCloud"
+
+[[packages]]
+repository = "wasmerio/wapm-cli"
+
+[[packages]]
+repository = "wasmerio/wasmer"
+
+[[packages]]
+repository = "watchexec/cargo-watch"
+
+[[packages]]
+repository = "watchexec/watchexec"
+
+[[packages]]
+repository = "weaviate/weaviate"
+
+[[packages]]
+repository = "WebAssembly/binaryen"
+
+[[packages]]
+repository = "WebAssembly/wabt"
+
+[[packages]]
+repository = "webdevops/go-crond"
+
+[[packages]]
+repository = "wfxr/csview"
+
+[[packages]]
+repository = "whalebrew/whalebrew"
+
+[[packages]]
 repository = "Wilfred/difftastic"
+
+[[packages]]
+repository = "windvalley/gossh"
+
+[[packages]]
+repository = "winebarrel/cronplan"
+
+[[packages]]
+repository = "woodpecker-ci/woodpecker"
+
+[[packages]]
+repository = "wren-lang/wren-cli"
+
+[[packages]]
+repository = "wtetsu/gaze"
+
+[[packages]]
+repository = "wtfutil/wtf"
+
+[[packages]]
+repository = "x-motemen/blogsync"
+
+[[packages]]
+repository = "x-motemen/ghq"
+
+[[packages]]
+repository = "x-motemen/gobump"
+
+[[packages]]
+repository = "XAMPPRocky/tokei"
+
+[[packages]]
+repository = "xataio/pgroll"
+
+[[packages]]
+repository = "XcodesOrg/xcodes"
 
 [[packages]]
 repository = "xd009642/tarpaulin"
 
 [[packages]]
+repository = "xeol-io/xeol"
+
+[[packages]]
+repository = "xiecat/fofax"
+
+[[packages]]
+repository = "xitonix/trubka"
+
+[[packages]]
+repository = "xo/dbtpl"
+
+[[packages]]
+repository = "xo/usql"
+
+[[packages]]
+repository = "xremap/xremap"
+
+[[packages]]
+repository = "xtaci/kcptun"
+
+[[packages]]
+repository = "xwjdsh/manssh"
+
+[[packages]]
+repository = "xxxserxxx/gotop"
+
+[[packages]]
+repository = "yamafaktory/jql"
+
+[[packages]]
+repository = "yaml/yamlscript"
+
+[[packages]]
+repository = "yannh/kubeconform"
+
+[[packages]]
+repository = "yarnpkg/yarn"
+
+[[packages]]
+repository = "yashikota/genenv"
+
+[[packages]]
+repository = "yassinebenaid/bunster"
+
+[[packages]]
+repository = "yassinebridi/serpl"
+
+[[packages]]
+repository = "ycd/dstp"
+
+[[packages]]
+repository = "yinheli/sshw"
+
+[[packages]]
+repository = "yitsushi/totp-cli"
+
+[[packages]]
+repository = "ymtdzzz/otel-tui"
+
+[[packages]]
+repository = "ynqa/jnv"
+
+[[packages]]
+repository = "yoheimuta/protolint"
+
+[[packages]]
+repository = "yokecd/yoke"
+
+[[packages]]
+repository = "yonahd/kor"
+
+[[packages]]
+repository = "yonaskolb/XcodeGen"
+
+[[packages]]
+repository = "yorukot/superfile"
+
+[[packages]]
+repository = "YS-L/csvlens"
+
+[[packages]]
 repository = "YS-L/flamelens"
+
+[[packages]]
+repository = "ysugimoto/falco"
+
+[[packages]]
+repository = "ysugimoto/gcsdeploy"
+
+[[packages]]
+repository = "ysugimoto/vintage"
+
+[[packages]]
+repository = "ytdl-org/ytdl-nightly"
+
+[[packages]]
+repository = "yudai/gotty"
+
+[[packages]]
+repository = "yujqiao/catproc"
+
+[[packages]]
+repository = "yukiarrr/ecsk"
+
+[[packages]]
+repository = "yumafuu/s1m"
+
+[[packages]]
+repository = "yuuki/tcpulse"
+
+[[packages]]
+repository = "yuyaban/gitlab-comment"
+
+[[packages]]
+repository = "zaghaghi/openapi-tui"
+
+[[packages]]
+repository = "zaquestion/lab"
+
+[[packages]]
+repository = "zarf-dev/zarf"
+
+[[packages]]
+repository = "zegl/kube-score"
 
 [[packages]]
 repository = "zellij-org/zellij"
 
 [[packages]]
+repository = "zerocore-ai/microsandbox"
+
+[[packages]]
+repository = "zitadel/zitadel"
+
+[[packages]]
+repository = "zix99/rare"
+
+[[packages]]
 repository = "zizmorcore/zizmor"
+
+[[packages]]
+repository = "zk-org/zk"
+
+[[packages]]
+repository = "zmap/zlint"
+
+[[packages]]
+repository = "zmwangx/ets"
+
+[[packages]]
+repository = "zquestz/s"
+
+[[packages]]
+repository = "zurawiki/gptcommit"
+
+[[packages]]
+repository = "Zxilly/go-size-analyzer"
+
+[[packages]]
+repository = "zyedidia/eget"
+
