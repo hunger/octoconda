@@ -58,7 +58,6 @@ impl Github {
         while let Some(release) = stream.try_next().await? {
             let tag = &release.tag_name;
             if tag.contains("prerelease") || tag.contains("alpha") || tag.contains("beta") {
-                eprintln!("pre-release tag: {}", tag);
                 continue;
             }
 

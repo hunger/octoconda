@@ -36,10 +36,8 @@ fn report_status(
 
 fn main() -> Result<(), anyhow::Error> {
     let cli = cli::parse_cli();
-    eprintln!("{cli:#?}");
 
     let config = config_file::parse_config(&cli.config_file)?;
-    eprintln!("{config:#?}");
 
     let temporary_directory = cli.work_directory()?;
     eprintln!("temporary dir: {}", temporary_directory.path().display());
