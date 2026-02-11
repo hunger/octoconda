@@ -206,7 +206,7 @@ pub fn generate_packaging_data(
     repo_packages: &[rattler_conda_types::RepoDataRecord],
     work_dir: &Path,
     package_count_limit: usize,
-) -> anyhow::Result<Vec<VersionPackagingStatus>> {
+) -> anyhow::Result<(Vec<VersionPackagingStatus>, usize)> {
     let mut result = vec![];
     let mut package_generation_count: usize = 0;
 
@@ -263,7 +263,7 @@ pub fn generate_packaging_data(
         });
     }
 
-    Ok(result)
+    Ok((result, package_generation_count))
 }
 
 fn extract_digest(asset: &octocrab::models::repos::Asset) -> Option<(String, String)> {

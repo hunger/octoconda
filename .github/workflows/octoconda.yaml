@@ -55,23 +55,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: cargo run -- "--work-dir=${{ env.WORK_DIR }}" "--config-file=${{ env.CONFIG_FILE }}"
 
-      - name: Create packages
+      - name: Build and Upload Packages
         run: |
-          chmod +x "${GITHUB_WORKSPACE}/scripts/package_all.sh" \
+          chmod +x "${GITHUB_WORKSPACE}/scripts/package_and_upload_all.sh" \
             && (\
               cd "${GITHUB_WORKSPACE}" \
               && cd "${{ env.WORK_DIR }}" \
-              && PATH="${GITHUB_WORKSPACE}/bin:${PATH}" "${GITHUB_WORKSPACE}/scripts/package_all.sh" \
-            )
-
-      - name: Upload packages
-        if: always()
-        run: |
-          chmod +x "${GITHUB_WORKSPACE}/scripts/upload_all.sh" \
-            && (\
-              cd "${GITHUB_WORKSPACE}" \
-                && cd "${{ env.WORK_DIR }}" \
-                && PATH="${GITHUB_WORKSPACE}/bin:${PATH}" "${GITHUB_WORKSPACE}/scripts/upload_all.sh" \
+              && PATH="${GITHUB_WORKSPACE}/bin:${PATH}" "${GITHUB_WORKSPACE}/scripts/package_and_upload_all.sh" \
             )
 
       - name: Add Job Summary

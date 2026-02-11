@@ -86,7 +86,7 @@ fn main() -> Result<(), anyhow::Error> {
                         }
                     };
 
-                let packages = package_generation::generate_packaging_data(
+                let (packages, generated_count) = package_generation::generate_packaging_data(
                     package,
                     &repository,
                     &releases,
@@ -94,10 +94,10 @@ fn main() -> Result<(), anyhow::Error> {
                     temporary_directory.path(),
                     PACKAGE_GENERATION_LIMIT - package_count,
                 )?;
-                package_count += packages.len();
+                package_count += generated_count;
 
                 result.insert(package.name.clone(), packages);
-                if package_count > PACKAGE_GENERATION_LIMIT {
+                if package_count >= PACKAGE_GENERATION_LIMIT {
                     eprintln!(
                         "Package limit reached after {} packages: SKIPPING package generation",
                         result.len()

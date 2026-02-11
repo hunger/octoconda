@@ -8,6 +8,6 @@ version = "0.1.0"
 [tasks]
 
 [dependencies]
-actionlint = ">=1.7.8,<2"
-zizmor = ">=1.14.1,<2"
-rattler-build = ">=0.49.0,<0.50"
+actionlint = "*"
+zizmor = "*"
+rattler-build = "*"
