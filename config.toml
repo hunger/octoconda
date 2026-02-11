@@ -2,16 +2,403 @@
 channel = "github-releases"
 
 [[packages]]
+repository = "01mf02/jaq"
+
+[[packages]]
+repository = "1xyz/pryrite"
+
+[[packages]]
+repository = "8051Enthusiast/biodiff"
+
+[[packages]]
+repository = "99designs/aws-vault"
+
+[[packages]]
+repository = "a-h/templ"
+
+[[packages]]
+repository = "a8m/envsubst"
+
+[[packages]]
+repository = "aakso/ssh-inscribe"
+
+[[packages]]
+repository = "aandrew-me/tgpt"
+
+[[packages]]
+repository = "abhimanyu003/sttr"
+
+[[packages]]
+repository = "abhinav/doc2go"
+
+[[packages]]
+repository = "abice/go-enum"
+
+[[packages]]
+repository = "abiosoft/colima"
+
+[[packages]]
+repository = "abs-lang/abs"
+
+[[packages]]
+repository = "acheronfail/repgrep"
+
+[[packages]]
+repository = "achristmascarl/rainfrog"
+
+[[packages]]
+repository = "acorn-io/runtime"
+
+[[packages]]
+repository = "actions/go-versions"
+
+[[packages]]
+repository = "Adembc/lazyssh"
+
+[[packages]]
+repository = "adhocteam/ssm"
+
+[[packages]]
+repository = "aduros/wasm4"
+
+[[packages]]
+repository = "aereal/jsondiff"
+
+[[packages]]
+repository = "afnanenayet/diffsitter"
+
+[[packages]]
+repository = "AGWA/git-crypt"
+
+[[packages]]
+repository = "ahmetb/kubectl-tree"
+
+[[packages]]
+repository = "ahmetb/kubectx"
+
+[[packages]]
+repository = "air-verse/air"
+
+[[packages]]
+repository = "airbytehq/abctl"
+
+[[packages]]
 repository = "ajeetdsouza/zoxide"
+
+[[packages]]
+repository = "akiomik/mado"
+
+[[packages]]
+repository = "alajmo/mani"
+
+[[packages]]
+repository = "alcideio/rbac-tool"
+
+[[packages]]
+repository = "alebeck/boring"
+
+[[packages]]
+repository = "AlexanderGrooff/mermaid-ascii"
+
+[[packages]]
+repository = "alexellis/arkade"
+
+[[packages]]
+repository = "alexellis/k3sup"
+
+[[packages]]
+repository = "alexellis/kubetrim"
+
+[[packages]]
+repository = "AlexNabokikh/tfsort"
+
+[[packages]]
+repository = "alexpasmantier/television"
+
+[[packages]]
+repository = "allero-io/allero"
+
+[[packages]]
+repository = "allyring/pvw"
+
+[[packages]]
+repository = "Aloxaf/silicon"
+
+[[packages]]
+repository = "altsem/gitu"
+
+[[packages]]
+repository = "alvinunreal/tmuxai"
+
+[[packages]]
+repository = "amacneil/dbmate"
+
+[[packages]]
+repository = "amalshaji/portr"
+
+[[packages]]
+repository = "amber-lang/amber"
+
+[[packages]]
+repository = "amir20/dtop"
+
+[[packages]]
+repository = "ampcode/zvelte-check"
+
+[[packages]]
+repository = "anchore/grype"
+
+[[packages]]
+repository = "anchore/quill"
+
+[[packages]]
+repository = "anchore/syft"
+
+[[packages]]
+repository = "andreazorzetto/yh"
+
+[[packages]]
+repository = "andrewkroh/gvm"
+
+[[packages]]
+repository = "andreybleme/lazycontainer"
+
+[[packages]]
+repository = "ankitpokhrel/jira-cli"
+
+[[packages]]
+repository = "anomalyco/opencode"
+
+[[packages]]
+repository = "anordal/shellharden"
+
+[[packages]]
+repository = "antham/gommit"
+
+[[packages]]
+repository = "antonmedv/fx"
+
+[[packages]]
+repository = "antonmedv/walk"
+
+[[packages]]
+repository = "apache/camel-k"
+
+[[packages]]
+repository = "apache/maven-mvnd"
+
+[[packages]]
+repository = "aporia-ai/kubesurvival"
+
+[[packages]]
+repository = "apple/container"
+
+[[packages]]
+repository = "apple/pkl"
+
+[[packages]]
+repository = "apple/pkl-go"
+
+[[packages]]
+repository = "aptly-dev/aptly"
+
+[[packages]]
+repository = "aquaproj/aqua-registry-updater"
+
+[[packages]]
+repository = "aquaproj/example-go-slsa-provenance"
+
+[[packages]]
+repository = "aquaproj/registry-tool"
+
+[[packages]]
+repository = "aquasecurity/chain-bench"
+
+[[packages]]
+repository = "aquasecurity/kube-bench"
+
+[[packages]]
+repository = "aquasecurity/kubectl-who-can"
+
+[[packages]]
+repository = "aquasecurity/starboard"
+
+[[packages]]
+repository = "aquasecurity/tfsec"
+
+[[packages]]
+repository = "aquasecurity/trivy"
+
+[[packages]]
+repository = "arch-go/arch-go"
+
+[[packages]]
+repository = "arduino/arduino-cli"
+
+[[packages]]
+repository = "arduino/arduino-language-server"
+
+[[packages]]
+repository = "argoproj-labs/argocd-autopilot"
+
+[[packages]]
+repository = "argoproj-labs/argocd-image-updater"
+
+[[packages]]
+repository = "argoproj/argo-cd"
+
+[[packages]]
+repository = "argoproj/argo-rollouts"
+
+[[packages]]
+repository = "argoproj/argo-workflows"
+
+[[packages]]
+repository = "aristocratos/btop"
+
+[[packages]]
+repository = "arl/gitmux"
+
+[[packages]]
+repository = "Arriven/db1000n"
+
+[[packages]]
+repository = "arrow2nd/nekome"
+
+[[packages]]
+repository = "arrow2nd/nimotsu"
+
+[[packages]]
+repository = "artempyanykh/marksman"
+
+[[packages]]
+repository = "artemsalimov/jenkins-job-cli"
+
+[[packages]]
+repository = "arttor/helmify"
+
+[[packages]]
+repository = "arxanas/git-branchless"
+
+[[packages]]
+repository = "asciidoctor/asciidoctor-reveal.js"
+
+[[packages]]
+repository = "asciimoo/wuzz"
+
+[[packages]]
+repository = "asciinema/agg"
+
+[[packages]]
+repository = "asciinema/asciinema"
+
+[[packages]]
+repository = "assetnote/surf"
 
 [[packages]]
 repository = "ast-grep/ast-grep"
 
 [[packages]]
+repository = "astefanutti/kubebox"
+
+[[packages]]
+repository = "astral-sh/ruff"
+
+[[packages]]
+repository = "astral-sh/rye"
+
+[[packages]]
+repository = "astral-sh/ty"
+
+[[packages]]
+repository = "astral-sh/uv"
+
+[[packages]]
+repository = "atc0005/send2teams"
+
+[[packages]]
 repository = "atuinsh/atuin"
 
 [[packages]]
+repository = "aurc/loggo"
+
+[[packages]]
+repository = "auth0/auth0-cli"
+
+[[packages]]
+repository = "authzed/zed"
+
+[[packages]]
+repository = "autobrr/mkbrr"
+
+[[packages]]
+repository = "Automattic/harper"
+
+[[packages]]
+repository = "AvitalTamir/cyphernetes"
+
+[[packages]]
+repository = "aws-cloudformation/rain"
+
+[[packages]]
+repository = "aws/amazon-ec2-instance-selector"
+
+[[packages]]
+repository = "aws/amazon-ec2-spot-interrupter"
+
+[[packages]]
+repository = "aws/aws-sam-cli"
+
+[[packages]]
+repository = "aws/copilot-cli"
+
+[[packages]]
+repository = "awslabs/dynein"
+
+[[packages]]
+repository = "awslabs/eks-auto-mode-ebs-migration-tool"
+
+[[packages]]
+repository = "awslabs/eks-node-viewer"
+
+[[packages]]
+repository = "awslabs/kubernetes-iteration-toolkit"
+
+[[packages]]
+repository = "awslabs/soci-snapshotter"
+
+[[packages]]
+repository = "awslabs/ssosync"
+
+[[packages]]
+repository = "awslabs/yesiscan"
+
+[[packages]]
+repository = "axllent/mailpit"
+
+[[packages]]
 repository = "axodotdev/cargo-dist"
+
+[[packages]]
+repository = "ayoisaiah/f2"
+
+[[packages]]
+repository = "Azure/aks-engine"
+
+[[packages]]
+repository = "Azure/aztfexport"
+
+[[packages]]
+repository = "Azure/azure-dev"
+
+[[packages]]
+repository = "Azure/bicep"
+
+[[packages]]
+repository = "Azure/draft"
+
+[[packages]]
+repository = "Azure/kubelogin"
 
 [[packages]]
 repository = "bergercookie/asm-lsp"
