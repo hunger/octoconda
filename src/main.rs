@@ -12,6 +12,8 @@ mod github;
 mod package_generation;
 mod types;
 
+const PACKAGE_GENERATION_LIMIT: usize = 250;
+
 fn report_status(
     temporary_directory: &cli::WorkDir,
     result: &HashMap<String, Vec<VersionPackagingStatus>>,
@@ -63,6 +65,7 @@ fn main() -> Result<(), anyhow::Error> {
             let gh = github::Github::new()?;
 
             let mut result = HashMap::new();
+            let mut package_count = 0;
 
             for package in &config.packages {
                 let repo_packages = &repo_packages;
@@ -83,17 +86,18 @@ fn main() -> Result<(), anyhow::Error> {
                         }
                     };
 
-                result.insert(
-                    package.name.clone(),
-                    package_generation::generate_packaging_data(
-                        package,
-                        &repository,
-                        &releases,
-                        repo_packages,
-                        temporary_directory.path(),
-                    )?,
-                );
-                if result.len() > 250 {
+                let packages = package_generation::generate_packaging_data(
+                    package,
+                    &repository,
+                    &releases,
+                    repo_packages,
+                    temporary_directory.path(),
+                    PACKAGE_GENERATION_LIMIT - package_count,
+                )?;
+                package_count += packages.len();
+
+                result.insert(package.name.clone(), packages);
+                if package_count > PACKAGE_GENERATION_LIMIT {
                     eprintln!(
                         "Package limit reached after {} packages: SKIPPING package generation",
                         result.len()

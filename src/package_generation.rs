@@ -205,8 +205,10 @@ pub fn generate_packaging_data(
     releases: &[(octocrab::models::repos::Release, (String, u32))],
     repo_packages: &[rattler_conda_types::RepoDataRecord],
     work_dir: &Path,
+    package_count_limit: usize,
 ) -> anyhow::Result<Vec<VersionPackagingStatus>> {
     let mut result = vec![];
+    let mut package_generation_count: usize = 0;
 
     for (r, (version_string, build_number)) in releases {
         let Ok(version) = rattler_conda_types::Version::from_str(version_string) else {
@@ -225,24 +227,27 @@ pub fn generate_packaging_data(
             if let Some(asset) = match_platform(&pattern[..], &r.assets[..]) {
                 found_platforms.insert(platform);
 
-                if repo_packages.iter().any(|r| {
-                    r.package_record.subdir == platform.to_string()
-                        && r.package_record.name.as_normalized() == package.name
-                        && r.package_record.version == version
-                }) {
-                    version_result.push(PackagingStatus::skip_platform(*platform));
-                    continue;
-                }
+                if package_generation_count < package_count_limit {
+                    if repo_packages.iter().any(|r| {
+                        r.package_record.subdir == platform.to_string()
+                            && r.package_record.name.as_normalized() == package.name
+                            && r.package_record.version == version
+                    }) {
+                        version_result.push(PackagingStatus::skip_platform(*platform));
+                        continue;
+                    }
 
-                version_result.push(generate_package(
-                    work_dir,
-                    package,
-                    version_string,
-                    *build_number,
-                    platform,
-                    repository,
-                    asset,
-                ));
+                    version_result.push(generate_package(
+                        work_dir,
+                        package,
+                        version_string,
+                        *build_number,
+                        platform,
+                        repository,
+                        asset,
+                    ));
+                    package_generation_count += 1;
+                }
             }
         }
 
