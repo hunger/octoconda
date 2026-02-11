@@ -367,12 +367,9 @@ fn generate_rattler_build_recipe(
 
     let build_script_source = work_dir.join("build.sh");
     let build_script_destination = recipe_dir.join("build.sh");
-    #[cfg(not(target_os = "windows"))]
-    std::os::unix::fs::symlink(&build_script_source, &build_script_destination)
-        .context(format!("Failed to soft link build script from {build_script_source:?} to {build_script_destination:?}"))?;
-    #[cfg(target_os = "windows")]
-    std::os::windows::fs::symlink_file(build_script_source, build_script_destination)
-        .context("Failed to soft link build script")?;
+    std::fs::copy(&build_script_source, &build_script_destination).context(format!(
+        "Failed to copy build script from {build_script_source:?} to {build_script_destination:?}"
+    ))?;
 
     let recipe_file = recipe_dir.join("recipe.yaml");
     let mut file = std::fs::File::create_new(&recipe_file).context(format!(
