@@ -38,7 +38,9 @@ for platform in "${CURRENT}/"*/; do
               && rattler-build publish \
                   --to "https://prefix.dev/${TARGET_CHANNEL}" \
                   --build-number=+1 \
-                  --target-platform="${platform}" \
+                  --target-platform="${platform}" 2>&1 \
+                      | grep -v 'Ignoring prefix-detection for:' \
+                      | grep -v '├─ extras/' \
              ); then
             SUCCESS_PACKAGES=$((SUCCESS_PACKAGES + 1))
           else
