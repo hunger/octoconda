@@ -12,7 +12,7 @@ mod github;
 mod package_generation;
 mod types;
 
-const PACKAGE_GENERATION_LIMIT: usize = 250;
+const PACKAGE_GENERATION_LIMIT: usize = 500;
 
 fn report_status(
     temporary_directory: &cli::WorkDir,
