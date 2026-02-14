@@ -401,18 +401,287 @@ repository = "Azure/draft"
 repository = "Azure/kubelogin"
 
 [[packages]]
+repository = "babarot/afx"
+
+[[packages]]
+repository = "babarot/changed-objects"
+
+[[packages]]
+repository = "babarot/gist"
+
+[[packages]]
+repository = "babarot/git-bump"
+
+[[packages]]
+repository = "babarot/github-labeler"
+
+[[packages]]
+repository = "babarot/gomi"
+
+[[packages]]
+repository = "babarot/iap_curl"
+
+[[packages]]
+repository = "babarot/stein"
+
+[[packages]]
+repository = "babarot/vtest"
+
+[[packages]]
+repository = "bahdotsh/wrkflw"
+
+[[packages]]
+repository = "banzaicloud/banzai-cli"
+
+[[packages]]
+repository = "barnybug/cli53"
+
+[[packages]]
+repository = "barthr/redo"
+
+[[packages]]
+repository = "bazelbuild/bazel"
+
+[[packages]]
+repository = "bazelbuild/bazel-watcher"
+
+[[packages]]
+repository = "bazelbuild/bazelisk"
+
+[[packages]]
+repository = "bazelbuild/buildtools"
+
+[[packages]]
+repository = "bcicen/ctop"
+
+[[packages]]
+repository = "bcicen/slackcat"
+
+[[packages]]
+repository = "BeaconBay/ck"
+
+[[packages]]
+repository = "Bearer/gon"
+
+[[packages]]
+repository = "becheran/mlc"
+
+[[packages]]
+repository = "becheran/roumon"
+
+[[packages]]
+repository = "benbjohnson/litestream"
+
+[[packages]]
+repository = "benchkram/bob"
+
+[[packages]]
+repository = "bengadbois/pewpew"
+
+[[packages]]
+repository = "bensadeh/tailspin"
+
+[[packages]]
+repository = "bep/s3deploy"
+
+[[packages]]
 repository = "bergercookie/asm-lsp"
 
-# ### TODO: Strange release tag names
-# [[packages]]
-# repository = "biomejs/biome"
+[[packages]]
+repository = "BeryJu/korb"
+
+[[packages]]
+repository = "bflad/tfproviderdocs"
+
+[[packages]]
+repository = "bflad/tfproviderlint"
+
+[[packages]]
+repository = "binwiederhier/ntfy"
+
+[[packages]]
+repository = "biomejs/biome"
+
+[[packages]]
+repository = "birdayz/kaf"
+
+[[packages]]
+repository = "BishopFox/cloudfox"
+
+[[packages]]
+repository = "bitnami-labs/sealed-secrets"
+
+[[packages]]
+repository = "bitnami/charts-syncer"
+
+[[packages]]
+repository = "bitwarden/clients"
+
+[[packages]]
+repository = "bitwarden/sdk-sm"
+
+[[packages]]
+repository = "bjesus/pipet"
+
+[[packages]]
+repository = "blacknon/hwatch"
+
+[[packages]]
+repository = "block/goose"
+
+[[packages]]
+repository = "blopker/codebook"
 
 [[packages]]
 repository = "blopker/codebook"
 name = "codebook-lsp"
 
 [[packages]]
+repository = "bloznelis/typioca"
+
+[[packages]]
+repository = "blst-security/cherrybomb"
+
+[[packages]]
+repository = "bmf-san/ggc"
+
+[[packages]]
+repository = "bodaay/HuggingFaceModelDownloader"
+
+[[packages]]
+repository = "Boeing/config-file-validator"
+
+[[packages]]
+repository = "bojand/ghz"
+
+[[packages]]
+repository = "bomctl/bomctl"
+
+[[packages]]
+repository = "bonnefoa/kubectl-fzf"
+
+[[packages]]
+repository = "bootandy/dust"
+
+[[packages]]
+repository = "borgbackup/borg"
+
+[[packages]]
+repository = "boyter/scc"
+
+[[packages]]
+repository = "boz/kail"
+
+[[packages]]
+repository = "br0xen/boltbrowser"
+
+[[packages]]
+repository = "breml/tfreveal"
+
+[[packages]]
+repository = "bridgecrewio/checkov"
+
+[[packages]]
+repository = "bridgecrewio/yor"
+
+[[packages]]
+repository = "brigadecore/brigade"
+
+[[packages]]
+repository = "bronze1man/yaml2json"
+
+[[packages]]
+repository = "brumhard/krewfile"
+
+[[packages]]
+repository = "budimanjojo/talhelper"
+
+[[packages]]
+repository = "bufbuild/buf"
+
+[[packages]]
+repository = "bufbuild/protoc-gen-validate"
+
+[[packages]]
+repository = "Builditluc/wiki-tui"
+
+[[packages]]
+repository = "buildkite/agent"
+
+[[packages]]
+repository = "buildkite/cli"
+
+[[packages]]
+repository = "buildpacks/pack"
+
+[[packages]]
 repository = "BurntSushi/ripgrep"
+
+[[packages]]
+repository = "BurntSushi/xsv"
+
+[[packages]]
+repository = "busser/murmur"
+
+[[packages]]
+repository = "busser/tfautomv"
+
+[[packages]]
+repository = "busser/tftree"
+
+[[packages]]
+repository = "bvaisvil/zenith"
+
+[[packages]]
+repository = "Byron/dua-cli"
+
+[[packages]]
+repository = "bytecodealliance/wasm-pkg-tools"
+
+[[packages]]
+repository = "bytecodealliance/wasm-tools"
+
+[[packages]]
+repository = "bytecodealliance/wasmtime"
+
+[[packages]]
+repository = "bytecodealliance/wrpc"
+
+[[packages]]
+repository = "ByteNess/aws-vault"
+
+[[packages]]
+repository = "c-bata/kube-prompt"
+
+[[packages]]
+repository = "c1982/bomberman"
+
+[[packages]]
+repository = "caarlos0/fork-cleaner"
+
+[[packages]]
+repository = "caarlos0/mdtree"
+
+[[packages]]
+repository = "caarlos0/svu"
+
+[[packages]]
+repository = "caddyserver/caddy"
+
+[[packages]]
+repository = "cameron-martin/bazel-lsp"
+
+[[packages]]
+repository = "Canop/dysk"
+
+[[packages]]
+repository = "Canop/rhit"
+
+[[packages]]
+repository = "cantino/mcfly"
+
+[[packages]]
+repository = "carapace-sh/carapace-bin"
 
 [[packages]]
 repository = "cargo-bins/cargo-binstall"
@@ -421,22 +690,661 @@ repository = "cargo-bins/cargo-binstall"
 repository = "cargo-generate/cargo-generate"
 
 [[packages]]
+repository = "carthage-software/mago"
+
+[[packages]]
+repository = "carvel-dev/imgpkg"
+
+[[packages]]
+repository = "carvel-dev/kapp"
+
+[[packages]]
+repository = "carvel-dev/kbld"
+
+[[packages]]
+repository = "carvel-dev/kwt"
+
+[[packages]]
+repository = "carvel-dev/vendir"
+
+[[packages]]
+repository = "carvel-dev/ytt"
+
+[[packages]]
 repository = "casey/just"
+
+[[packages]]
+repository = "cbroglie/mustache"
+
+[[packages]]
+repository = "cea-hpc/sshproxy"
+
+[[packages]]
+repository = "cert-manager/cert-manager"
+
+[[packages]]
+repository = "cert-manager/cmctl"
+
+[[packages]]
+repository = "chaaz/versio"
+
+[[packages]]
+repository = "chainguard-dev/apko"
+
+[[packages]]
+repository = "chainguard-dev/melange"
+
+[[packages]]
+repository = "chainloop-dev/chainloop"
+
+[[packages]]
+repository = "chanzuckerberg/fogg"
+
+[[packages]]
+repository = "chaqchase/lla"
+
+[[packages]]
+repository = "charmbracelet/charm"
+
+[[packages]]
+repository = "charmbracelet/crush"
+
+[[packages]]
+repository = "charmbracelet/freeze"
+
+[[packages]]
+repository = "charmbracelet/glow"
+
+[[packages]]
+repository = "charmbracelet/gum"
+
+[[packages]]
+repository = "charmbracelet/mods"
+
+[[packages]]
+repository = "charmbracelet/skate"
+
+[[packages]]
+repository = "charmbracelet/vhs"
+
+[[packages]]
+repository = "chatwork/kibertas"
+
+[[packages]]
+repository = "che-incubator/chectl"
+
+[[packages]]
+repository = "cheat/cheat"
+
+[[packages]]
+repository = "checkmake/checkmake"
+
+[[packages]]
+repository = "Checkmarx/kics"
+
+[[packages]]
+repository = "chenjiandongx/kubectl-images"
+
+[[packages]]
+repository = "chevdor/tera-cli"
+
+[[packages]]
+repository = "chime/mani-diffy"
+
+[[packages]]
+repository = "chmln/handlr"
+
+[[packages]]
+repository = "chmln/sd"
+
+[[packages]]
+repository = "chmouel/snazy"
+
+[[packages]]
+repository = "chriswalz/bit"
+
+[[packages]]
+repository = "Cian911/switchboard"
+
+[[packages]]
+repository = "cilium/cilium-cli"
+
+[[packages]]
+repository = "cilium/hubble"
+
+[[packages]]
+repository = "CircleCI-Public/circleci-cli"
+
+[[packages]]
+repository = "cirruslabs/cirrus-cli"
+
+[[packages]]
+repository = "cirruslabs/tart"
+
+[[packages]]
+repository = "citrusframework/yaks"
+
+[[packages]]
+repository = "civo/cli"
+
+[[packages]]
+repository = "ck-zhang/reddix"
+
+[[packages]]
+repository = "clamoriniere/crd-to-markdown"
 
 [[packages]]
 repository = "ClementTsang/bottom"
 
 [[packages]]
+repository = "cli/cli"
+
+[[packages]]
+repository = "climech/grit"
+
+[[packages]]
+repository = "clog-tool/clog-cli"
+
+[[packages]]
+repository = "clok/sm"
+
+[[packages]]
+repository = "cloud-hypervisor/cloud-hypervisor"
+
+[[packages]]
+repository = "cloud66-oss/copper"
+
+[[packages]]
+repository = "cloudflare/cf-terraforming"
+
+[[packages]]
+repository = "cloudflare/cfssl"
+
+[[packages]]
+repository = "cloudflare/cloudflared"
+
+[[packages]]
+repository = "cloudflare/gokey"
+
+[[packages]]
+repository = "cloudflare/pint"
+
+[[packages]]
+repository = "cloudfoundry/bosh-cli"
+
+[[packages]]
+repository = "cloudfoundry/credhub-cli"
+
+[[packages]]
+repository = "cloudfoundry/uaa-cli"
+
+[[packages]]
+repository = "cloudnative-pg/cloudnative-pg"
+
+[[packages]]
+repository = "cloudposse/atmos"
+
+[[packages]]
+repository = "cloudposse/github-commenter"
+
+[[packages]]
+repository = "cloudposse/slack-notifier"
+
+[[packages]]
+repository = "cloudquery/cloudquery"
+
+[[packages]]
+repository = "cloudspannerecosystem/spool"
+
+[[packages]]
+repository = "cloudspannerecosystem/wrench"
+
+[[packages]]
+repository = "cloudspannerecosystem/yo"
+
+[[packages]]
+repository = "cloverrose/connectnew"
+
+[[packages]]
+repository = "cloverrose/mockguard"
+
+[[packages]]
+repository = "cloverrose/pkgdep"
+
+[[packages]]
+repository = "cloverrose/unusedinterface"
+
+[[packages]]
+repository = "cloverstd/tcping"
+
+[[packages]]
+repository = "clowdhaus/eksup"
+
+[[packages]]
+repository = "cnosuke/kushi"
+
+[[packages]]
+repository = "cnrancher/autok3s"
+
+[[packages]]
+repository = "cococonscious/koji"
+
+[[packages]]
+repository = "cocogitto/cocogitto"
+
+[[packages]]
+repository = "Code-Hex/gqldoc"
+
+[[packages]]
+repository = "coder/coder"
+
+[[packages]]
+repository = "coder3101/protols"
+
+[[packages]]
+repository = "codesenberg/bombardier"
+
+[[packages]]
+repository = "commercialhaskell/stack"
+
+[[packages]]
+repository = "compose/transporter"
+
+[[packages]]
+repository = "comtrya/comtrya"
+
+[[packages]]
+repository = "concourse/concourse"
+
+[[packages]]
+repository = "container-tools/spectrum"
+
+[[packages]]
+repository = "container2wasm/container2wasm"
+
+[[packages]]
+repository = "containerd/containerd"
+
+[[packages]]
+repository = "containerd/fuse-overlayfs-snapshotter"
+
+[[packages]]
+repository = "containerd/nerdctl"
+
+[[packages]]
+repository = "containerd/stargz-snapshotter"
+
+[[packages]]
+repository = "containers/conmon"
+
+[[packages]]
+repository = "containers/crun"
+
+[[packages]]
+repository = "containers/fuse-overlayfs"
+
+[[packages]]
+repository = "containers/gvisor-tap-vsock"
+
+[[packages]]
+repository = "containers/kubernetes-mcp-server"
+
+[[packages]]
+repository = "containrrr/shoutrrr"
+
+[[packages]]
+repository = "context-labs/mactop"
+
+[[packages]]
+repository = "controlplaneio/kubectl-kubesec"
+
+[[packages]]
+repository = "controlplaneio/kubesec"
+
+[[packages]]
+repository = "coreos/butane"
+
+[[packages]]
+repository = "corneliusweig/ketall"
+
+[[packages]]
+repository = "corneliusweig/rakkess"
+
+[[packages]]
+repository = "corrupt952/closest"
+
+[[packages]]
+repository = "cortesi/modd"
+
+[[packages]]
+repository = "cpisciotta/xcbeautify"
+
+[[packages]]
+repository = "CQLabs/homebrew-dcm"
+
+[[packages]]
 repository = "crate-ci/cargo-release"
+
+[[packages]]
+repository = "crate-ci/committed"
+
+[[packages]]
+repository = "crate-ci/typos"
+
+[[packages]]
+repository = "crazy-max/diun"
+
+[[packages]]
+repository = "crazy-max/ftpgrab"
+
+[[packages]]
+repository = "crazywhalecc/static-php-cli"
+
+[[packages]]
+repository = "create-go-app/cli"
+
+[[packages]]
+repository = "CrociDB/bulletty"
+
+[[packages]]
+repository = "Crocmagnon/fatcontext"
+
+[[packages]]
+repository = "cross-rs/cross"
+
+[[packages]]
+repository = "CrunchyData/postgres-operator-client"
+
+[[packages]]
+repository = "cswank/kcli"
+
+[[packages]]
+repository = "ctron/oidc-cli"
+
+[[packages]]
+repository = "cubefs/cubefs"
+
+[[packages]]
+repository = "cubicdaiya/nginx-build"
+
+[[packages]]
+repository = "cue-lang/cue"
+
+[[packages]]
+repository = "CyberAgent/reminder-lint"
+
+[[packages]]
+repository = "cyberark/kubeletctl"
+
+[[packages]]
+repository = "cybozu/assam"
+
+[[packages]]
+repository = "cycloidio/inframap"
+
+[[packages]]
+repository = "cycloidio/terracognita"
+
+[[packages]]
+repository = "CycloneDX/cyclonedx-cli"
+
+[[packages]]
+repository = "d-kuro/gwq"
+
+[[packages]]
+repository = "dadav/helm-schema"
+
+[[packages]]
+repository = "dag-andersen/argocd-diff-preview"
+
+[[packages]]
+repository = "dagger/container-use"
+
+[[packages]]
+repository = "dagger/dagger"
+
+[[packages]]
+repository = "dagu-org/dagu"
+
+[[packages]]
+repository = "daichirata/hammer"
+
+[[packages]]
+repository = "dalance/procs"
 
 [[packages]]
 repository = "dandavison/delta"
 
 [[packages]]
+repository = "danielfoehrKn/kubeswitch"
+
+[[packages]]
+repository = "danvergara/dblab"
+
+[[packages]]
+repository = "dapr/cli"
+
+[[packages]]
+repository = "Darth-Tech/samwise-cli"
+
+[[packages]]
+repository = "databricks/click"
+
+[[packages]]
+repository = "datadog/managed-kubernetes-auditing-toolkit"
+
+[[packages]]
+repository = "datanymizer/datanymizer"
+
+[[packages]]
+repository = "datarootsio/tf-profile"
+
+[[packages]]
+repository = "datastax-labs/astra-cli"
+
+[[packages]]
+repository = "datreeio/datree"
+
+[[packages]]
+repository = "daveshanley/vacuum"
+
+[[packages]]
 repository = "davidlattimore/wild"
 
 [[packages]]
+repository = "ddddddO/gtree"
+
+[[packages]]
+repository = "ddev/ddev"
+
+[[packages]]
+repository = "dduan/tre"
+
+[[packages]]
+repository = "defenseunicorns/uds-cli"
+
+[[packages]]
+repository = "deggja/netfetch"
+
+[[packages]]
+repository = "DelineaXPM/dsv-cli"
+
+[[packages]]
+repository = "DeNA/unity-meta-check"
+
+[[packages]]
+repository = "denisidoro/navi"
+
+[[packages]]
+repository = "denizgursoy/gotouch"
+
+[[packages]]
+repository = "denoland/deno"
+
+[[packages]]
+repository = "dependabot/cli"
+
+[[packages]]
+repository = "derailed/k9s"
+
+[[packages]]
+repository = "derailed/popeye"
+
+[[packages]]
+repository = "deref/exo"
+
+[[packages]]
+repository = "deviceinsight/kafkactl"
+
+[[packages]]
+repository = "devops-kung-fu/bomber"
+
+[[packages]]
+repository = "devops-works/dw-query-digest"
+
+[[packages]]
+repository = "devops-works/egress-auditor"
+
+[[packages]]
+repository = "devspace-sh/devspace"
+
+[[packages]]
+repository = "dex4er/tf"
+
+[[packages]]
+repository = "dhall-lang/dhall-haskell"
+
+[[packages]]
+repository = "dhth/bmm"
+
+[[packages]]
+repository = "digitalocean/doctl"
+
+[[packages]]
+repository = "dimo414/bkt"
+
+[[packages]]
+repository = "dimonomid/nerdlog"
+
+[[packages]]
+repository = "dineshba/tf-summarize"
+
+[[packages]]
+repository = "dinoDanic/diny"
+
+[[packages]]
+repository = "direnv/direnv"
+
+[[packages]]
+repository = "dispatchrun/wzprof"
+
+[[packages]]
+repository = "distribution/distribution"
+
+[[packages]]
+repository = "dlvhdr/diffnav"
+
+[[packages]]
+repository = "dlvhdr/gh-dash"
+
+[[packages]]
 repository = "dmmulroy/jj-starship"
+
+[[packages]]
+repository = "dmtrKovalenko/blendr"
+
+[[packages]]
+repository = "dnnrly/abbreviate"
+
+[[packages]]
+repository = "dnote/dnote"
+
+[[packages]]
+repository = "docker/buildx"
+
+[[packages]]
+repository = "docker/cagent"
+
+[[packages]]
+repository = "docker/compose"
+
+[[packages]]
+repository = "docker/hub-tool"
+
+[[packages]]
+repository = "dodobrands/Peekie"
+
+[[packages]]
+repository = "doitintl/kube-no-trouble"
+
+[[packages]]
+repository = "dolthub/dolt"
+
+[[packages]]
+repository = "dominikh/go-tools"
+
+[[packages]]
+repository = "domoritz/arrow-tools"
+
+[[packages]]
+repository = "dotenv-linter/dotenv-linter"
+
+[[packages]]
+repository = "dotenvx/dotenvx"
+
+[[packages]]
+repository = "doy/rbw"
+
+[[packages]]
+repository = "dprint/dprint"
+
+[[packages]]
+repository = "drager/wasm-pack"
+
+[[packages]]
+repository = "drlau/akashi"
+
+[[packages]]
+repository = "dstotijn/hetty"
+
+[[packages]]
+repository = "dtan4/ghrls"
+
+[[packages]]
+repository = "dtan4/k8sec"
+
+[[packages]]
+repository = "dtan4/k8stail"
+
+[[packages]]
+repository = "dtan4/s3url"
+
+[[packages]]
+repository = "dthagard/tforganize"
+
+[[packages]]
+repository = "ducaale/xh"
+
+[[packages]]
+repository = "duckdb/duckdb"
+
+[[packages]]
+repository = "dundee/gdu"
+
+[[packages]]
+repository = "dustinblackman/oatmeal"
+
+[[packages]]
+repository = "dutchcoders/cloudman"
+
+[[packages]]
+repository = "dwisiswant0/tlder"
+
+[[packages]]
+repository = "dyne/slangroom-exec"
+
+[[packages]]
+repository = "dyne/zenroom"
 
 [[packages]]
 repository = "EmbarkStudios/cargo-about"

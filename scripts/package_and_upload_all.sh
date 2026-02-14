@@ -39,7 +39,7 @@ for platform in "${CURRENT}/"*/; do
                   --to "https://prefix.dev/${TARGET_CHANNEL}" \
                   --generate-attestation \
                   --target-platform="${platform}" 2>&1 \
-                      | grep -v 'Ignoring prefix-detection for:' \
+                      | grep -v 'Ignoring prefix-detection for file:' \
                       | grep -v '├─ extras/' \
              ); then
             SUCCESS_PACKAGES=$((SUCCESS_PACKAGES + 1))
