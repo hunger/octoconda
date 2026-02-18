@@ -447,6 +447,7 @@ repository = "bazelbuild/bazel-watcher"
 
 [[packages]]
 repository = "bazelbuild/bazelisk"
+platforms = { linux-64 = ["bazelisk-linux-amd64"], linux-aarch64 = ["bazelisk-linux-arm64"] }
 
 [[packages]]
 repository = "bazelbuild/buildtools"
