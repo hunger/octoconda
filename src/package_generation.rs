@@ -524,6 +524,13 @@ fn extract_about(
     repository: &octocrab::models::Repository,
     asset: &octocrab::models::repos::Asset,
 ) -> String {
+    let upstream_repository = repository
+        .html_url
+        .as_ref()
+        .map(|u| u.path()[1..].to_string()) // strip leading `/`
+        .map(|u| format!("\n  upstream-repository: \"{}\"", yaml_escape(&u)))
+        .unwrap_or_default();
+
     let extra_section = {
         let upstream_digest = extract_digest(asset)
             .map(|(algo, digest)| format!("\n  upstream-{algo}: \"{}\"", yaml_escape(&digest)))
@@ -554,6 +561,11 @@ fn extract_about(
             String::new()
         };
 
+        let repository_line = format!(
+            "  repository: \"https://github.com/{}\"\n",
+            yaml_escape(&upstream_repository)
+        );
+
         let license = if let Some(license) = &repository.license {
             let license_info = fix_spdx_license(&license.spdx_id);
             format!("\n  license: \"{}\"", yaml_escape(license_info))
@@ -576,7 +588,7 @@ fn extract_about(
 about:
   description: >
     {summary_text}
-{homepage}{license}{summary}"#,
+{homepage}{repository_line}{license}{summary}"#,
         )
     };
 

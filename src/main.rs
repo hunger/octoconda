@@ -106,6 +106,13 @@ fn main() -> Result<(), anyhow::Error> {
                     }
                 };
 
+                if matches!(repository.archived, Some(true)) {
+                    eprintln!(
+                        "Note: Repository \"{}\" is *ARCHIVED*. Consider to deprecate it.",
+                        package.repository,
+                    );
+                }
+
                 let versions = package_generation::generate_packaging_data(
                     package,
                     &repository,
