@@ -1,15 +1,21 @@
 # Octoconda
 
-Octoconda automates the creation of [Conda](https://conda.io/) packages from
+Octoconda is a CLI tool that automates the creation of [Conda](https://conda.io/) packages from
 GitHub release binaries. It queries the GitHub API for releases, detects
 platform-specific binaries using regex pattern matching, and generates
 [rattler-build](https://prefix-dev.github.io/rattler-build/) recipes ready
 for building.
 
+This repository also acts as an Octoconda deployment (using the config at
+[`config.toml`](./config.toml) to push to the channel
+https://prefix.dev/channels/github-releases ). If you would like you
+can deploy your own Octoconda by creating your own channel on [prefix.dev](https://prefix.dev/channels)
+and pushing to it.
+
 The tool checks an existing Conda channel for already-published versions to
 avoid duplicates.
 
-For best results: Use the github action runner and do not run this directly!
+For best results use the GitHub action runner and do not run this directly! See [`.github/workflows/octoconda.yaml`](./.github/workflows/octoconda.yaml) for an example.
 
 ## Configuration File
 
