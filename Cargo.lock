@@ -2318,6 +2318,7 @@ dependencies = [
  "rattler_repodata_gateway",
  "regex",
  "serde",
+ "serde_json",
  "tempfile",
  "tokio",
  "tokio-stream",

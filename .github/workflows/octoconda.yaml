@@ -126,10 +126,16 @@ jobs:
           file bin/rattler-build
         shell: bash
 
+      - name: Restore state cache
+        uses: actions/cache@v4
+        with:
+          path: .octoconda-state.json
+          key: octoconda-state-${{ matrix.name }}
+
       - name: Run octoconda
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./octoconda "--work-dir=${{ env.WORK_DIR }}" "--config-file=${{ env.CONFIG_FILE }}" "--filter=${FILTER}"
+        run: ./octoconda "--work-dir=${{ env.WORK_DIR }}" "--config-file=${{ env.CONFIG_FILE }}" "--filter=${FILTER}" "--state-file=.octoconda-state.json"
 
       - name: Build and upload packages
         run: |

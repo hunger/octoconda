@@ -12,6 +12,7 @@ mod conda;
 mod config_file;
 mod github;
 mod package_generation;
+mod state;
 mod types;
 
 fn report_status(
@@ -82,10 +83,15 @@ fn main() -> Result<(), anyhow::Error> {
                 })
                 .collect();
 
+            // Load persistent state (empty if no --state-file or first run).
+            let cached_state = cli
+                .state_file
+                .as_ref()
+                .map(|p| state::State::load(p))
+                .unwrap_or_default();
+
             // Partition into packages that need checking (new or incomplete)
-            // vs fully-imported ones.  Skip most fully-imported packages to
-            // save API budget; only spot-check a small random sample so new
-            // releases for existing packages are still discovered over time.
+            // vs fully-imported ones.
             packages.shuffle(&mut rand::rng());
             let (mut needs_check, mut fully_imported): (Vec<_>, Vec<_>) =
                 packages.into_iter().partition(|p| {
@@ -99,18 +105,22 @@ fn main() -> Result<(), anyhow::Error> {
 
             // Sort needs_check so brand-new packages (0 versions) come first.
             needs_check.sort_by_key(|p| {
-                let n = conda::find_by_name(&repo_packages, &p.name)
+                conda::find_by_name(&repo_packages, &p.name)
                     .iter()
                     .map(|r| &r.package_record.version)
                     .collect::<std::collections::HashSet<_>>()
-                    .len();
-                n
+                    .len()
             });
 
             let total_packages = needs_check.len() + fully_imported.len();
 
-            // Spot-check ~5% of fully-imported packages (min 10) so we
-            // eventually discover new releases for them too.
+            // For fully-imported packages, sort by staleness (oldest checked
+            // first) so we cycle through all of them over successive runs
+            // instead of randomly sampling.  Take a limited batch per run.
+            fully_imported.sort_by_key(|p| {
+                let key = format!("{}/{}", p.repository.owner, p.repository.repo);
+                cached_state.last_checked(&key)
+            });
             let sample_count = (fully_imported.len() / 20)
                 .max(10)
                 .min(fully_imported.len());
@@ -225,6 +235,26 @@ fn main() -> Result<(), anyhow::Error> {
                 config.conda.max_import_releases,
                 platform_count,
             )?;
+
+            // Persist state so the next run knows which packages were checked.
+            if let Some(state_path) = &cli.state_file {
+                let mut new_state = cached_state;
+                for pkg in &result {
+                    let key = match pkg {
+                        package_generation::PackageResult::GithubFailed {
+                            repository, ..
+                        } => repository,
+                        package_generation::PackageResult::Ok { repository, .. } => repository,
+                    };
+                    new_state.mark_checked(key);
+                }
+                new_state.save(state_path)?;
+                eprintln!(
+                    "State saved to {} ({} entries)",
+                    state_path.display(),
+                    result.len(),
+                );
+            }
 
             Ok(())
         })
