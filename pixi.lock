@@ -18,7 +18,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libstdcxx-ng-15.2.0-hdf11a46_17.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/openssl-3.6.1-h35e630c_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/patchelf-0.17.2-h58526e2_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/linux-64/rattler-build-0.57.2-he64ecbb_1.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/rattler-build-0.59.0-ha759004_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/zizmor-1.22.0-hb17b654_0.conda
 packages:
 - conda: https://conda.anaconda.org/conda-forge/linux-64/_libgcc_mutex-0.1-conda_forge.tar.bz2
@@ -132,20 +132,20 @@ packages:
   license_family: GPL
   size: 94048
   timestamp: 1673473024463
-- conda: https://conda.anaconda.org/conda-forge/linux-64/rattler-build-0.57.2-he64ecbb_1.conda
-  sha256: 7050df6859e1f3c1223dead79b1f4aa5b92f7519db7ad7cb5982d87fd2999852
-  md5: 4d9aed902b2afb49657a4e85f493aedd
+- conda: https://conda.anaconda.org/conda-forge/linux-64/rattler-build-0.59.0-ha759004_0.conda
+  sha256: 411f403ec2102474d7772949ce90808fe76e288f247567569f4c081e5fc0e08a
+  md5: dabce28424b57d65f97124827b548583
   depends:
   - patchelf
-  - __glibc >=2.17,<3.0.a0
+  - libstdcxx >=14
   - libgcc >=14
+  - __glibc >=2.17,<3.0.a0
   - openssl >=3.5.5,<4.0a0
   constrains:
   - __glibc >=2.17
   license: BSD-3-Clause
-  license_family: BSD
-  size: 19271452
-  timestamp: 1770649397185
+  size: 18606979
+  timestamp: 1773409989222
 - conda: https://conda.anaconda.org/conda-forge/linux-64/zizmor-1.22.0-hb17b654_0.conda
   sha256: f94f8af570f981bb527c25f3fd5e4126d69da95a38563fa316dfec314df42a09
   md5: 050118580d3038416e732519ab745df7
