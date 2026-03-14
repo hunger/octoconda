@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // © Tobias Hunger <tobias.hunger@gmail.com>
 
+use std::str::FromStr;
+
 use futures::stream::{self, StreamExt};
-use rand::random_range;
+use rand::seq::SliceRandom;
+use rattler_conda_types::VersionWithSource;
 
 mod cli;
 mod conda;
@@ -66,6 +69,8 @@ fn main() -> Result<(), anyhow::Error> {
 
             let gh = github::Github::new()?;
 
+            let max_releases = config.conda.max_import_releases;
+
             let mut packages: Vec<_> = config
                 .packages
                 .iter()
@@ -76,27 +81,94 @@ fn main() -> Result<(), anyhow::Error> {
                     })
                 })
                 .collect();
-            if !packages.is_empty() {
-                let start = random_range(0..packages.len());
-                packages.rotate_left(start);
-            }
 
-            let total_packages = packages.len();
+            // Partition into packages that need checking (new or incomplete)
+            // vs fully-imported ones.  Skip most fully-imported packages to
+            // save API budget; only spot-check a small random sample so new
+            // releases for existing packages are still discovered over time.
+            packages.shuffle(&mut rand::rng());
+            let (mut needs_check, mut fully_imported): (Vec<_>, Vec<_>) =
+                packages.into_iter().partition(|p| {
+                    let n = conda::find_by_name(&repo_packages, &p.name)
+                        .iter()
+                        .map(|r| &r.package_record.version)
+                        .collect::<std::collections::HashSet<_>>()
+                        .len();
+                    n < max_releases
+                });
+
+            // Sort needs_check so brand-new packages (0 versions) come first.
+            needs_check.sort_by_key(|p| {
+                let n = conda::find_by_name(&repo_packages, &p.name)
+                    .iter()
+                    .map(|r| &r.package_record.version)
+                    .collect::<std::collections::HashSet<_>>()
+                    .len();
+                n
+            });
+
+            let total_packages = needs_check.len() + fully_imported.len();
+
+            // Spot-check ~5% of fully-imported packages (min 10) so we
+            // eventually discover new releases for them too.
+            let sample_count = (fully_imported.len() / 20)
+                .max(10)
+                .min(fully_imported.len());
+            fully_imported.truncate(sample_count);
+            eprintln!(
+                "Processing {} packages ({} need updates, {} fully-imported spot-checks)",
+                needs_check.len() + fully_imported.len(),
+                needs_check.len(),
+                fully_imported.len(),
+            );
+
+            // Process packages that need updates first, then spot-checks.
+            needs_check.extend(fully_imported);
+            let packages = needs_check;
 
             let result: Vec<package_generation::PackageResult> = stream::iter(packages)
                 .map(|package| {
                     let gh = &gh;
                     let repo_packages = &repo_packages;
                     let work_dir = temporary_directory.path();
-                    let max_releases = config.conda.max_import_releases;
                     async move {
                         let repo_string =
-                            format!("{}/{}", package.repository.owner, package.repository.repo,);
+                            format!("{}/{}", package.repository.owner, package.repository.repo);
 
-                        let (repository, releases) = match gh
+                        let releases = match gh
                             .query_releases(&package.repository, &package.name, max_releases)
                             .await
                         {
+                            Ok(r) => r,
+                            Err(e) => {
+                                return Ok(package_generation::PackageResult::GithubFailed {
+                                    repository: package.repository.to_string(),
+                                    message: format!("{e}"),
+                                });
+                            }
+                        };
+
+                        // Check if any release version is not yet in conda.
+                        // If everything is already imported, skip the extra
+                        // repo.get() API call.
+                        let pkg_records = conda::find_by_name(repo_packages, &package.name);
+                        let has_new = releases.iter().any(|(_, (vs, _))| {
+                            let Ok(v) = rattler_conda_types::Version::from_str(vs) else {
+                                return false;
+                            };
+                            let vws = VersionWithSource::new(v, vs);
+                            !pkg_records.iter().any(|r| r.package_record.version == vws)
+                        });
+
+                        if !has_new && !releases.is_empty() {
+                            return Ok(package_generation::PackageResult::Ok {
+                                repository: repo_string,
+                                name: package.name.clone(),
+                                versions: vec![],
+                            });
+                        }
+
+                        let repository = match gh.get_repository(&package.repository).await {
                             Ok(r) => r,
                             Err(e) => {
                                 return Ok(package_generation::PackageResult::GithubFailed {
@@ -129,7 +201,7 @@ fn main() -> Result<(), anyhow::Error> {
                         })
                     }
                 })
-                .buffer_unordered(30)
+                .buffer_unordered(10)
                 .collect::<Vec<_>>()
                 .await
                 .into_iter()
@@ -142,6 +214,7 @@ fn main() -> Result<(), anyhow::Error> {
                 .map(|r| r.package_record.name.as_normalized().to_string())
                 .filter(|name| !configured_names.contains(name.as_str()))
                 .collect();
+            unknown_in_conda.sort();
             unknown_in_conda.dedup();
 
             report_status(

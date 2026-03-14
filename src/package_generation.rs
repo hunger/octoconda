@@ -350,8 +350,7 @@ pub fn report_results(
                 .keys()
                 .map(|(d, _)| d.as_str())
                 .collect();
-            let file_count: usize =
-                report_data.no_binary_found.values().map(Vec::len).sum();
+            let file_count: usize = report_data.no_binary_found.values().map(Vec::len).sum();
             output.push_str(&format!(
                 "No platform binary in release \
                  ({file_count} files, {} packages):\n{no_binary_report}\n",
@@ -388,8 +387,7 @@ pub fn report_results(
             .keys()
             .map(|(d, _)| d.as_str())
             .collect();
-        let file_count: usize =
-            report_data.recipe_generated.values().map(Vec::len).sum();
+        let file_count: usize = report_data.recipe_generated.values().map(Vec::len).sum();
         output.push_str(&format!(
             "OK (generated recipe) ({file_count} files, {} packages):\n",
             packages.len(),
@@ -430,6 +428,7 @@ pub fn generate_packaging_data(
 ) -> anyhow::Result<Vec<VersionPackagingStatus>> {
     let mut result = vec![];
     let pkg_records = crate::conda::find_by_name(repo_packages, &package.name);
+    let platform_patterns = package.platform_pattern()?;
 
     for (r, (version_string, build_number)) in releases {
         let Ok(version) = rattler_conda_types::Version::from_str(version_string) else {
@@ -442,13 +441,13 @@ pub fn generate_packaging_data(
         let version = VersionWithSource::new(version, version_string);
         let mut version_result = vec![];
 
-        for (platform, pattern) in package.platform_pattern()? {
-            if let Some(asset) = match_platform(&pattern, &r.assets) {
+        for (platform, pattern) in &platform_patterns {
+            if let Some(asset) = match_platform(pattern, &r.assets) {
                 if pkg_records.iter().any(|r| {
                     r.package_record.subdir == platform.to_string()
                         && r.package_record.version == version
                 }) {
-                    version_result.push(PackagingStatus::already_in_conda(platform));
+                    version_result.push(PackagingStatus::already_in_conda(*platform));
                     continue;
                 }
 
@@ -457,12 +456,12 @@ pub fn generate_packaging_data(
                     package,
                     version_string,
                     *build_number,
-                    &platform,
+                    platform,
                     repository,
                     asset,
                 ));
             } else {
-                version_result.push(PackagingStatus::no_platform_binary(platform));
+                version_result.push(PackagingStatus::no_platform_binary(*platform));
             }
         }
 

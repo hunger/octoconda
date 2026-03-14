@@ -28,15 +28,28 @@ impl Github {
         Ok(Github { octocrab })
     }
 
+    /// Fetch repository metadata (license, description, archived status, etc.).
+    /// This is a separate API call — only invoke when you actually need to
+    /// generate recipes, not just to check whether new versions exist.
+    pub async fn get_repository(
+        &self,
+        repository: &crate::types::Repository,
+    ) -> anyhow::Result<octocrab::models::Repository> {
+        self.octocrab
+            .repos(&repository.owner, &repository.repo)
+            .get()
+            .await
+            .context("Failed to get repository data")
+    }
+
+    /// Fetch releases for a repository. Does **not** call `repo.get()` — use
+    /// [`get_repository`] separately when repository metadata is needed.
     pub async fn query_releases(
         &self,
         repository: &crate::types::Repository,
         package_name: &str,
         max_import_releases: usize,
-    ) -> anyhow::Result<(
-        octocrab::models::Repository,
-        Vec<(octocrab::models::repos::Release, (String, u32))>,
-    )> {
+    ) -> anyhow::Result<Vec<(octocrab::models::repos::Release, (String, u32))>> {
         use std::collections::HashSet;
         use tokio_stream::StreamExt;
 
@@ -48,7 +61,6 @@ impl Github {
         let mut seen_versions: HashSet<(String, u32)> = HashSet::new();
 
         let repo = self.octocrab.repos(&repository.owner, &repository.repo);
-        let repo_result = repo.get().await.context("Failed to get repository data")?;
 
         let stream = repo
             .releases()
@@ -93,7 +105,7 @@ impl Github {
                 if seen_versions.insert((version.clone(), build_number)) {
                     releases_result.push((release, (version.clone(), build_number)));
                     if releases_result.len() >= max_import_releases {
-                        return Ok((repo_result, releases_result));
+                        return Ok(releases_result);
                     }
                 }
             } else {
@@ -101,6 +113,6 @@ impl Github {
             }
         }
 
-        Ok((repo_result, releases_result))
+        Ok(releases_result)
     }
 }
