@@ -5579,6 +5579,9 @@ repository = "vektra/mockery"
 repository = "Versent/saml2aws"
 
 [[packages]]
+repository = "vectordotdev/vector"
+
+[[packages]]
 repository = "version-fox/vfox"
 
 [[packages]]
