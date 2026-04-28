@@ -646,13 +646,14 @@ about:
 
 fn generate_rattler_build_recipe(
     work_dir: &Path,
-    package_name: &str,
+    package: &Package,
     package_version: &str,
     build_number: u32,
     target_platform: &Platform,
     repository: &octocrab::models::Repository,
     asset: &octocrab::models::repos::Asset,
 ) -> anyhow::Result<PathBuf> {
+    let package_name = &package.name;
     let platform_dir = work_dir.join(format!("{target_platform}",));
     let recipe_dir = platform_dir.join(format!("{package_name}-{package_version}-{build_number}",));
     std::fs::create_dir_all(&recipe_dir).context("Failed to create recipe directory")?;
@@ -683,6 +684,25 @@ fn generate_rattler_build_recipe(
     let package_version = yaml_escape(package_version);
     let archive = yaml_escape(&archive);
 
+    let build_extra_section = if !package.expose.is_empty() {
+        let standard_dirs = ["bin", "etc", "extras", "include", "lib", "share", "ssl"];
+        let mut file_globs: Vec<String> = standard_dirs
+            .iter()
+            .map(|d| format!("      - {d}/**"))
+            .collect();
+        for dir in &package.expose {
+            file_globs.push(format!("      - {dir}/**"));
+        }
+        let files_section = format!("  files:\n    include:\n{}", file_globs.join("\n"));
+
+        let expose_val = package.expose.join("|");
+        let env_section = format!("  script:\n    env:\n      OCTOCONDA_EXPOSE: \"{expose_val}\"");
+
+        format!("{files_section}\n{env_section}")
+    } else {
+        String::new()
+    };
+
     let content = format!(
         r#"package:
   name: {pn}
@@ -698,6 +718,7 @@ build:
     binary_relocation: false
   prefix_detection:
     ignore: true
+{build_extra_section}
 
 tests:
   - package_contents:
@@ -729,7 +750,7 @@ fn generate_package(
 ) -> PackagingStatus {
     match generate_rattler_build_recipe(
         work_dir,
-        &package.name,
+        package,
         package_version,
         build_number,
         target_platform,

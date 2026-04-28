@@ -2133,6 +2133,13 @@ name = "gotify_cli"
 repository = "gptscript-ai/gptscript"
 
 [[packages]]
+repository = "graalvm/graalvm-ce-builds"
+name = "graalvm"
+release-prefix = "graalvm-community-jdk"
+tag-prefix = "jdk-"
+expose = ["conf", "jmods"]
+
+[[packages]]
 repository = "gradle/gradle-distributions"
 
 [[packages]]
