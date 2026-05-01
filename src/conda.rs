@@ -18,7 +18,7 @@ pub async fn get_all_conda_packages(
     )?;
 
     let spec = MatchSpec {
-        name: Some(PackageNameMatcher::from(glob::Pattern::new("*").unwrap())),
+        name: PackageNameMatcher::from(glob::Pattern::new("*").unwrap()),
         ..Default::default()
     };
 
