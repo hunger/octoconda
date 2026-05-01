@@ -34,7 +34,10 @@ jobs:
       - name: Apply OS updates
         env:
           DEBIAN_FRONTEND: noninteractive
-        run: sudo apt-get update && sudo apt-get upgrade -y
+        run: |
+          sudo apt-mark hold firefox
+          sudo apt-get update
+          sudo apt-get upgrade -y
 
       - name: Checkout code
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
@@ -112,7 +115,10 @@ jobs:
       - name: Apply OS updates
         env:
           DEBIAN_FRONTEND: noninteractive
-        run: sudo apt-get update && sudo apt-get upgrade -y
+        run: |
+          sudo apt-mark hold firefox
+          sudo apt-get update
+          sudo apt-get upgrade -y
 
       - name: Checkout code
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
