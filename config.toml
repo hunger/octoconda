@@ -1923,6 +1923,9 @@ repository = "git-lfs/git-lfs"
 repository = "git-pkgs/forge"
 
 [[packages]]
+repository = "git-pkgs/git-pkgs"
+
+[[packages]]
 repository = "git-town/git-town"
 
 [[packages]]
