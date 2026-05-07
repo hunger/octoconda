@@ -1920,6 +1920,9 @@ deprecated = true
 repository = "git-lfs/git-lfs"
 
 [[packages]]
+repository = "git-pkgs/brief"
+
+[[packages]]
 repository = "git-pkgs/forge"
 
 [[packages]]
