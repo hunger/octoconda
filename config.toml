@@ -2571,6 +2571,9 @@ repository = "jbangdev/jbang"
 repository = "jckuester/terradozer"
 
 [[packages]]
+repository = "jdx/fnox"
+
+[[packages]]
 repository = "jdx/hk"
 
 [[packages]]
