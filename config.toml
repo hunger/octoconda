@@ -2571,6 +2571,9 @@ repository = "jbangdev/jbang"
 repository = "jckuester/terradozer"
 
 [[packages]]
+repository = "jdx/fnox"
+
+[[packages]]
 repository = "jdx/hk"
 
 [[packages]]
@@ -4629,10 +4632,10 @@ repository = "sachaos/toggl"
 repository = "sachaos/viddy"
 
 [[packages]]
-repository = "SagerNet/sing-box"
+repository = "sacloud/usacloud"
 
 [[packages]]
-repository = "sacloud/usacloud"
+repository = "SagerNet/sing-box"
 
 [[packages]]
 repository = "sagiegurari/cargo-make"
