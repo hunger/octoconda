@@ -2468,6 +2468,7 @@ dependencies = [
  "rattler_networking 0.27.2",
  "rattler_repodata_gateway",
  "regex",
+ "rustls",
  "serde",
  "serde_json",
  "tempfile",
