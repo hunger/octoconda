@@ -4861,6 +4861,7 @@ name = "siketyan_ghr"
 
 [[packages]]
 repository = "SilasMarvin/lsp-ai"
+platforms = { linux-64 = "^lsp-ai-x86_64-unknown-linux-gnu" }
 
 [[packages]]
 repository = "simeji/jid"
