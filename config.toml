@@ -3824,6 +3824,9 @@ repository = "NetApp/trident"
 repository = "Netflix/bpftop"
 
 [[packages]]
+repository = "neurocyte/flow"
+
+[[packages]]
 repository = "newrelic/newrelic-cli"
 
 [[packages]]
@@ -4425,6 +4428,9 @@ repository = "raskell-io/hx"
 
 [[packages]]
 repository = "raviqqe/muffet"
+
+[[packages]]
+repository = "razvandimescu/numa"
 
 [[packages]]
 repository = "rclone/rclone"
