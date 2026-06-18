@@ -195,6 +195,10 @@ repository = "andreazorzetto/yh"
 repository = "andrewkroh/gvm"
 
 [[packages]]
+repository = "andrewrk/poop"
+platforms = { linux-64 = "x86_64-linux-*", linux-32 = "x86-linux-*", linux-aarch64 = "aarch64-linux-*", osx-64 = "null", osx-arm64 = "null", win-64 = "null", win-32 = "null", win-arm64 = "null" }
+
+[[packages]]
 repository = "andreybleme/lazycontainer"
 
 [[packages]]
