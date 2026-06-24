@@ -779,6 +779,9 @@ deprecated = true
 repository = "caarlos0/svu"
 
 [[packages]]
+repository = "cackle-rs/cackle"
+
+[[packages]]
 repository = "caddyserver/caddy"
 
 [[packages]]
