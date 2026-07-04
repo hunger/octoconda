@@ -3126,6 +3126,9 @@ deprecated = true
 repository = "kudobuilder/kuttl"
 
 [[packages]]
+repository = "kunobi-ninja/kache"
+
+[[packages]]
 repository = "kurehajime/dajarep"
 
 [[packages]]
