@@ -365,6 +365,9 @@ repository = "astral-sh/ty"
 repository = "astral-sh/uv"
 
 [[packages]]
+repository = "Ataraxy-Labs/sem"
+
+[[packages]]
 repository = "atc0005/send2teams"
 
 [[packages]]
