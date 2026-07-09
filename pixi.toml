@@ -12,7 +12,7 @@ build-one = { cmd = "bash scripts/build_one.sh" }
 
 update-cargo = { cmd = "cargo update" }
 update-pixi = { cmd = "pixi update" }
-update-actions = { cmd = "pinact run" }
+update-actions = { cmd = "pinact run --update" }
 update = { depends-on = [
     "update-cargo",
     "update-pixi",
