@@ -1079,6 +1079,10 @@ repository = "Code-Hex/gqldoc"
 deprecated = true
 
 [[packages]]
+repository = "codecov/codecov-cli"
+platforms = { osx-64 = "macos$", osx-arm64 = "macos$", win-64 = "windows\\.exe$" }
+
+[[packages]]
 repository = "coder/coder"
 
 [[packages]]
