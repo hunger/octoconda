@@ -2433,6 +2433,11 @@ repository = "in-toto/witness"
 repository = "incu6us/goimports-reviser"
 
 [[packages]]
+repository = "Infisical/cli"
+name = "infisical"
+release-prefix = "cli"
+
+[[packages]]
 repository = "infracost/infracost"
 
 [[packages]]
