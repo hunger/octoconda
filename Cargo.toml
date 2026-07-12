@@ -6,7 +6,7 @@ edition = "2024"
 [dependencies]
 anyhow = "1.0.100"
 clap = { version = "4.5.51", features = ["derive"] }
-octocrab = { version = "0.51.0", features = ["stream"] }
+octocrab = { version = "0.54.0", features = ["stream"] }
 
 rattler = "0.41.0"
 rattler_conda_types = "0.46.0"
