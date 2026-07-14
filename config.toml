@@ -693,6 +693,9 @@ repository = "bronze1man/yaml2json"
 name = "bronze1man_yaml2json"
 
 [[packages]]
+repository = "bruits/sampo"
+
+[[packages]]
 repository = "brumhard/krewfile"
 
 [[packages]]
@@ -3774,6 +3777,12 @@ repository = "mvisonneau/vac"
 
 [[packages]]
 repository = "Myriad-Dreamin/tinymist"
+
+[[packages]]
+repository = "n0-computer/dumbpipe"
+
+[[packages]]
+repository = "n0-computer/sendme"
 
 [[packages]]
 repository = "nabeken/go-github-apps"
