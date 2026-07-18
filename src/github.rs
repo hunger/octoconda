@@ -81,13 +81,21 @@ impl Github {
 
 /// Filter raw releases for a specific package, extracting version info.
 ///
-/// Strips the `{package_name}_` prefix from tags and parses versions.
-/// Returns at most `max_import_releases` results, deduplicated by
+/// Strips a leading prefix from tags and parses versions. When
+/// `tag_prefixes` is non-empty, the first matching custom prefix is used;
+/// otherwise the default `{package_name}_` / `{package_name}-` prefix is
+/// stripped. Returns at most `max_import_releases` results, deduplicated by
 /// (version, build_number).
+///
+/// `tag_prefixes` is the list of custom tag prefixes: when non-empty, each
+/// prefix is tried in order and the first one that strips is used to parse
+/// the version; a tag matching none of them is skipped. When empty, this
+/// falls back to the default `{package_name}_` / `{package_name}-` / bare
+/// `v` prefix stripping.
 pub fn filter_releases_for_package(
     releases: &[octocrab::models::repos::Release],
     package_name: &str,
-    tag_prefix: Option<&str>,
+    tag_prefixes: &[String],
     max_import_releases: usize,
 ) -> Vec<(octocrab::models::repos::Release, (String, u32))> {
     use std::collections::HashSet;
@@ -98,8 +106,8 @@ pub fn filter_releases_for_package(
     for release in releases {
         let tag = &release.tag_name;
 
-        let tag = if let Some(prefix) = tag_prefix {
-            match tag.strip_prefix(prefix) {
+        let tag = if !tag_prefixes.is_empty() {
+            match tag_prefixes.iter().find_map(|p| tag.strip_prefix(p)) {
                 Some(t) => t.to_string(),
                 None => continue,
             }
@@ -171,7 +179,7 @@ mod tests {
     fn parses_hyphenated_package_prefix() {
         // oven-sh/bun tags look like `bun-v1.3.13`.
         let releases = vec![release_with_tag("bun-v1.3.13")];
-        let result = filter_releases_for_package(&releases, "bun", None, 10);
+        let result = filter_releases_for_package(&releases, "bun", &[], 10);
         assert_eq!(result.len(), 1);
         assert_eq!(result[0].1, ("1.3.13".to_string(), 0));
     }
@@ -179,7 +187,7 @@ mod tests {
     #[test]
     fn parses_underscored_package_prefix() {
         let releases = vec![release_with_tag("foo_v2.0.0")];
-        let result = filter_releases_for_package(&releases, "foo", None, 10);
+        let result = filter_releases_for_package(&releases, "foo", &[], 10);
         assert_eq!(result.len(), 1);
         assert_eq!(result[0].1, ("2.0.0".to_string(), 0));
     }
@@ -187,7 +195,7 @@ mod tests {
     #[test]
     fn parses_bare_v_prefix() {
         let releases = vec![release_with_tag("v0.1.2")];
-        let result = filter_releases_for_package(&releases, "whatever", None, 10);
+        let result = filter_releases_for_package(&releases, "whatever", &[], 10);
         assert_eq!(result.len(), 1);
         assert_eq!(result[0].1, ("0.1.2".to_string(), 0));
     }
@@ -195,7 +203,7 @@ mod tests {
     #[test]
     fn parses_build_suffix() {
         let releases = vec![release_with_tag("v1.2.3-4")];
-        let result = filter_releases_for_package(&releases, "pkg", None, 10);
+        let result = filter_releases_for_package(&releases, "pkg", &[], 10);
         assert_eq!(result.len(), 1);
         assert_eq!(result[0].1, ("1.2.3".to_string(), 4));
     }
@@ -203,7 +211,7 @@ mod tests {
     #[test]
     fn rejects_non_version_tag() {
         let releases = vec![release_with_tag("nightly")];
-        let result = filter_releases_for_package(&releases, "pkg", None, 10);
+        let result = filter_releases_for_package(&releases, "pkg", &[], 10);
         assert!(result.is_empty());
     }
 
@@ -213,7 +221,7 @@ mod tests {
             release_with_tag("jdk-25.0.2"),
             release_with_tag("jdk-23.0.2"),
         ];
-        let result = filter_releases_for_package(&releases, "graalvm", Some("jdk-"), 10);
+        let result = filter_releases_for_package(&releases, "graalvm", &["jdk-".to_string()], 10);
         assert_eq!(result.len(), 2);
         assert_eq!(result[0].1, ("25.0.2".to_string(), 0));
         assert_eq!(result[1].1, ("23.0.2".to_string(), 0));
@@ -223,10 +231,30 @@ mod tests {
     fn custom_tag_prefix_skips_non_matching_tags() {
         let releases = vec![
             release_with_tag("jdk-25.0.2"),
-            release_with_tag("vm-22.3.3"),
+            release_with_tag("graal-22.3.3"),
         ];
-        let result = filter_releases_for_package(&releases, "graalvm", Some("jdk-"), 10);
+        let result = filter_releases_for_package(&releases, "graalvm", &["jdk-".to_string()], 10);
         assert_eq!(result.len(), 1);
         assert_eq!(result[0].1, ("25.0.2".to_string(), 0));
+    }
+
+    #[test]
+    fn multiple_tag_prefixes_match_any() {
+        // With multiple prefixes configured, any matching prefix is stripped
+        // and its version parsed; tags matching none are skipped.
+        let releases = vec![
+            release_with_tag("jdk-25.0.2"),
+            release_with_tag("graal-22.3.3"),
+            release_with_tag("other-1.0.0"),
+        ];
+        let result = filter_releases_for_package(
+            &releases,
+            "graalvm",
+            &["jdk-".to_string(), "graal-".to_string()],
+            10,
+        );
+        assert_eq!(result.len(), 2);
+        assert_eq!(result[0].1, ("25.0.2".to_string(), 0));
+        assert_eq!(result[1].1, ("22.3.3".to_string(), 0));
     }
 }

@@ -33,7 +33,7 @@ pub struct TomlSubPackage {
     #[serde(rename = "release-prefix")]
     pub release_prefix: Option<String>,
     #[serde(rename = "tag-prefix")]
-    pub tag_prefix: Option<String>,
+    pub tag_prefix: Option<StringOrList>,
     pub platforms: Option<HashMap<Platform, StringOrList>>,
     #[serde(default)]
     pub expose: Option<Vec<String>>,
@@ -45,7 +45,7 @@ pub struct TomlPackage {
     #[serde(rename = "release-prefix")]
     pub release_prefix: Option<String>,
     #[serde(rename = "tag-prefix")]
-    pub tag_prefix: Option<String>,
+    pub tag_prefix: Option<StringOrList>,
     pub repository: String,
     pub platforms: Option<HashMap<Platform, StringOrList>>,
     #[serde(default)]
@@ -60,7 +60,7 @@ pub struct Package {
     pub name: String,
     pub repository: Repository,
     release_prefix: Option<String>,
-    pub tag_prefix: Option<String>,
+    pub tag_prefix: Vec<String>,
     platform_pattern: HashMap<Platform, Vec<String>>,
     pub expose: Vec<String>,
 }
@@ -192,6 +192,18 @@ fn default_platforms() -> HashMap<Platform, Vec<String>> {
     ])
 }
 
+/// Normalize the TOML `tag-prefix` value (either a single string or a list
+/// of strings) into a `Vec<String>`. An unset value yields an empty `Vec`,
+/// which selects the default `{package_name}_` / `{package_name}-` / bare
+/// `v` prefix stripping logic.
+fn resolve_tag_prefixes(value: Option<StringOrList>) -> Vec<String> {
+    match value {
+        None => Vec::new(),
+        Some(StringOrList::String(s)) => vec![s],
+        Some(StringOrList::List(items)) => items,
+    }
+}
+
 fn resolve_platforms(
     overrides: Option<HashMap<Platform, StringOrList>>,
 ) -> HashMap<Platform, Vec<String>> {
@@ -251,7 +263,7 @@ fn expand_toml_package(value: TomlPackage) -> anyhow::Result<Vec<Package>> {
                     name,
                     repository: repository.clone(),
                     release_prefix: sp.release_prefix,
-                    tag_prefix: sp.tag_prefix,
+                    tag_prefix: resolve_tag_prefixes(sp.tag_prefix),
                     platform_pattern: resolve_platforms(sp.platforms),
                     expose: sp.expose.unwrap_or_default(),
                 })
@@ -263,7 +275,7 @@ fn expand_toml_package(value: TomlPackage) -> anyhow::Result<Vec<Package>> {
             name,
             repository,
             release_prefix: value.release_prefix,
-            tag_prefix: value.tag_prefix,
+            tag_prefix: resolve_tag_prefixes(value.tag_prefix),
             platform_pattern: resolve_platforms(value.platforms),
             expose: value.expose.unwrap_or_default(),
         }])

@@ -192,7 +192,7 @@ fn main() -> Result<(), anyhow::Error> {
                             let releases = github::filter_releases_for_package(
                                 &raw_releases,
                                 &package.name,
-                                package.tag_prefix.as_deref(),
+                                &package.tag_prefix,
                                 max_releases,
                             );
 

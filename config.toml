@@ -2155,7 +2155,7 @@ repository = "gptscript-ai/gptscript"
 repository = "graalvm/graalvm-ce-builds"
 name = "graalvm"
 release-prefix = "graalvm-community-jdk"
-tag-prefix = "jdk-"
+tag-prefix = ["jdk-", "graal-"]
 expose = ["conf", "jmods"]
 
 [[packages]]
@@ -4135,8 +4135,8 @@ repository = "Owloops/updo"
 [[packages]]
 repository = "oxc-project/oxc"
 packages = [
-  { name = "oxfmt", release-prefix = "oxfmt" },
-  { name = "oxlint", release-prefix = "oxlint" },
+    { name = "oxfmt", release-prefix = "oxfmt" },
+    { name = "oxlint", release-prefix = "oxlint" },
 ]
 
 [[packages]]
@@ -4251,7 +4251,7 @@ repository = "pkolaczk/fclones"
 
 [[packages]]
 repository = "planetscale/cli"
-name= "planetscale_cli"
+name = "planetscale_cli"
 
 [[packages]]
 repository = "plexsystems/sinker"
