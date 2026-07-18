@@ -32,7 +32,11 @@ pub struct TomlSubPackage {
     pub name: String,
     #[serde(rename = "release-prefix")]
     pub release_prefix: Option<String>,
+    #[serde(rename = "tag-prefix")]
+    pub tag_prefix: Option<String>,
     pub platforms: Option<HashMap<Platform, StringOrList>>,
+    #[serde(default)]
+    pub expose: Option<Vec<String>>,
 }
 
 #[derive(Deserialize)]
@@ -40,11 +44,15 @@ pub struct TomlPackage {
     pub name: Option<String>,
     #[serde(rename = "release-prefix")]
     pub release_prefix: Option<String>,
+    #[serde(rename = "tag-prefix")]
+    pub tag_prefix: Option<String>,
     pub repository: String,
     pub platforms: Option<HashMap<Platform, StringOrList>>,
     #[serde(default)]
     pub deprecated: bool,
     pub packages: Option<Vec<TomlSubPackage>>,
+    #[serde(default)]
+    pub expose: Option<Vec<String>>,
 }
 
 #[derive(Clone, Debug)]
@@ -52,7 +60,9 @@ pub struct Package {
     pub name: String,
     pub repository: Repository,
     release_prefix: Option<String>,
+    pub tag_prefix: Option<String>,
     platform_pattern: HashMap<Platform, Vec<String>>,
+    pub expose: Vec<String>,
 }
 
 impl Package {
@@ -97,7 +107,7 @@ const WINDOWS: &str = "(windows|win(32|64)?)";
 fn default_platforms() -> HashMap<Platform, Vec<String>> {
     fn linux_patterns(arch: &str, width: usize) -> Vec<String> {
         let linux = format!("linux({width})?");
-        let extra = format!("([._-]({VERSION}|x11|unknown|gh))*");
+        let extra = format!("([._-]({VERSION}|x11|unknown|gh|bin))*");
         let gnu = "gnu|glibc\\d*";
         let mut result = vec![
             format!(
@@ -126,7 +136,7 @@ fn default_platforms() -> HashMap<Platform, Vec<String>> {
     }
 
     fn mac_patterns(arch: &str) -> Vec<String> {
-        let extra = format!("([._-]({VERSION}|unknown|gh))*");
+        let extra = format!("([._-]({VERSION}|unknown|gh|bin))*");
         vec![
             format!("{arch}([\\._-]apple)?[\\._-]{APPLE}-15{extra}({COMPRESSED}|{ARCHIVE})?$"),
             format!("{APPLE}-15[\\._-]{arch}{extra}({COMPRESSED}|{ARCHIVE})?$"),
@@ -151,7 +161,7 @@ fn default_platforms() -> HashMap<Platform, Vec<String>> {
             format!(
                 "{arch}([\\._-]pc)?[\\._-]{WINDOWS}([\\._-]msvc)?{VER}([\\._-]exe)?({ARCHIVE}|\\.exe)?$"
             ),
-            format!("{WINDOWS}([\\._-]msvc)?[\\._-]{arch}{VER}([\\._-]exe)?({ARCHIVE}|\\.exe)?$"),
+            format!("{WINDOWS}([\\._-]msvc)?[\\._-]{arch}{VER}([\\._-]bin)?([\\._-]exe)?({ARCHIVE}|\\.exe)?$"),
             format!(
                 "{arch}([\\._-]pc)?[\\._-]{WINDOWS}[\\._-]gnu(llvm)?{VER}([\\._-]exe)?({ARCHIVE}|\\.exe)?$"
             ),
@@ -211,10 +221,10 @@ fn expand_toml_package(value: TomlPackage) -> anyhow::Result<Vec<Package>> {
     let repository = Repository::try_from(value.repository.as_str())?;
 
     if let Some(sub_packages) = value.packages {
-        if value.name.is_some() || value.release_prefix.is_some() {
+        if value.name.is_some() || value.release_prefix.is_some() || value.tag_prefix.is_some() {
             anyhow::bail!(
-                "Repository \"{}\": top-level \"name\" and \"release-prefix\" \
-                 cannot be combined with a \"packages\" list",
+                "Repository \"{}\": top-level \"name\", \"release-prefix\", \
+                 and \"tag-prefix\" cannot be combined with a \"packages\" list",
                 value.repository,
             );
         }
@@ -241,7 +251,9 @@ fn expand_toml_package(value: TomlPackage) -> anyhow::Result<Vec<Package>> {
                     name,
                     repository: repository.clone(),
                     release_prefix: sp.release_prefix,
+                    tag_prefix: sp.tag_prefix,
                     platform_pattern: resolve_platforms(sp.platforms),
+                    expose: sp.expose.unwrap_or_default(),
                 })
             })
             .collect()
@@ -251,7 +263,9 @@ fn expand_toml_package(value: TomlPackage) -> anyhow::Result<Vec<Package>> {
             name,
             repository,
             release_prefix: value.release_prefix,
+            tag_prefix: value.tag_prefix,
             platform_pattern: resolve_platforms(value.platforms),
+            expose: value.expose.unwrap_or_default(),
         }])
     }
 }
@@ -398,10 +412,12 @@ pub mod tests {
         let toml = TomlPackage {
             name: None,
             release_prefix: rp,
+            tag_prefix: None,
             repository: "foo/bar".to_string(),
             platforms: None,
             deprecated: false,
             packages: None,
+            expose: None,
         };
         let mut packages = expand_toml_package(toml).unwrap();
         packages.remove(0).platform_pattern().unwrap()
@@ -423,18 +439,22 @@ pub mod tests {
             TomlPackage {
                 name: None,
                 release_prefix: None,
+                tag_prefix: None,
                 repository: "alice/foo".to_string(),
                 platforms: None,
                 deprecated: false,
                 packages: None,
+                expose: None,
             },
             TomlPackage {
                 name: None,
                 release_prefix: None,
+                tag_prefix: None,
                 repository: "bob/foo".to_string(),
                 platforms: None,
                 deprecated: false,
                 packages: None,
+                expose: None,
             },
         ]);
         let err = Config::try_from(config).unwrap_err();
@@ -450,18 +470,22 @@ pub mod tests {
             TomlPackage {
                 name: Some("Foo".to_string()),
                 release_prefix: None,
+                tag_prefix: None,
                 repository: "alice/something".to_string(),
                 platforms: None,
                 deprecated: false,
                 packages: None,
+                expose: None,
             },
             TomlPackage {
                 name: Some("foo".to_string()),
                 release_prefix: None,
+                tag_prefix: None,
                 repository: "bob/other".to_string(),
                 platforms: None,
                 deprecated: false,
                 packages: None,
+                expose: None,
             },
         ]);
         let err = Config::try_from(config).unwrap_err();
@@ -477,18 +501,22 @@ pub mod tests {
             TomlPackage {
                 name: None,
                 release_prefix: None,
+                tag_prefix: None,
                 repository: "alice/foo".to_string(),
                 platforms: None,
                 deprecated: false,
                 packages: None,
+                expose: None,
             },
             TomlPackage {
                 name: Some("foo".to_string()),
                 release_prefix: None,
+                tag_prefix: None,
                 repository: "bob/bar".to_string(),
                 platforms: None,
                 deprecated: false,
                 packages: None,
+                expose: None,
             },
         ]);
         let err = Config::try_from(config).unwrap_err();
@@ -504,18 +532,22 @@ pub mod tests {
             TomlPackage {
                 name: None,
                 release_prefix: None,
+                tag_prefix: None,
                 repository: "alice/foo".to_string(),
                 platforms: None,
                 deprecated: false,
                 packages: None,
+                expose: None,
             },
             TomlPackage {
                 name: None,
                 release_prefix: None,
+                tag_prefix: None,
                 repository: "bob/bar".to_string(),
                 platforms: None,
                 deprecated: false,
                 packages: None,
+                expose: None,
             },
         ]);
         Config::try_from(config).unwrap();
@@ -527,18 +559,22 @@ pub mod tests {
             TomlPackage {
                 name: None,
                 release_prefix: None,
+                tag_prefix: None,
                 repository: "alice/foo".to_string(),
                 platforms: None,
                 deprecated: true,
                 packages: None,
+                expose: None,
             },
             TomlPackage {
                 name: None,
                 release_prefix: None,
+                tag_prefix: None,
                 repository: "bob/foo".to_string(),
                 platforms: None,
                 deprecated: false,
                 packages: None,
+                expose: None,
             },
         ]);
         let cfg = Config::try_from(config).unwrap();
@@ -552,18 +588,22 @@ pub mod tests {
             TomlPackage {
                 name: None,
                 release_prefix: None,
+                tag_prefix: None,
                 repository: "alice/foo".to_string(),
                 platforms: None,
                 deprecated: true,
                 packages: None,
+                expose: None,
             },
             TomlPackage {
                 name: None,
                 release_prefix: None,
+                tag_prefix: None,
                 repository: "bob/foo".to_string(),
                 platforms: None,
                 deprecated: true,
                 packages: None,
+                expose: None,
             },
         ]);
         let cfg = Config::try_from(config).unwrap();
@@ -575,6 +615,7 @@ pub mod tests {
         let config = toml_config(vec![TomlPackage {
             name: None,
             release_prefix: None,
+            tag_prefix: None,
             repository: "oxc-project/oxc".to_string(),
             platforms: None,
             deprecated: false,
@@ -582,14 +623,20 @@ pub mod tests {
                 TomlSubPackage {
                     name: "oxfmt".to_string(),
                     release_prefix: Some("oxfmt".to_string()),
+                    tag_prefix: None,
                     platforms: None,
+                    expose: None,
                 },
                 TomlSubPackage {
                     name: "oxlint".to_string(),
                     release_prefix: Some("oxlint".to_string()),
+                    tag_prefix: None,
                     platforms: None,
+                    expose: None,
                 },
             ]),
+
+            expose: None,
         }]);
         let cfg = Config::try_from(config).unwrap();
         assert_eq!(cfg.packages.len(), 2);
@@ -604,14 +651,19 @@ pub mod tests {
         let config = toml_config(vec![TomlPackage {
             name: Some("bad".to_string()),
             release_prefix: None,
+            tag_prefix: None,
             repository: "owner/repo".to_string(),
             platforms: None,
             deprecated: false,
             packages: Some(vec![TomlSubPackage {
                 name: "pkg".to_string(),
                 release_prefix: None,
+                tag_prefix: None,
                 platforms: None,
+                expose: None,
             }]),
+
+            expose: None,
         }]);
         let err = Config::try_from(config).unwrap_err();
         assert!(
@@ -626,22 +678,29 @@ pub mod tests {
             TomlPackage {
                 name: None,
                 release_prefix: None,
+                tag_prefix: None,
                 repository: "alice/foo".to_string(),
                 platforms: None,
                 deprecated: false,
                 packages: None,
+                expose: None,
             },
             TomlPackage {
                 name: None,
                 release_prefix: None,
+                tag_prefix: None,
                 repository: "oxc-project/oxc".to_string(),
                 platforms: None,
                 deprecated: false,
                 packages: Some(vec![TomlSubPackage {
                     name: "foo".to_string(),
                     release_prefix: None,
+                    tag_prefix: None,
                     platforms: None,
+                    expose: None,
                 }]),
+
+                expose: None,
             },
         ]);
         let err = Config::try_from(config).unwrap_err();
@@ -649,5 +708,41 @@ pub mod tests {
             err.to_string().contains("Duplicate package name"),
             "unexpected error: {err}"
         );
+    }
+
+    #[test]
+    fn test_expose_dirs_parses() {
+        let config = toml_config(vec![TomlPackage {
+            name: Some("graalvm".to_string()),
+            release_prefix: None,
+            tag_prefix: None,
+            repository: "graalvm/graalvm-ce-builds".to_string(),
+            platforms: None,
+            deprecated: false,
+            packages: None,
+            expose: Some(vec!["conf".to_string(), "jmods".to_string()]),
+        }]);
+        let cfg = Config::try_from(config).unwrap();
+        assert_eq!(cfg.packages.len(), 1);
+        assert_eq!(
+            cfg.packages[0].expose,
+            vec!["conf".to_string(), "jmods".to_string()]
+        );
+    }
+
+    #[test]
+    fn test_expose_standalone_accepted() {
+        let config = toml_config(vec![TomlPackage {
+            name: Some("mypkg".to_string()),
+            release_prefix: None,
+            tag_prefix: None,
+            repository: "owner/repo".to_string(),
+            platforms: None,
+            deprecated: false,
+            packages: None,
+            expose: Some(vec!["conf".to_string()]),
+        }]);
+        let cfg = Config::try_from(config).unwrap();
+        assert_eq!(cfg.packages[0].expose, vec!["conf".to_string()]);
     }
 }

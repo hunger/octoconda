@@ -2,7 +2,7 @@
 authors = ["Tobias Hunger <tobias.hunger@gmail.com>"]
 channels = ["conda-forge"]
 name = "octoconda"
-platforms = ["linux-64"]
+platforms = ["linux-64", "linux-aarch64"]
 version = "0.1.0"
 
 [tasks]
@@ -10,9 +10,20 @@ add-repo = { cmd = "python scripts/add_repo.py" }
 rebalance-repos = { cmd = "python scripts/rebalance_repos.py" }
 build-one = { cmd = "bash scripts/build_one.sh" }
 
+update-cargo = { cmd = "cargo update" }
+update-pixi = { cmd = "pixi update" }
+update-actions = { cmd = "pinact run --update" }
+update = { depends-on = [
+    "update-cargo",
+    "update-pixi",
+    "update-actions",
+], cmd = "cargo build && cargo clippy --all-targets --all-features -- -D warnings && cargo test && actionlint .github/workflows/*.yaml && zizmor .github/workflows/" }
+
 [dependencies]
+7zip = "*"
 actionlint = "*"
 zizmor = "*"
+pinact = "*"
 rattler-build = "*"
 python = ">=3.12"
 requests = "*"

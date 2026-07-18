@@ -24,19 +24,28 @@ concurrency:
 permissions:
   contents: read # read the contents of the repository
   repository-projects: read # read release details
-  id-token: write # trusted publishing
+  id-token: write # trusted publishing # zizmor: ignore[excessive-permissions]
 
 jobs:
   build:
+    name: Build octoconda
     runs-on: ubuntu-latest
     steps:
+      - name: Apply OS updates
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo apt-mark hold firefox
+          sudo apt-get update
+          sudo apt-get upgrade -y
+
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
 
       - name: Install Rust
-        uses: actions-rust-lang/setup-rust-toolchain@v1
+        uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
         with:
           toolchain: stable
 
@@ -44,12 +53,13 @@ jobs:
         run: cargo build --release
 
       - name: Upload binary
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: octoconda-binary
           path: target/release/octoconda
 
   sync-packages:
+    name: Sync packages
     needs: build
     runs-on: ubuntu-latest
     strategy:
@@ -102,18 +112,29 @@ jobs:
       FILTER: ${{ github.event.inputs.filter || matrix.filter }}
 
     steps:
+      - name: Apply OS updates
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo apt-mark hold firefox
+          sudo apt-get update
+          sudo apt-get upgrade -y
+
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
 
       - name: Download octoconda binary
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: octoconda-binary
 
       - name: Make binary executable
         run: chmod +x octoconda
+
+      - name: Install 7zip-standalone
+        run: sudo apt-get install -y 7zip-standalone && which 7zz
 
       - name: Install rattler-build (binary)
         run: |
@@ -124,7 +145,7 @@ jobs:
         shell: bash
 
       - name: Restore state cache
-        uses: actions/cache@v5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: .octoconda-state.json
           key: octoconda-state-${{ matrix.name }}
@@ -132,14 +153,14 @@ jobs:
       - name: Run octoconda
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./octoconda "--work-dir=${{ env.WORK_DIR }}" "--config-file=${{ env.CONFIG_FILE }}" "--filter=${{ env.FILTER }}" "--state-file=.octoconda-state-${{ matrix.name }}.json"
+        run: ./octoconda "--work-dir=${WORK_DIR}" "--config-file=${CONFIG_FILE}" "--filter=${FILTER}" "--state-file=.octoconda-state-${{ matrix.name }}.json"
 
       - name: Build and upload packages
         run: |
           chmod +x "${GITHUB_WORKSPACE}/scripts/package_and_upload_all.sh" \
             && (\
               cd "${GITHUB_WORKSPACE}" \
-              && cd "${{ env.WORK_DIR }}" \
+              && cd "${WORK_DIR}" \
               && PATH="${GITHUB_WORKSPACE}/bin:${PATH}" "${GITHUB_WORKSPACE}/scripts/package_and_upload_all.sh" \
             )
 
@@ -151,8 +172,8 @@ jobs:
             echo; \
           } >> "$GITHUB_STEP_SUMMARY"
 
-          if test -f "${{ env.WORK_DIR }}/report.txt"; then
-            cat "${{ env.WORK_DIR }}/report.txt" >> "$GITHUB_STEP_SUMMARY"
+          if test -f "${WORK_DIR}/report.txt"; then
+            cat "${WORK_DIR}/report.txt" >> "$GITHUB_STEP_SUMMARY"
           else
             echo "*no report available*" >> "$GITHUB_STEP_SUMMARY"
           fi
@@ -162,8 +183,8 @@ jobs:
             echo; \
           } >> "$GITHUB_STEP_SUMMARY"
 
-          if test -f "${{ env.WORK_DIR }}/status.txt"; then
-            cat "${{ env.WORK_DIR }}/status.txt" >> "$GITHUB_STEP_SUMMARY"
+          if test -f "${WORK_DIR}/status.txt"; then
+            cat "${WORK_DIR}/status.txt" >> "$GITHUB_STEP_SUMMARY"
           else
             echo "*no status available*" >> "$GITHUB_STEP_SUMMARY"
           fi

@@ -48,6 +48,12 @@ fn report_status(
 }
 
 fn main() -> Result<(), anyhow::Error> {
+    // rustls 0.23 refuses to auto-pick when both `ring` and `aws-lc-rs` are
+    // in the dep tree (octocrab pulls `ring`, rattler pulls `aws-lc-rs`).
+    rustls::crypto::aws_lc_rs::default_provider()
+        .install_default()
+        .map_err(|_| anyhow::anyhow!("failed to install rustls crypto provider"))?;
+
     let cli = cli::parse_cli();
 
     let config = config_file::parse_config(&cli.config_file)?;
@@ -186,6 +192,7 @@ fn main() -> Result<(), anyhow::Error> {
                             let releases = github::filter_releases_for_package(
                                 &raw_releases,
                                 &package.name,
+                                package.tag_prefix.as_deref(),
                                 max_releases,
                             );
 

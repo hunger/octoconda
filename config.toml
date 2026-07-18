@@ -365,6 +365,9 @@ repository = "astral-sh/ty"
 repository = "astral-sh/uv"
 
 [[packages]]
+repository = "Ataraxy-Labs/sem"
+
+[[packages]]
 repository = "atc0005/send2teams"
 
 [[packages]]
@@ -690,6 +693,9 @@ repository = "bronze1man/yaml2json"
 name = "bronze1man_yaml2json"
 
 [[packages]]
+repository = "bruits/sampo"
+
+[[packages]]
 repository = "brumhard/krewfile"
 
 [[packages]]
@@ -777,6 +783,9 @@ deprecated = true
 
 [[packages]]
 repository = "caarlos0/svu"
+
+[[packages]]
+repository = "cackle-rs/cackle"
 
 [[packages]]
 repository = "caddyserver/caddy"
@@ -1071,6 +1080,10 @@ deprecated = true
 repository = "Code-Hex/gqldoc"
 # INACTIVE: Repo is in "public archive" state
 deprecated = true
+
+[[packages]]
+repository = "codecov/codecov-cli"
+platforms = { osx-64 = "macos$", osx-arm64 = "macos$", win-64 = "windows\\.exe$" }
 
 [[packages]]
 repository = "coder/coder"
@@ -1920,7 +1933,13 @@ deprecated = true
 repository = "git-lfs/git-lfs"
 
 [[packages]]
+repository = "git-pkgs/brief"
+
+[[packages]]
 repository = "git-pkgs/forge"
+
+[[packages]]
+repository = "git-pkgs/git-pkgs"
 
 [[packages]]
 repository = "git-town/git-town"
@@ -2133,6 +2152,13 @@ name = "gotify_cli"
 repository = "gptscript-ai/gptscript"
 
 [[packages]]
+repository = "graalvm/graalvm-ce-builds"
+name = "graalvm"
+release-prefix = "graalvm-community-jdk"
+tag-prefix = "jdk-"
+expose = ["conf", "jmods"]
+
+[[packages]]
 repository = "gradle/gradle-distributions"
 
 [[packages]]
@@ -2217,6 +2243,9 @@ repository = "hadolint/hadolint"
 
 [[packages]]
 repository = "hairyhenderson/gomplate"
+
+[[packages]]
+repository = "HalFrgrd/flyline"
 
 [[packages]]
 repository = "handlename/awsc"
@@ -2407,6 +2436,11 @@ repository = "in-toto/witness"
 repository = "incu6us/goimports-reviser"
 
 [[packages]]
+repository = "Infisical/cli"
+name = "infisical"
+release-prefix = "cli"
+
+[[packages]]
 repository = "infracost/infracost"
 
 [[packages]]
@@ -2556,6 +2590,9 @@ repository = "jbangdev/jbang"
 
 [[packages]]
 repository = "jckuester/terradozer"
+
+[[packages]]
+repository = "jdx/fnox"
 
 [[packages]]
 repository = "jdx/hk"
@@ -3105,6 +3142,9 @@ deprecated = true
 
 [[packages]]
 repository = "kudobuilder/kuttl"
+
+[[packages]]
+repository = "kunobi-ninja/kache"
 
 [[packages]]
 repository = "kurehajime/dajarep"
@@ -3739,6 +3779,12 @@ repository = "mvisonneau/vac"
 repository = "Myriad-Dreamin/tinymist"
 
 [[packages]]
+repository = "n0-computer/dumbpipe"
+
+[[packages]]
+repository = "n0-computer/sendme"
+
+[[packages]]
 repository = "nabeken/go-github-apps"
 
 [[packages]]
@@ -3806,6 +3852,9 @@ repository = "NetApp/trident"
 
 [[packages]]
 repository = "Netflix/bpftop"
+
+[[packages]]
+repository = "neurocyte/flow"
 
 [[packages]]
 repository = "newrelic/newrelic-cli"
@@ -4411,6 +4460,9 @@ repository = "raskell-io/hx"
 repository = "raviqqe/muffet"
 
 [[packages]]
+repository = "razvandimescu/numa"
+
+[[packages]]
 repository = "rclone/rclone"
 
 [[packages]]
@@ -4616,10 +4668,10 @@ repository = "sachaos/toggl"
 repository = "sachaos/viddy"
 
 [[packages]]
-repository = "SagerNet/sing-box"
+repository = "sacloud/usacloud"
 
 [[packages]]
-repository = "sacloud/usacloud"
+repository = "SagerNet/sing-box"
 
 [[packages]]
 repository = "sagiegurari/cargo-make"
@@ -4842,6 +4894,10 @@ repository = "sigstore/rekor"
 [[packages]]
 repository = "siketyan/ghr"
 name = "siketyan_ghr"
+
+[[packages]]
+repository = "SilasMarvin/lsp-ai"
+platforms = { linux-64 = "^lsp-ai-x86_64-unknown-linux-gnu" }
 
 [[packages]]
 repository = "simeji/jid"

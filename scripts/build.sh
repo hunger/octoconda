@@ -25,30 +25,12 @@ while [ "$STEP" -lt "$MAX_STEPS" ]; do
     FILE_TYPE=$(file -b "$SRC_FILE")
     echo "Step ${STEP}: ${FILE_TYPE}"
     case "$FILE_TYPE" in
-        *Zip\ archive* | *zip\ archive*)
-            ( cd "$PREFIX" && unzip -n "$SRC_FILE" )
-            # Delete extra stuff Macs apparently stuffed into zip files:
-            rm -rf "$PREFIX/__MACOSX" || true
+        *Zip\ archive* | *zip\ archive* | *tar\ archive* | *7-zip\ archive*)
+            ( cd "$PREFIX" && 7zz x -y -snld -xr!__MACOSX "$SRC_FILE" )
             break
             ;;
-        *tar\ archive*)
-            ( cd "$PREFIX" && tar -xf "$SRC_FILE" )
-            break
-            ;;
-        *gzip\ compressed*)
-            gzip -dc < "$SRC_FILE" > "${SRC_FILE}.tmp"
-            mv "${SRC_FILE}.tmp" "$SRC_FILE"
-            ;;
-        *XZ\ compressed*)
-            xz -dc < "$SRC_FILE" > "${SRC_FILE}.tmp"
-            mv "${SRC_FILE}.tmp" "$SRC_FILE"
-            ;;
-        *Zstandard\ compressed* | *zstd\ compressed*)
-            zstd -dc < "$SRC_FILE" > "${SRC_FILE}.tmp"
-            mv "${SRC_FILE}.tmp" "$SRC_FILE"
-            ;;
-        *bzip2\ compressed*)
-            bzip2 -dc < "$SRC_FILE" > "${SRC_FILE}.tmp"
+        *gzip\ compressed* | *XZ\ compressed* | *Zstandard\ compressed* | *zstd\ compressed* | *bzip2\ compressed*)
+            7zz e -so -snld "$SRC_FILE" > "${SRC_FILE}.tmp"
             mv "${SRC_FILE}.tmp" "$SRC_FILE"
             ;;
         *PE32+* | *PE32*)
@@ -80,6 +62,20 @@ shopt -s dotglob
 while [ "$(find . -mindepth 1 -maxdepth 1 -type d -not -name conda-meta | wc -l)" -eq 1 ]; do
     if test -d "bin"; then
         echo "Found only a bin subdir, this looks good"
+        break
+    elif [ -d "Contents/Home" ]; then
+        # macOS .app bundle: extract Contents/Home directly
+        TMPNAME=".strip-$$"
+        mv "Contents/Home" "${TMPNAME}"
+        mv "${TMPNAME}"/* . || true
+        rmdir "${TMPNAME}"
+        break
+    elif [ -d "Contents/MacOS" ]; then
+        # macOS .app bundle (no Home): extract Contents/MacOS directly
+        TMPNAME=".strip-$$"
+        mv "Contents/MacOS" "${TMPNAME}"
+        mv "${TMPNAME}"/* . || true
+        rmdir "${TMPNAME}"
         break
     else
         # move everything up a level, using a temp name to avoid
@@ -147,7 +143,11 @@ for f in *; do
         conda-meta|bin|etc|include|lib|share|ssl|extras)
             ;;
         *)
-            mv "${f}" extras
+            if [ -n "${OCTOCONDA_EXPOSE:-}" ] && echo "|${OCTOCONDA_EXPOSE}|" | grep -q "|${f}|"; then
+                :
+            else
+                mv "${f}" extras
+            fi
         esac
     fi
 done
