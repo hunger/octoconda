@@ -5577,6 +5577,12 @@ repository = "thomasschafer/scooter"
 repository = "thought-machine/please"
 
 [[packages]]
+repository = "tigrisdata/storage"
+name = "tigris-cli"
+release-prefix = "tigris"
+tag-prefix = "@tigrisdata/cli@"
+
+[[packages]]
 repository = "tilt-dev/ctlptl"
 
 [[packages]]
