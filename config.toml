@@ -4015,6 +4015,10 @@ repository = "open-policy-agent/regal"
 repository = "openai/codex"
 
 [[packages]]
+repository = "openbao/openbao"
+release-prefix = "openbao_[0-9]+"
+
+[[packages]]
 repository = "openclarity/kubeclarity"
 # INACTIVE: Repo is in "public archive" state
 deprecated = true
