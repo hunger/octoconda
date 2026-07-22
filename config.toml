@@ -788,6 +788,9 @@ repository = "caarlos0/svu"
 repository = "cackle-rs/cackle"
 
 [[packages]]
+repository = "cachix/secretspec"
+
+[[packages]]
 repository = "caddyserver/caddy"
 
 [[packages]]
