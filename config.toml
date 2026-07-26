@@ -2403,6 +2403,9 @@ repository = "ibotta/sopstool"
 repository = "idursun/jjui"
 
 [[packages]]
+repository = "iepathos/debtmap"
+
+[[packages]]
 repository = "ifd3f/caligula"
 
 [[packages]]
