@@ -5908,6 +5908,11 @@ repository = "x-motemen/gobump"
 repository = "XAMPPRocky/tokei"
 
 [[packages]]
+repository = "xataio/cli"
+name = "xata-cli"
+release-prefix = "xata"
+
+[[packages]]
 repository = "xataio/pgroll"
 
 [[packages]]
