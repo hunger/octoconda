@@ -2158,7 +2158,7 @@ repository = "gptscript-ai/gptscript"
 repository = "graalvm/graalvm-ce-builds"
 name = "graalvm"
 release-prefix = "graalvm-community-jdk"
-tag-prefix = "jdk-"
+tag-prefix = "graal-"
 expose = ["conf", "jmods"]
 
 [[packages]]
