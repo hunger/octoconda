@@ -785,10 +785,10 @@ deprecated = true
 repository = "caarlos0/svu"
 
 [[packages]]
-repository = "cackle-rs/cackle"
+repository = "cachix/secretspec"
 
 [[packages]]
-repository = "cachix/secretspec"
+repository = "cackle-rs/cackle"
 
 [[packages]]
 repository = "caddyserver/caddy"
@@ -5703,6 +5703,10 @@ repository = "turbot/steampipe"
 
 [[packages]]
 repository = "turbot/tailpipe"
+
+[[packages]]
+repository = "TurtleTech-ehf/snapper"
+name = "snapper-fmt"
 
 [[packages]]
 repository = "twpayne/chezmoi"
