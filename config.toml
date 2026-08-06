@@ -786,6 +786,7 @@ repository = "caarlos0/svu"
 
 [[packages]]
 repository = "cachix/secretspec"
+platforms = { linux-64 = "x86_64-unknown-linux-gnu\\.tar\\.xz$" }
 
 [[packages]]
 repository = "cackle-rs/cackle"
