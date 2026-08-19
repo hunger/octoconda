@@ -3828,6 +3828,9 @@ repository = "NathanBaulch/rainbow-roads"
 repository = "nats-io/natscli"
 
 [[packages]]
+repository = "nebari-dev/nebari-infrastructure-core"
+
+[[packages]]
 repository = "ned1313/terrahash"
 
 [[packages]]
