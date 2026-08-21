@@ -4261,6 +4261,9 @@ repository = "pkgxdev/pkgx"
 repository = "pkolaczk/fclones"
 
 [[packages]]
+repository = "PlakarKorp/plakar"
+
+[[packages]]
 repository = "planetscale/cli"
 name= "planetscale_cli"
 
