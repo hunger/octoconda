@@ -3026,6 +3026,9 @@ repository = "knqyf263/sou"
 repository = "knqyf263/utern"
 
 [[packages]]
+repository = "knurling-rs/flip-link"
+
+[[packages]]
 repository = "ko-build/ko"
 
 [[packages]]
