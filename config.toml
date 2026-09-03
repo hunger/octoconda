@@ -4581,6 +4581,9 @@ repository = "reproducible-containers/diffoci"
 repository = "reproio/terraform-j2md"
 
 [[packages]]
+repository = "rerun-io/rerun"
+
+[[packages]]
 repository = "rest-sh/restish"
 
 [[packages]]
