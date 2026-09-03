@@ -6066,6 +6066,7 @@ repository = "yaml/yamlscript"
 
 [[packages]]
 repository = "yaml/yamlstar"
+release-prefix = "yamlstar"
 
 [[packages]]
 repository = "yannh/kubeconform"
