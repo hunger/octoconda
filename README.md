@@ -41,11 +41,66 @@ pixi run add-repo -c path/to/config.toml https://example.com/page
 A `GITHUB_TOKEN` or `GH_TOKEN` environment variable (or `gh auth login`) is
 recommended to avoid GitHub API rate limits.
 
+By default a candidate only has to yield a recipe. Pass `--full-test` to also
+build the latest release of each candidate with `rattler-build` for every
+platform it has a recipe for, and to validate the resulting `.conda` files
+with `scripts/validate_conda_package.py`. The validator works on the package
+bytes alone: it checks the container and `info/` metadata, cross-checks
+`info/paths.json` against the payload (names, sizes, SHA-256), verifies the
+layout `build.sh` is meant to produce (programs in `bin/`, no loose files,
+no macOS junk, executable bits, sane symlinks), and parses every ELF, Mach-O
+and PE image to confirm it targets the package's platform. A candidate with
+a failing platform is reported and not added.
+
+```sh
+pixi run add-repo --full-test https://github.com/owner/repo
+```
+
+The validator can also be run on its own against any `.conda` file:
+
+```sh
+pixi run -- python scripts/validate_conda_package.py test-output/packages/linux-64/*.conda
+```
+
 The check is tag-prefix agnostic: for each candidate, both the default tag
 parsing and a `<repo>_` prefix variant are tried, so repos that tag their
 releases as `<repo>_vX.Y.Z` (e.g. `git-cliff_v2.16.0`) are detected
 automatically. Repos whose tags use some other custom prefix still need an
 explicit `tag-prefix` in `config.toml`.
+
+## Finding Popular Repositories
+
+Use the `top-repos` task to find the most-starred GitHub repositories whose
+releases Octoconda can package and that are not yet in `config.toml`.
+Repositories are scanned in descending star order; a cheap GitHub search
+prefilter drops archived repos, forks and repos without a stable release
+that has assets, and Octoconda itself decides the rest by generating recipes
+for the candidates in batches. Output is one repo URL per line, so it can
+be fed into `add-repo` or written to `config.toml` directly with `--add`.
+
+```sh
+# The 500 most-starred repositories Octoconda can handle (the default count)
+pixi run top-repos
+
+# The 50 most-starred Rust projects, with star counts and language
+pixi run top-repos --count 50 --language rust --tsv
+
+# Go or Zig command-line tools; --query takes any GitHub search qualifier
+pixi run top-repos --language go --language zig --query "topic:cli"
+
+# Only count repositories whose packages build and validate on every platform
+pixi run top-repos --count 50 --full-test
+
+# Add the 20 most-starred candidates to config.toml (implies --full-test)
+pixi run top-repos --count 20 --add
+```
+
+`--full-test` runs the same build-and-validate step as `add-repo --full-test`
+on every candidate, so a repository only counts if its latest release builds
+and validates on all platforms Octoconda generated a recipe for. `--add`
+always does this before touching `config.toml`. A GitHub token is required
+(see above); the scan stops at `--min-stars` (default 50) if fewer
+repositories than requested were found.
 
 ## Testing a Single Repository
 

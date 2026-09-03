@@ -21,7 +21,10 @@ documents the config-file schema — don't duplicate it here.
 | Tests | `cargo test` |
 | Single test | `cargo test <name>` (e.g. `cargo test test_multi_package_entry_expands`) |
 | Generate + build one repo's recipes locally | `pixi run build-one owner/repo` (outputs under `test-output/`, no upload) |
-| Discover new repos and append to `config.toml` | `pixi run add-repo <url>` (`--dry-run` to preview) |
+| Discover new repos and append to `config.toml` | `pixi run add-repo <url>` (`--dry-run` to preview, `--full-test` to build and validate every platform first) |
+| Find the most-starred repos octoconda can handle | `pixi run top-repos --count N [--language rust] [--query "topic:cli"] [--full-test] [--add]` (`--add` implies `--full-test`) |
+| Validate a built `.conda` file | `pixi run -- python scripts/validate_conda_package.py <file>.conda` |
+| Script self-tests | `pixi run test-add-repo`, `pixi run test-top-repos`, `pixi run test-validate-package` |
 | Rebalance CI shard filter regexes | `pixi run rebalance-repos` |
 | Workflow lint | `pixi run -- actionlint .github/workflows/` and `pixi run -- zizmor .github/workflows/` |
 
@@ -72,5 +75,7 @@ discovers them with `find ... -name recipe.yaml` and runs
 - GPL-3.0-or-later SPDX headers at the top of every Rust source file.
 - `anyhow` for error propagation throughout (no `thiserror`).
 - Tests live alongside the code as `#[cfg(test)] mod tests` — see `config_file.rs` for the pattern.
-- Python scripts under `scripts/` target Python ≥3.12 and use `requests` + `beautifulsoup4` (declared in `pixi.toml`, not a separate `requirements.txt`).
+- Python scripts under `scripts/` target Python ≥3.14 (`compression.zstd` is needed to read `.conda` files) and use `requests` + `beautifulsoup4` (declared in `pixi.toml`, not a separate `requirements.txt`).
+- Discovery scripts (`add_repo.py`, `mastodon_repos.py`, `top_repos.py`) never match asset names themselves; they call `check_with_octoconda` in `add_repo.py`, which runs the octoconda binary on a temporary config.
+- `scripts/validate_conda_package.py` is the byte-level `.conda` validator used by `add_repo.py --full-test`; extend `PLATFORM_TARGETS` there when a platform is added to `config_file.rs::default_platforms`.
 - When changing the built-in platform patterns, update `config_file.rs::default_platforms` and add a test using `tests::get_patterns_for`.

@@ -8,7 +8,10 @@ version = "0.1.0"
 [tasks]
 add-repo = { cmd = "python scripts/add_repo.py" }
 test-add-repo = { cmd = "python scripts/add_repo.py --self-test" }
+test-validate-package = { cmd = "python scripts/validate_conda_package.py --self-test" }
 mastodon-repos = { cmd = "python scripts/mastodon_repos.py" }
+top-repos = { cmd = "python scripts/top_repos.py" }
+test-top-repos = { cmd = "python scripts/top_repos.py --self-test" }
 rebalance-repos = { cmd = "python scripts/rebalance_repos.py" }
 build-one = { cmd = "bash scripts/build_one.sh" }
 
@@ -27,7 +30,7 @@ actionlint = "*"
 zizmor = "*"
 pinact = "*"
 rattler-build = "*"
-python = ">=3.12"
+python = ">=3.14"
 requests = "*"
 beautifulsoup4 = "*"
 rust = "*"

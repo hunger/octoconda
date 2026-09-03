@@ -14,6 +14,9 @@ import requests
 import tomllib
 from bs4 import BeautifulSoup
 
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+from validate_conda_package import validate_conda_package
+
 # Matches github.com/<owner>/<repo>, swallowing any deeper path (e.g.
 # /releases/tag/v1.2.3, /blob/main). The trailing group is kept for the
 # ".git" suffix check only; it is never used as part of the repo name.
@@ -135,13 +138,17 @@ def conda_channel_from_config(config_path: str) -> str:
 
 
 def check_with_octoconda(
-    slugs: list[str], conda_channel: str,
+    slugs: list[str], conda_channel: str, full_test: bool = False,
 ) -> tuple[set[str], dict[str, str]]:
     """Run octoconda against the candidate slugs and return those that produce
     at least one recipe.
 
+    With `full_test`, every recipe generated for a passing slug is also built
+    with rattler-build and the resulting package is validated (see
+    `full_test_slugs`); slugs with a failing platform are dropped.
+
     Returns (passing_slugs, skip_reasons). `skip_reasons` maps each failing
-    slug to a one-line reason from octoconda's report.
+    slug to a one-line reason from octoconda's report or the full test.
     """
     if not slugs:
         return set(), {}
@@ -172,14 +179,13 @@ def check_with_octoconda(
         if status_path.is_file():
             skip_reasons = parse_skip_reasons(status_path.read_text(), slugs)
 
-        # A recipe lands at <work-dir>/<platform>/<package>-<version>-<build>/recipe.yaml.
-        # Treat a slug as passing if any platform produced a recipe for its
-        # default package name (lowercased repo basename).
-        passing: set[str] = set()
-        for slug in slugs:
-            pkg_name = slug.split("/", 1)[1].lower()
-            if any(work_dir.glob(f"*/{pkg_name}-*/recipe.yaml")):
-                passing.add(slug)
+        passing = {slug for slug in slugs if recipe_generated_for(work_dir, slug)}
+
+        if full_test and passing:
+            failures = full_test_slugs(work_dir, passing)
+            for slug, reason in failures.items():
+                passing.discard(slug)
+                skip_reasons[slug] = reason
         return passing, skip_reasons
     finally:
         try:
@@ -187,6 +193,150 @@ def check_with_octoconda(
         except FileNotFoundError:
             pass
         shutil.rmtree(work_dir, ignore_errors=True)
+
+
+RECIPE_NAME_RE = re.compile(r'^  name: "?([^"\n]+)"?$', re.MULTILINE)
+RECIPE_VERSION_RE = re.compile(r'^  version: "?([^"\n]+)"?$', re.MULTILINE)
+RECIPE_REPOSITORY_RE = re.compile(r'^  upstream-repository: "([^"]+)"$', re.MULTILINE)
+
+RATTLER_BUILD_TIMEOUT = 900
+
+
+def recipe_metadata(recipe_path: pathlib.Path) -> tuple[str, str, str] | None:
+    """Return (package name, version, owner/repo) for a generated recipe.
+
+    The recipe layout comes from src/package_generation.rs. Returns None if
+    any of the three fields cannot be found.
+    """
+    text = recipe_path.read_text()
+    name = RECIPE_NAME_RE.search(text)
+    version = RECIPE_VERSION_RE.search(text)
+    repository = RECIPE_REPOSITORY_RE.search(text)
+    if not (name and version and repository):
+        return None
+    return name.group(1), version.group(1), repository.group(1)
+
+
+def build_recipe(recipe_dir: pathlib.Path, platform: str, output_dir: pathlib.Path) -> str | None:
+    """Build one generated recipe with rattler-build for `platform`.
+
+    Returns None on success, otherwise a one-line failure reason. The build
+    log is written next to the package output for inspection.
+    """
+    if not shutil.which("rattler-build"):
+        return "rattler-build is not on PATH (run through `pixi run`)"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    # For Windows targets rattler-build's default strict isolation replaces
+    # PATH with the system directories only, which hides the pixi-provided
+    # `7zz` that build.sh needs. Inheriting the host environment keeps the
+    # build identical otherwise.
+    cmd = [
+        "rattler-build", "build",
+        "--recipe", "recipe.yaml",
+        f"--target-platform={platform}",
+        f"--output-dir={output_dir}",
+        "--env-isolation", "none",
+    ]
+    try:
+        result = subprocess.run(
+            cmd, cwd=recipe_dir, capture_output=True, text=True,
+            timeout=RATTLER_BUILD_TIMEOUT, check=False,
+        )
+    except subprocess.TimeoutExpired:
+        return f"rattler-build timed out after {RATTLER_BUILD_TIMEOUT}s"
+    log_path = output_dir / "build.log"
+    log_path.write_text(result.stdout + result.stderr)
+    if result.returncode != 0:
+        print(f"    rattler-build failed ({platform}); log tail:", file=sys.stderr)
+        for line in (result.stdout + result.stderr).splitlines()[-15:]:
+            print(f"      {line}", file=sys.stderr)
+        return f"rattler-build exited with status {result.returncode}"
+    return None
+
+
+def full_test_recipe(
+    recipe_dir: pathlib.Path, platform: str, output_dir: pathlib.Path,
+) -> list[str]:
+    """Build one recipe and validate the package it produced.
+
+    Returns a list of problems; an empty list means the recipe passed.
+    """
+    meta = recipe_metadata(recipe_dir / "recipe.yaml")
+    if meta is None:
+        return ["cannot read package name/version from recipe.yaml"]
+    name, version, _repository = meta
+
+    failure = build_recipe(recipe_dir, platform, output_dir)
+    if failure:
+        return [failure]
+
+    packages = sorted(output_dir.glob(f"{platform}/*.conda"))
+    if len(packages) != 1:
+        return [f"expected exactly one .conda file in {output_dir / platform}, found {len(packages)}"]
+
+    report = validate_conda_package(
+        packages[0], expected_name=name, expected_version=version,
+        expected_platform=platform,
+    )
+    for warning in report.warnings:
+        print(f"    warning: {warning}", file=sys.stderr)
+    return report.errors
+
+
+def full_test_slugs(work_dir: pathlib.Path, slugs: set[str]) -> dict[str, str]:
+    """Build and validate every recipe octoconda generated for `slugs`.
+
+    Each recipe (one per platform and package variant) is built into
+    `<work_dir>/packages/<platform>/<recipe>` and its `.conda` output is
+    checked by `validate_conda_package`. Returns a map of failing slug to a
+    one-line reason; slugs without an entry passed on all their platforms.
+    """
+    by_slug: dict[str, list[tuple[pathlib.Path, str]]] = {slug: [] for slug in slugs}
+    slug_by_lower = {slug.lower(): slug for slug in slugs}
+    for recipe_path in sorted(work_dir.glob("*/*/recipe.yaml")):
+        meta = recipe_metadata(recipe_path)
+        if meta is None:
+            continue
+        slug = slug_by_lower.get(meta[2].lower())
+        if slug is not None:
+            by_slug[slug].append((recipe_path.parent, recipe_path.parent.parent.name))
+
+    packages_dir = work_dir / "packages"
+    failures: dict[str, str] = {}
+    for slug in sorted(slugs, key=str.lower):
+        recipes = by_slug[slug]
+        print(
+            f"  full test for {slug}: {len(recipes)} recipe(s) on "
+            f"{', '.join(sorted({p for _, p in recipes}))}",
+            file=sys.stderr,
+        )
+        problems: list[str] = []
+        for recipe_dir, platform in recipes:
+            output_dir = packages_dir / platform / recipe_dir.name
+            errors = full_test_recipe(recipe_dir, platform, output_dir)
+            status = "ok" if not errors else "FAILED"
+            print(f"    {platform} {recipe_dir.name}: {status}", file=sys.stderr)
+            for error in errors:
+                print(f"      error: {error}", file=sys.stderr)
+            problems += [f"{platform}: {error}" for error in errors]
+        if problems:
+            more = f" (+{len(problems) - 1} more)" if len(problems) > 1 else ""
+            failures[slug] = f"full test failed: {problems[0]}{more}"
+    return failures
+
+
+def recipe_generated_for(work_dir: pathlib.Path, slug: str) -> bool:
+    """True if octoconda wrote a recipe for either check variant of `slug`.
+
+    A recipe lands at <work-dir>/<platform>/<package>-<version>-<build>/recipe.yaml
+    where <package> is the lowercased repo basename (variant A) or that name
+    plus "-prefix" (variant B, see _write_check_config). The version always
+    starts with a digit, which keeps `cli` from matching a `cli-tool` recipe.
+    """
+    pkg_name = slug.split("/", 1)[1].lower()
+    return any(work_dir.glob(f"*/{pkg_name}-[0-9]*/recipe.yaml")) or any(
+        work_dir.glob(f"*/{pkg_name}-prefix-[0-9]*/recipe.yaml")
+    )
 
 
 _REPORT_SECTION_RE = re.compile(
@@ -349,6 +499,36 @@ def _test_bare_slug_input():
     assert not is_repo_url("about/login")
 
 
+def _test_recipe_generated_for_matches_only_the_slugs_own_recipes():
+    with tempfile.TemporaryDirectory() as tmp:
+        work_dir = pathlib.Path(tmp)
+        for recipe_dir in ("linux-64/cli-tool-1.2.0-0", "osx-64/other-prefix-3.0-0"):
+            (work_dir / recipe_dir).mkdir(parents=True)
+            (work_dir / recipe_dir / "recipe.yaml").write_text("")
+        assert recipe_generated_for(work_dir, "acme/cli-tool")
+        assert recipe_generated_for(work_dir, "acme/Other")  # via the -prefix variant
+        assert not recipe_generated_for(work_dir, "acme/cli")
+        assert not recipe_generated_for(work_dir, "acme/tool")
+
+
+def _test_recipe_metadata_from_generated_recipe():
+    with tempfile.TemporaryDirectory() as tmp:
+        recipe = pathlib.Path(tmp) / "recipe.yaml"
+        recipe.write_text(
+            "package:\n"
+            "  name: git-cliff\n"
+            '  version: "2.16.0"\n'
+            "\n"
+            "extra:\n"
+            "  upstream-forge: github.com\n"
+            '  upstream-version: "2.16.0"\n'
+            '  upstream-repository: "orhun/git-cliff"\n'
+        )
+        assert recipe_metadata(recipe) == ("git-cliff", "2.16.0", "orhun/git-cliff")
+        recipe.write_text("package:\n  name: x\n")
+        assert recipe_metadata(recipe) is None
+
+
 def _test_parse_skip_reasons_sections():
     report = (
         "GitHub errors (1 packages):\n"
@@ -412,6 +592,13 @@ def main():
         "-n", "--dry-run",
         action="store_true",
         help="Only print discovered repos, don't modify config.toml",
+    )
+    parser.add_argument(
+        "--full-test",
+        action="store_true",
+        help="Also build the latest release of each candidate with rattler-build "
+             "for every platform it has a recipe for, and validate the resulting "
+             "packages; candidates with a failing platform are not added",
     )
     args = parser.parse_args()
 
@@ -481,7 +668,9 @@ def main():
         file=sys.stderr,
     )
 
-    passing, skip_reasons = check_with_octoconda(candidate_slugs, conda_channel)
+    passing, skip_reasons = check_with_octoconda(
+        candidate_slugs, conda_channel, full_test=args.full_test,
+    )
 
     for slug in candidate_slugs:
         if slug in passing:

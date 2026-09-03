@@ -9,6 +9,15 @@ repository = "01mf02/jaq"
 repository = "0franco/image-auditor"
 
 [[packages]]
+repository = "0xMassi/webclaw"
+
+[[packages]]
+repository = "1jehuang/jcode"
+
+[[packages]]
+repository = "1Password/typeshare"
+
+[[packages]]
 repository = "1xyz/pryrite"
 
 [[packages]]
@@ -50,6 +59,9 @@ repository = "abs-lang/abs"
 repository = "acheronfail/repgrep"
 
 [[packages]]
+repository = "Achno/gowall"
+
+[[packages]]
 repository = "achristmascarl/rainfrog"
 
 [[packages]]
@@ -87,6 +99,9 @@ repository = "AfrozSaqlain/Papr"
 
 [[packages]]
 repository = "agavra/tuicr"
+
+[[packages]]
+repository = "agent-of-empires/agent-of-empires"
 
 [[packages]]
 repository = "AGWA/git-crypt"
@@ -134,6 +149,10 @@ repository = "alexellis/k3sup"
 repository = "alexellis/kubetrim"
 
 # Requested via discord
+
+[[packages]]
+repository = "alexhallam/tv"
+name = "alexhallam__tv"
 
 [[packages]]
 repository = "AlexNabokikh/tfsort"
@@ -248,6 +267,9 @@ deprecated = true
 repository = "aptly-dev/aptly"
 
 [[packages]]
+repository = "aquaproj/aqua"
+
+[[packages]]
 repository = "aquaproj/aqua-registry-updater"
 
 [[packages]]
@@ -330,6 +352,9 @@ repository = "artempyanykh/marksman"
 repository = "artemsalimov/jenkins-job-cli"
 
 [[packages]]
+repository = "Arthur-Ficial/apfel"
+
+[[packages]]
 repository = "arttor/helmify"
 
 [[packages]]
@@ -349,6 +374,9 @@ repository = "asciinema/agg"
 
 [[packages]]
 repository = "asciinema/asciinema"
+
+[[packages]]
+repository = "asdf-vm/asdf"
 
 [[packages]]
 repository = "assetnote/surf"
@@ -372,6 +400,9 @@ repository = "astral-sh/ty"
 
 [[packages]]
 repository = "astral-sh/uv"
+
+[[packages]]
+repository = "atanunq/viu"
 
 [[packages]]
 repository = "Ataraxy-Labs/sem"
@@ -399,6 +430,9 @@ repository = "Automattic/harper"
 
 [[packages]]
 repository = "AvitalTamir/cyphernetes"
+
+[[packages]]
+repository = "aws-amplify/amplify-cli"
 
 [[packages]]
 repository = "aws-cloudformation/rain"
@@ -567,6 +601,9 @@ name = "benchkram_bob"
 repository = "bengadbois/pewpew"
 
 [[packages]]
+repository = "bensadeh/circumflex"
+
+[[packages]]
 repository = "bensadeh/tailspin"
 
 [[packages]]
@@ -681,6 +718,12 @@ repository = "boz/kail"
 
 [[packages]]
 repository = "br0xen/boltbrowser"
+
+[[packages]]
+repository = "bradygaster/squad"
+
+[[packages]]
+repository = "brandonyoungdev/tldx"
 
 [[packages]]
 repository = "breml/tfreveal"
@@ -831,6 +874,9 @@ repository = "cargo-bins/cargo-binstall"
 
 [[packages]]
 repository = "cargo-generate/cargo-generate"
+
+[[packages]]
+repository = "carloscuesta/gitmoji-cli"
 
 [[packages]]
 repository = "carthage-software/mago"
@@ -989,6 +1035,9 @@ repository = "ck-zhang/reddix"
 repository = "clamoriniere/crd-to-markdown"
 
 [[packages]]
+repository = "claudiodangelis/qrcp"
+
+[[packages]]
 repository = "ClementTsang/bottom"
 
 [[packages]]
@@ -1112,6 +1161,9 @@ repository = "codesenberg/bombardier"
 
 [[packages]]
 repository = "coignard/lottie"
+
+[[packages]]
+repository = "coleam00/Archon"
 
 [[packages]]
 repository = "commercialhaskell/stack"
@@ -1239,6 +1291,9 @@ repository = "cswank/kcli"
 repository = "ctron/oidc-cli"
 
 [[packages]]
+repository = "cube2222/octosql"
+
+[[packages]]
 repository = "cubefs/cubefs"
 
 [[packages]]
@@ -1246,6 +1301,9 @@ repository = "cubicdaiya/nginx-build"
 
 [[packages]]
 repository = "cue-lang/cue"
+
+[[packages]]
+repository = "cupcakearmy/autorestic"
 
 [[packages]]
 repository = "CyberAgent/reminder-lint"
@@ -1304,6 +1362,9 @@ repository = "danielfoehrKn/kubeswitch"
 repository = "DanielHauge/h5v"
 
 [[packages]]
+repository = "DanielSWolf/rhubarb-lip-sync"
+
+[[packages]]
 repository = "danvergara/dblab"
 
 [[packages]]
@@ -1345,6 +1406,9 @@ repository = "daveshanley/vacuum"
 repository = "davidlattimore/wild"
 
 [[packages]]
+repository = "davrodpin/mole"
+
+[[packages]]
 repository = "ddddddO/gtree"
 
 [[packages]]
@@ -1352,6 +1416,9 @@ repository = "ddev/ddev"
 
 [[packages]]
 repository = "dduan/tre"
+
+[[packages]]
+repository = "ddworken/hishtory"
 
 [[packages]]
 repository = "defenseunicorns/uds-cli"
@@ -1413,6 +1480,9 @@ repository = "dhall-lang/dhall-haskell"
 
 [[packages]]
 repository = "dhth/bmm"
+
+[[packages]]
+repository = "Dicklesworthstone/destructive_command_guard"
 
 [[packages]]
 repository = "digitalocean/doctl"
@@ -1634,6 +1704,9 @@ repository = "ernoaapa/kubectl-warp"
 repository = "errata-ai/vale"
 
 [[packages]]
+repository = "esengine/DeepSeek-Reasonix"
+
+[[packages]]
 repository = "est31/cargo-udeps"
 
 [[packages]]
@@ -1650,6 +1723,9 @@ repository = "everstake/bip39"
 
 [[packages]]
 repository = "evilmartians/lefthook"
+
+[[packages]]
+repository = "EvoMap/evolver"
 
 [[packages]]
 repository = "exercism/cli"
@@ -1693,6 +1769,9 @@ repository = "FairwindsOps/rbac-lookup"
 
 [[packages]]
 repository = "FalconForceTeam/FalconHound"
+
+[[packages]]
+repository = "fallow-rs/fallow"
 
 [[packages]]
 repository = "fastfetch-cli/fastfetch"
@@ -1792,6 +1871,12 @@ repository = "fortio/fortio"
 repository = "foundry-rs/foundry"
 
 [[packages]]
+repository = "frain-dev/convoy"
+
+[[packages]]
+repository = "freeok/so-novel"
+
+[[packages]]
 repository = "freshautomations/stoml"
 
 [[packages]]
@@ -1876,6 +1961,9 @@ repository = "Fusion/gogo"
 repository = "future-architect/tftarget"
 
 [[packages]]
+repository = "fuxicodex/Fuxi"
+
+[[packages]]
 repository = "g-plane/pnpm-shell-completion"
 # BROKEN: Only contains shell completions which are not exposed at all
 deprecated = true
@@ -1896,8 +1984,14 @@ repository = "Gaurav-Gosain/tuios"
 repository = "gcla/termshark"
 
 [[packages]]
+repository = "GDQuest/GDScript-formatter"
+
+[[packages]]
 repository = "gdubicki/ets"
 name = "gdubicki_ets"
+
+[[packages]]
+repository = "geekjourneyx/md2wechat-skill"
 
 [[packages]]
 repository = "gefyrahq/gefyra"
@@ -2001,6 +2095,9 @@ repository = "github/licensed"
 repository = "gitleaks/gitleaks"
 
 [[packages]]
+repository = "GitoxideLabs/gitoxide"
+
+[[packages]]
 repository = "gittools/gitversion"
 
 [[packages]]
@@ -2028,6 +2125,9 @@ name = "go_gost_gost"
 
 [[packages]]
 repository = "go-jira/jira"
+
+[[packages]]
+repository = "go-musicfox/go-musicfox"
 
 [[packages]]
 repository = "go-semantic-release/semantic-release"
@@ -2061,6 +2161,9 @@ repository = "goark/gimei-cli"
 
 [[packages]]
 repository = "goark/gnkf"
+
+[[packages]]
+repository = "gobackup/gobackup"
 
 [[packages]]
 repository = "goccy/bigquery-emulator"
@@ -2152,6 +2255,10 @@ repository = "GoogleCloudPlatform/terraformer"
 repository = "GoogleContainerTools/container-structure-test"
 
 [[packages]]
+repository = "googleworkspace/cli"
+name = "googleworkspace__cli"
+
+[[packages]]
 repository = "gopasspw/gopass"
 
 [[packages]]
@@ -2178,6 +2285,9 @@ repository = "gotestyourself/gotestsum"
 [[packages]]
 repository = "gotify/cli"
 name = "gotify_cli"
+
+[[packages]]
+repository = "gptme/gptme"
 
 [[packages]]
 repository = "gptscript-ai/gptscript"
@@ -2232,6 +2342,9 @@ repository = "grafana/xk6"
 
 [[packages]]
 repository = "grampelberg/kty"
+
+[[packages]]
+repository = "graykode/abtop"
 
 [[packages]]
 repository = "greymd/teip"
@@ -2321,6 +2434,9 @@ repository = "heartbeatsjp/check-tls-cert"
 repository = "helix-editor/helix"
 
 [[packages]]
+repository = "HelixDB/helix-db"
+
+[[packages]]
 repository = "hellux/jotdown"
 
 [[packages]]
@@ -2337,6 +2453,9 @@ repository = "helmfile/vals"
 
 [[packages]]
 repository = "helmwave/helmwave"
+
+[[packages]]
+repository = "Helvesec/rmux"
 
 [[packages]]
 repository = "henriklovhaug/md-tui"
@@ -2383,6 +2502,9 @@ repository = "hirose31/s3surfer"
 repository = "hmarr/codeowners"
 
 [[packages]]
+repository = "Hmbown/Codewhale"
+
+[[packages]]
 repository = "hokaccha/spannerdef"
 
 [[packages]]
@@ -2390,6 +2512,9 @@ repository = "homeport/dyff"
 
 [[packages]]
 repository = "homeport/havener"
+
+[[packages]]
+repository = "homerchen19/nba-go"
 
 [[packages]]
 repository = "hougesen/mdsf"
@@ -2496,6 +2621,12 @@ repository = "inlets/inletsctl"
 repository = "inlets/mixctl"
 
 [[packages]]
+repository = "inlife/nexrender"
+
+[[packages]]
+repository = "inngest/inngest"
+
+[[packages]]
 repository = "innobead/huber"
 
 [[packages]]
@@ -2533,6 +2664,9 @@ deprecated = true
 
 [[packages]]
 repository = "interlynk-io/sbomqs"
+
+[[packages]]
+repository = "iOfficeAI/OfficeCLI"
 
 [[packages]]
 repository = "iovisor/kubectl-trace"
@@ -2582,6 +2716,9 @@ repository = "itchyny/maze"
 
 [[packages]]
 repository = "itchyny/mmv"
+
+[[packages]]
+repository = "iterative/cml"
 
 [[packages]]
 repository = "ivaaaan/smug"
@@ -2694,6 +2831,9 @@ repository = "jez/as-tree"
 repository = "JFryy/qq"
 
 [[packages]]
+repository = "jhspetersson/fselect"
+
+[[packages]]
 repository = "jiro4989/ojosama"
 
 [[packages]]
@@ -2715,10 +2855,16 @@ repository = "jkfran/killport"
 repository = "jmespath/jp"
 
 [[packages]]
+repository = "jnsahaj/lumen"
+
+[[packages]]
 repository = "joehillen/sysz"
 
 [[packages]]
 repository = "joerdav/xc"
+
+[[packages]]
+repository = "JohannesKaufmann/html-to-markdown"
 
 [[packages]]
 repository = "johnkerl/miller"
@@ -2731,6 +2877,9 @@ repository = "johnsideserf/siggy"
 
 [[packages]]
 repository = "jonaslu/ain"
+
+[[packages]]
+repository = "jondot/hygen"
 
 [[packages]]
 repository = "jordond/jolt"
@@ -2801,6 +2950,9 @@ repository = "junegunn/fzf"
 [[packages]]
 repository = "just-every/code"
 name = "just_every_code"
+
+[[packages]]
+repository = "JustArchiNET/ArchiSteamFarm"
 
 [[packages]]
 repository = "justjanne/powerline-go"
@@ -2986,6 +3138,9 @@ repository = "KhronosGroup/KTX-Software"
 
 [[packages]]
 repository = "kiali/kiali"
+
+[[packages]]
+repository = "Kilo-Org/kilocode"
 
 [[packages]]
 repository = "Kitware/CMake"
@@ -3175,6 +3330,9 @@ repository = "kubernetes/minikube"
 repository = "kubernetes/node-problem-detector"
 
 [[packages]]
+repository = "Kuberwastaken/claurst"
+
+[[packages]]
 repository = "kubescape/kubescape"
 
 [[packages]]
@@ -3197,6 +3355,9 @@ repository = "kubevirt/kubevirt"
 repository = "kubewarden/kwctl"
 # INACTIVE: Repo is in "public archive" state
 deprecated = true
+
+[[packages]]
+repository = "kucherenko/jscpd"
 
 [[packages]]
 repository = "kudobuilder/kuttl"
@@ -3446,6 +3607,9 @@ repository = "magefile/mage"
 repository = "magodo/pipeform"
 
 [[packages]]
+repository = "majd/ipatool"
+
+[[packages]]
 repository = "makew0rld/didder"
 
 [[packages]]
@@ -3459,6 +3623,9 @@ repository = "mame/wsl2-ssh-agent"
 
 [[packages]]
 repository = "manabusakai/tdtidy"
+
+[[packages]]
+repository = "manaflow-ai/cmux"
 
 [[packages]]
 repository = "mantil-io/mantil"
@@ -3553,6 +3720,9 @@ repository = "MaybeJustJames/zephyr"
 repository = "mazrean/kessoku"
 
 [[packages]]
+repository = "mbrt/gmailctl"
+
+[[packages]]
 repository = "medialab/xan"
 
 [[packages]]
@@ -3612,6 +3782,9 @@ repository = "microsoft/component-detection"
 
 [[packages]]
 repository = "microsoft/edit"
+
+[[packages]]
+repository = "microsoft/inshellisense"
 
 [[packages]]
 repository = "microsoft/kiota"
@@ -3711,7 +3884,16 @@ repository = "mmalcek/bafi"
 repository = "mmarkdown/mmark"
 
 [[packages]]
+repository = "moazbuilds/CodeMachine-CLI"
+
+[[packages]]
 repository = "moby/buildkit"
+
+[[packages]]
+repository = "modem-dev/hunk"
+
+[[packages]]
+repository = "mohsen1/yek"
 
 [[packages]]
 repository = "momaek/authy"
@@ -3780,6 +3962,9 @@ repository = "mstange/samply"
 repository = "mszostok/codeowners-validator"
 
 [[packages]]
+repository = "mtkennerly/ludusavi"
+
+[[packages]]
 repository = "muesli/duf"
 
 [[packages]]
@@ -3787,6 +3972,12 @@ repository = "muesli/gitty"
 
 [[packages]]
 repository = "muesli/markscribe"
+
+[[packages]]
+repository = "mufeedvh/code2prompt"
+
+[[packages]]
+repository = "multiprocessio/dsq"
 
 [[packages]]
 repository = "mumoshu/config-registry"
@@ -3811,6 +4002,9 @@ repository = "mutagen-io/mutagen"
 
 [[packages]]
 repository = "mutagen-io/mutagen-compose"
+
+[[packages]]
+repository = "mvanhorn/cli-printing-press"
 
 [[packages]]
 repository = "mvdan/gofumpt"
@@ -3919,6 +4113,9 @@ repository = "neurocyte/flow"
 
 [[packages]]
 repository = "newrelic/newrelic-cli"
+
+[[packages]]
+repository = "nexe/nexe"
 
 [[packages]]
 repository = "nextest-rs/nextest"
@@ -4090,6 +4287,12 @@ repository = "openclarity/vmclarity"
 deprecated = true
 
 [[packages]]
+repository = "openclaw/mcporter"
+
+[[packages]]
+repository = "openclaw/wacli"
+
+[[packages]]
 repository = "opencontainers/runc"
 
 [[packages]]
@@ -4157,6 +4360,9 @@ repository = "orf/gping"
 
 [[packages]]
 repository = "orhun/git-cliff"
+
+[[packages]]
+repository = "orhun/gpg-tui"
 
 [[packages]]
 repository = "orisano/dlayer"
@@ -4239,6 +4445,9 @@ repository = "pavius/impi"
 
 [[packages]]
 repository = "pcasteran/terraform-graph-beautifier"
+
+[[packages]]
+repository = "pdfcpu/pdfcpu"
 
 [[packages]]
 repository = "peak/s5cmd"
@@ -4454,6 +4663,9 @@ repository = "pseudomuto/protoc-gen-doc"
 repository = "psf/black"
 
 [[packages]]
+repository = "psmux/psmux"
+
+[[packages]]
 repository = "pulumi/esc"
 
 [[packages]]
@@ -4474,6 +4686,9 @@ repository = "purpleclay/dns53"
 repository = "purton-tech/cloak"
 
 [[packages]]
+repository = "pvolok/dekit"
+
+[[packages]]
 repository = "pvolok/mprocs"
 
 [[packages]]
@@ -4489,7 +4704,14 @@ repository = "pythops/kudu"
 repository = "pythops/tenere"
 
 [[packages]]
+repository = "Q00/ouroboros"
+
+[[packages]]
 repository = "qarmin/czkawka"
+
+[[packages]]
+repository = "qawolf/cli"
+name = "qawolf__cli"
 
 [[packages]]
 repository = "qdrant/qdrant"
@@ -4511,6 +4733,12 @@ repository = "quarto-dev/quarto-cli"
 
 [[packages]]
 repository = "quarylabs/sqruff"
+
+[[packages]]
+repository = "qustavo/httplab"
+
+[[packages]]
+repository = "railwayapp/nixpacks"
 
 [[packages]]
 repository = "rajatjindal/krew-release-bot"
@@ -4572,6 +4800,9 @@ repository = "release-plz/release-plz"
 repository = "relusc/hclconv"
 
 [[packages]]
+repository = "remotemobprogramming/mob"
+
+[[packages]]
 repository = "replicatedhq/kots"
 
 [[packages]]
@@ -4590,6 +4821,9 @@ repository = "rerun-io/rerun"
 repository = "rest-sh/restish"
 
 [[packages]]
+repository = "restatedev/restate"
+
+[[packages]]
 repository = "restechnica/semverbot"
 
 [[packages]]
@@ -4603,6 +4837,10 @@ repository = "reubeno/brush"
 
 [[packages]]
 repository = "reviewdog/reviewdog"
+
+[[packages]]
+repository = "RevylAI/greenlight"
+name = "RevylAI__greenlight"
 
 [[packages]]
 repository = "rezigned/upmd"
@@ -4670,6 +4908,9 @@ repository = "rootless-containers/slirp4netns"
 repository = "ropnop/kerbrute"
 
 [[packages]]
+repository = "rorkai/App-Store-Connect-CLI"
+
+[[packages]]
 repository = "RoseSecurity/Kuzco"
 
 [[packages]]
@@ -4688,7 +4929,13 @@ repository = "rtk-ai/rtk"
 repository = "rui314/mold"
 
 [[packages]]
+repository = "run-llama/semtools"
+
+[[packages]]
 repository = "runatlantis/atlantis"
+
+[[packages]]
+repository = "runkids/skillshare"
 
 [[packages]]
 repository = "runlevel5/htop-rs"
@@ -4888,6 +5135,9 @@ repository = "sharkdp/vivid"
 deprecated = true
 
 [[packages]]
+repository = "sheeki03/tirith"
+
+[[packages]]
 repository = "sheepla/fzwiki"
 
 [[packages]]
@@ -5054,6 +5304,9 @@ repository = "skim-rs/skim"
 repository = "sl1pm4t/k2tf"
 
 [[packages]]
+repository = "Slackadays/Clipboard"
+
+[[packages]]
 repository = "slackhq/nebula"
 
 [[packages]]
@@ -5098,6 +5351,9 @@ repository = "smol-machines/smolvm"
 
 [[packages]]
 repository = "smtg-ai/claude-squad"
+
+[[packages]]
+repository = "sniptt-official/ots"
 
 [[packages]]
 repository = "snyk/cli"
@@ -5261,6 +5517,9 @@ repository = "static-web-server/static-web-server"
 repository = "stefanprodan/timoni"
 
 [[packages]]
+repository = "steipete/summarize"
+
+[[packages]]
 repository = "stepchowfun/docuum"
 
 [[packages]]
@@ -5321,6 +5580,9 @@ repository = "SuperCuber/dotter"
 
 [[packages]]
 repository = "superfly/flyctl"
+
+[[packages]]
+repository = "SurgeDM/Surge"
 
 [[packages]]
 repository = "suzuki-shunsuke/akoi"
@@ -5543,8 +5805,14 @@ repository = "tattoy-org/tattoy"
 repository = "tauri-apps/tauri"
 
 [[packages]]
+repository = "tbillington/kondo"
+
+[[packages]]
 repository = "tcnksm/ghr"
 name = "tcnksm_ghr"
+
+[[packages]]
+repository = "tddworks/baguette"
 
 [[packages]]
 repository = "tdejager/cargo-patch-source"
@@ -5704,6 +5972,9 @@ repository = "tmccombs/hcl2json"
 repository = "tmknom/actdocs"
 
 [[packages]]
+repository = "tmrts/boilr"
+
+[[packages]]
 repository = "tofuutils/tenv"
 
 [[packages]]
@@ -5839,8 +6110,14 @@ repository = "unfrl/dug"
 # Request on discord
 
 [[packages]]
+repository = "unhappychoice/gitlogue"
+
+[[packages]]
 repository = "unikraft/kraftkit"
 release-prefix = "kraft"
+
+[[packages]]
+repository = "unkn0wn-root/resterm"
 
 [[packages]]
 repository = "UpCloudLtd/upcloud-cli"
@@ -5882,7 +6159,13 @@ repository = "vectordotdev/vector"
 repository = "veeso/termscp"
 
 [[packages]]
+repository = "Veirt/weathr"
+
+[[packages]]
 repository = "vektra/mockery"
+
+[[packages]]
+repository = "vercel-labs/opensrc"
 
 [[packages]]
 repository = "Versent/saml2aws"
@@ -5943,6 +6226,10 @@ repository = "walles/moor"
 
 [[packages]]
 repository = "wallix/awless"
+
+[[packages]]
+repository = "wasm-bindgen/wasm-pack"
+name = "wasm-bindgen__wasm-pack"
 
 [[packages]]
 repository = "wasmCloud/wasmCloud"
@@ -6035,6 +6322,9 @@ repository = "xd009642/tarpaulin"
 repository = "xeol-io/xeol"
 
 [[packages]]
+repository = "XiaomiMiMo/MiMo-Code"
+
+[[packages]]
 repository = "xiecat/fofax"
 
 [[packages]]
@@ -6117,6 +6407,9 @@ repository = "ymtdzzz/otel-tui"
 repository = "ynqa/jnv"
 
 [[packages]]
+repository = "yoanbernabeu/grepai"
+
+[[packages]]
 repository = "yoheimuta/protolint"
 
 [[packages]]
@@ -6145,6 +6438,9 @@ repository = "ysugimoto/gcsdeploy"
 
 [[packages]]
 repository = "ysugimoto/vintage"
+
+[[packages]]
+repository = "yt-dlp/yt-dlp"
 
 [[packages]]
 repository = "ytdl-org/ytdl-nightly"
@@ -6211,7 +6507,13 @@ repository = "zmwangx/ets"
 name = "zmwangx_ets"
 
 [[packages]]
+repository = "Zouuup/landrun"
+
+[[packages]]
 repository = "zquestz/s"
+
+[[packages]]
+repository = "zu1k/nali"
 
 [[packages]]
 repository = "zurawiki/gptcommit"
