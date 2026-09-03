@@ -4315,6 +4315,9 @@ repository = "pkgxdev/pkgx"
 repository = "pkolaczk/fclones"
 
 [[packages]]
+repository = "PlakarKorp/plakar"
+
+[[packages]]
 repository = "planetaryescape/mxr"
 
 [[packages]]
@@ -5082,6 +5085,9 @@ repository = "smartxworks/knest"
 repository = "smithy-lang/smithy"
 
 [[packages]]
+repository = "smol-machines/smolvm"
+
+[[packages]]
 repository = "smtg-ai/claude-squad"
 
 [[packages]]
@@ -5478,6 +5484,9 @@ repository = "tailor-platform/patterner"
 
 [[packages]]
 repository = "tailor-platform/tailorctl"
+
+[[packages]]
+repository = "tailscale/tailcat"
 
 [[packages]]
 repository = "tailwindlabs/tailwindcss"
@@ -6054,6 +6063,9 @@ repository = "yamafaktory/jql"
 
 [[packages]]
 repository = "yaml/yamlscript"
+
+[[packages]]
+repository = "yaml/yamlstar"
 
 [[packages]]
 repository = "yannh/kubeconform"

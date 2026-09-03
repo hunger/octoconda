@@ -14,11 +14,15 @@ import requests
 import tomllib
 from bs4 import BeautifulSoup
 
-# Matches github.com/<owner>/<repo> but not deeper paths like
-# /owner/repo/issues or /owner/repo/blob/...
+# Matches github.com/<owner>/<repo>, swallowing any deeper path (e.g.
+# /releases/tag/v1.2.3, /blob/main). The trailing group is kept for the
+# ".git" suffix check only; it is never used as part of the repo name.
 GITHUB_REPO_RE = re.compile(
-    r"https?://github\.com/([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+?)(?:\.git)?/?$"
+    r"https?://github\.com/([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+?)(?:\.git)?(?:/.*)?$"
 )
+
+# Bare "owner/repo" form (no scheme), e.g. `PlakarKorp/plakar`
+REPO_SLUG_RE = re.compile(r"^([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+)$")
 
 GITHUB_SPECIAL_PATHS = {
     "about", "enterprise", "features", "login", "join", "pricing",
@@ -30,17 +34,21 @@ GITHUB_SPECIAL_PATHS = {
 
 
 def is_repo_url(url: str) -> bool:
+    """True for a GitHub repo URL or a bare 'owner/repo' slug."""
     m = GITHUB_REPO_RE.match(url)
     if not m:
-        return False
-    owner = m.group(1)
-    if owner.lower() in GITHUB_SPECIAL_PATHS:
-        return False
-    return True
+        # Bare slug form, e.g. "PlakarKorp/plakar"
+        m2 = REPO_SLUG_RE.match(url)
+        if not m2:
+            return False
+        owner = m2.group(1)
+    else:
+        owner = m.group(1)
+    return owner.lower() not in GITHUB_SPECIAL_PATHS
 
 
 def normalize(url: str) -> str:
-    """Normalize a GitHub repo URL to a canonical form."""
+    """Normalize a GitHub repo URL (or bare 'owner/repo' slug) to a canonical form."""
     url = url.rstrip("/")
     if url.endswith(".git"):
         url = url[:-4]
@@ -50,9 +58,16 @@ def normalize(url: str) -> str:
 
 
 def repo_slug(url: str) -> str:
-    """Extract 'owner/repo' from a normalized GitHub URL."""
+    """Extract 'owner/repo' from a normalized GitHub URL or bare slug."""
     m = GITHUB_REPO_RE.match(url)
-    return f"{m.group(1)}/{m.group(2)}" if m else ""
+    if not m:
+        m2 = REPO_SLUG_RE.match(url)
+        if not m2:
+            return ""
+        owner, repo = m2.group(1), m2.group(2)
+    else:
+        owner, repo = m.group(1), m.group(2)
+    return f"{owner}/{repo}"
 
 
 def load_known_repos(config_path: str) -> tuple[set[str], set[str]]:
@@ -311,6 +326,27 @@ def _test_check_config_emits_both_prefix_variants():
     assert 'name = "git-cliff-prefix"' in content
     # Both variants must be distinct [[packages]] entries (two per slug).
     assert content.count('repository = "orhun/git-cliff"') == 2
+
+
+def _test_url_with_trailing_path():
+    # Deeper paths (releases, tags, blobs) are swallowed after owner/repo.
+    assert is_repo_url("https://github.com/yaml/yamlstar/releases/tag/0.1.19")
+    assert is_repo_url("https://github.com/yaml/yamlstar/releases/latest")
+    assert repo_slug("https://github.com/yaml/yamlstar/releases/tag/0.1.19") == "yaml/yamlstar"
+    assert normalize("https://github.com/yaml/yamlstar/releases/latest") == "https://github.com/yaml/yamlstar/releases/latest"
+    # A .git suffix on the repo part still works, even with a trailing path.
+    assert is_repo_url("https://github.com/yaml/yamlstar.git/tree/main")
+    assert repo_slug("https://github.com/yaml/yamlstar.git/tree/main") == "yaml/yamlstar"
+
+
+def _test_bare_slug_input():
+    # Bare "owner/repo" slugs are accepted, just like full URLs.
+    assert is_repo_url("PlakarKorp/plakar")
+    assert is_repo_url("https://github.com/PlakarKorp/plakar")
+    assert repo_slug("PlakarKorp/plakar") == "PlakarKorp/plakar"
+    assert normalize("PlakarKorp/plakar.git") == "PlakarKorp/plakar"
+    # Special-path owners are still rejected in slug form.
+    assert not is_repo_url("about/login")
 
 
 def _test_parse_skip_reasons_sections():
