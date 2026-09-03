@@ -2,7 +2,7 @@
 // © Tobias Hunger <tobias.hunger@gmail.com>
 
 use std::{
-    collections::BTreeMap,
+    collections::{BTreeMap, BTreeSet},
     io::Write as _,
     path::{Path, PathBuf},
     str::FromStr,
@@ -86,22 +86,30 @@ pub enum PackageResult {
         name: String,
         versions: Vec<VersionPackagingStatus>,
     },
+    NoReleases {
+        repository: String,
+        name: String,
+    },
 }
-
+  
 impl PackageResult {
     fn display_name(&self) -> String {
         match self {
             PackageResult::GithubFailed { repository, .. } => repository.clone(),
             PackageResult::Ok {
                 repository, name, ..
+            }
+            | PackageResult::NoReleases {
+                repository, name, ..
             } => display_name(repository, name),
         }
     }
-
+  
     fn repository(&self) -> &str {
         match self {
-            PackageResult::GithubFailed { repository, .. } => repository,
-            PackageResult::Ok { repository, .. } => repository,
+            PackageResult::GithubFailed { repository, .. }
+            | PackageResult::Ok { repository, .. }
+            | PackageResult::NoReleases { repository, .. } => repository,
         }
     }
 }
@@ -170,6 +178,7 @@ struct RecipeErrorMessage {
 #[derive(Clone, Default)]
 struct ReportData {
     github_errors: BTreeMap<String, Vec<String>>, // message -> repositories
+    no_releases: BTreeSet<String>,               // display names with no parseable releases
     no_recipe: Vec<RecipeErrorMessage>,
 
     recipe_generated: BTreeMap<(String, String), Vec<String>>, // display, platform -> [version]
@@ -251,6 +260,9 @@ fn categorize_package_result(report_data: &mut ReportData, pkg: &PackageResult) 
                 categorize_package_version(report_data, &display, v);
             }
         }
+        PackageResult::NoReleases { .. } => {
+            report_data.no_releases.insert(display);
+        }
     }
 }
 
@@ -317,6 +329,17 @@ pub fn report_results(
                 "  {}/{}@{}: {}\n",
                 error.platform, error.package, error.version, error.message,
             ));
+        }
+        output.push('\n');
+    }
+
+    if !report_data.no_releases.is_empty() {
+        output.push_str(&format!(
+            "No GitHub releases ({} packages):\n",
+            report_data.no_releases.len(),
+        ));
+        for name in &report_data.no_releases {
+            output.push_str(&format!("  {name}\n"));
         }
         output.push('\n');
     }
@@ -1573,5 +1596,27 @@ mod tests {
                 );
             }
         }
+    }
+
+    #[test]
+    fn test_report_no_releases_section() {
+        let results = vec![PackageResult::NoReleases {
+            repository: "orhun/git-cliff".to_string(),
+            name: "git-cliff".to_string(),
+        }];
+        let report = report_results(&results, 1, &[], 1, 5);
+        assert!(report.contains("No GitHub releases (1 packages):"), "{report}");
+        assert!(report.contains("orhun/git-cliff"), "{report}");
+    }
+
+    #[test]
+    fn test_report_no_releases_section_omitted_when_empty() {
+        let results = vec![PackageResult::Ok {
+            repository: "owner/repo".to_string(),
+            name: "repo".to_string(),
+            versions: vec![],
+        }];
+        let report = report_results(&results, 1, &[], 1, 5);
+        assert!(!report.contains("No GitHub releases"), "{report}");
     }
 }

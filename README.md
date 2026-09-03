@@ -41,6 +41,12 @@ pixi run add-repo -c path/to/config.toml https://example.com/page
 A `GITHUB_TOKEN` or `GH_TOKEN` environment variable (or `gh auth login`) is
 recommended to avoid GitHub API rate limits.
 
+The check is tag-prefix agnostic: for each candidate, both the default tag
+parsing and a `<repo>_` prefix variant are tried, so repos that tag their
+releases as `<repo>_vX.Y.Z` (e.g. `git-cliff_v2.16.0`) are detected
+automatically. Repos whose tags use some other custom prefix still need an
+explicit `tag-prefix` in `config.toml`.
+
 ## Testing a Single Repository
 
 Use the `build-one` task to generate and build packages for a single
