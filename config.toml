@@ -83,6 +83,9 @@ repository = "AfaanBilal/NanoCore"
 repository = "afnanenayet/diffsitter"
 
 [[packages]]
+repository = "AfrozSaqlain/Papr"
+
+[[packages]]
 repository = "agavra/tuicr"
 
 [[packages]]
@@ -274,6 +277,9 @@ repository = "aquasecurity/tfsec"
 repository = "aquasecurity/trivy"
 
 [[packages]]
+repository = "arcanorca/SunReactor"
+
+[[packages]]
 repository = "arch-go/arch-go"
 
 [[packages]]
@@ -328,6 +334,9 @@ repository = "arttor/helmify"
 
 [[packages]]
 repository = "arxanas/git-branchless"
+
+[[packages]]
+repository = "AS-FOSS/mandible"
 
 [[packages]]
 repository = "asciidoctor/asciidoctor-reveal.js"
@@ -1283,10 +1292,19 @@ repository = "dalance/procs"
 repository = "dandavison/delta"
 
 [[packages]]
+repository = "DanielCardonaRojas/codemark"
+
+[[packages]]
 repository = "danielfoehrKn/kubeswitch"
 
 [[packages]]
+repository = "DanielHauge/h5v"
+
+[[packages]]
 repository = "danvergara/dblab"
+
+[[packages]]
+repository = "danylokravchenko/rusty-amp"
 
 [[packages]]
 repository = "dapr/cli"
@@ -1846,6 +1864,9 @@ repository = "fullstorydev/grpcurl"
 repository = "funbiscuit/spacedisplay-rs"
 
 [[packages]]
+repository = "furkankly/zoetrope"
+
+[[packages]]
 repository = "Fusion/gogo"
 
 [[packages]]
@@ -1991,6 +2012,9 @@ platforms = { win-32 = "gitui-win.tar.gz", win-64 = "gitui-win.tar.gz", win-arm6
 
 [[packages]]
 repository = "gleam-lang/gleam"
+
+[[packages]]
+repository = "gnomeria/usbtree"
 
 [[packages]]
 repository = "go-acme/lego"
@@ -2315,6 +2339,9 @@ repository = "helmwave/helmwave"
 repository = "henriklovhaug/md-tui"
 
 [[packages]]
+repository = "herdrdev/herdr"
+
+[[packages]]
 repository = "hetznercloud/cli"
 name = "hetznercloud_cli"
 
@@ -2383,6 +2410,9 @@ repository = "huseyinbabal/taws"
 repository = "huseyinbabal/tredis"
 
 [[packages]]
+repository = "Huseynteymurzade28/pokeductor"
+
+[[packages]]
 repository = "hytromo/mimosa"
 
 [[packages]]
@@ -2443,6 +2473,9 @@ repository = "in-toto/witness"
 repository = "incu6us/goimports-reviser"
 
 [[packages]]
+repository = "indium114/termfarm"
+
+[[packages]]
 repository = "Infisical/cli"
 name = "infisical"
 release-prefix = "cli"
@@ -2464,6 +2497,9 @@ repository = "innobead/huber"
 
 [[packages]]
 repository = "inovex/CalendarSync"
+
+[[packages]]
+repository = "inowattio/MTUI"
 
 [[packages]]
 repository = "instrumenta/kubeval"
@@ -2594,6 +2630,9 @@ repository = "JayanAXHF/gitv"
 
 [[packages]]
 repository = "jbangdev/jbang"
+
+[[packages]]
+repository = "jchultarsky/mirador"
 
 [[packages]]
 repository = "jckuester/terradozer"
@@ -2864,6 +2903,9 @@ repository = "Kampfkarren/selene"
 repository = "kanisterio/kanister"
 
 [[packages]]
+repository = "kapilpokhrel/regexplain"
+
+[[packages]]
 repository = "kashav/fsql"
 
 [[packages]]
@@ -2886,6 +2928,9 @@ repository = "kayac/go-katsubushi"
 
 [[packages]]
 repository = "kaytu-io/kaytu"
+
+[[packages]]
+repository = "kbrdn1/gwm-cli"
 
 [[packages]]
 repository = "kcl-lang/cli"
@@ -4175,6 +4220,9 @@ repository = "pan-net-security/kcount"
 repository = "particledecay/kconf"
 
 [[packages]]
+repository = "patonw/leaves"
+
+[[packages]]
 repository = "PaulJuliusMartinez/jless"
 
 [[packages]]
@@ -4259,6 +4307,9 @@ repository = "pkgxdev/pkgx"
 
 [[packages]]
 repository = "pkolaczk/fclones"
+
+[[packages]]
+repository = "planetaryescape/mxr"
 
 [[packages]]
 repository = "planetscale/cli"
@@ -4420,6 +4471,9 @@ repository = "pyama86/pachanger"
 repository = "pypa/pipx"
 
 [[packages]]
+repository = "pythops/kudu"
+
+[[packages]]
 repository = "pythops/tenere"
 
 [[packages]]
@@ -4534,6 +4588,9 @@ repository = "reubeno/brush"
 
 [[packages]]
 repository = "reviewdog/reviewdog"
+
+[[packages]]
+repository = "rezigned/upmd"
 
 [[packages]]
 repository = "rfjakob/gocryptfs"
@@ -4752,6 +4809,9 @@ repository = "schollz/croc"
 repository = "sclevine/yj"
 
 [[packages]]
+repository = "ScottFelder/lazymqtt"
+
+[[packages]]
 repository = "sdslabs/gasper"
 
 [[packages]]
@@ -4776,6 +4836,9 @@ repository = "self-actuated/actuated-cli"
 
 [[packages]]
 repository = "sethvargo/ratchet"
+
+[[packages]]
+repository = "shadowmkj/leetrs"
 
 [[packages]]
 repository = "shanselman/winget-tui"
@@ -5644,6 +5707,9 @@ repository = "topgrade-rs/topgrade"
 repository = "toshimaru/nyan"
 
 [[packages]]
+repository = "tothalex/drift"
+
+[[packages]]
 repository = "Traackr/binnacle"
 
 [[packages]]
@@ -5713,6 +5779,9 @@ name = "snapper-fmt"
 repository = "twpayne/chezmoi"
 
 [[packages]]
+repository = "TX230/winproc-tui"
+
+[[packages]]
 repository = "txn2/kubefwd"
 
 [[packages]]
@@ -5733,6 +5802,9 @@ repository = "ulyssa/iamb"
 
 [[packages]]
 repository = "umlx5h/gtrash"
+
+[[packages]]
+repository = "umutdinceryananer/nightlightd"
 
 [[packages]]
 repository = "undistro/marvin"
@@ -5880,6 +5952,9 @@ repository = "WebAssembly/wabt"
 repository = "webdevops/go-crond"
 
 [[packages]]
+repository = "westpoint-io/lazyrsync"
+
+[[packages]]
 repository = "wfxr/csview"
 
 [[packages]]
@@ -5994,6 +6069,12 @@ repository = "yassinebridi/serpl"
 
 [[packages]]
 repository = "ycd/dstp"
+
+[[packages]]
+repository = "yetidevworks/drydock"
+
+[[packages]]
+repository = "yetidevworks/reeve"
 
 [[packages]]
 repository = "yinheli/sshw"

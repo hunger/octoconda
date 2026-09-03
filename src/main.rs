@@ -196,6 +196,18 @@ fn main() -> Result<(), anyhow::Error> {
                                 max_releases,
                             );
 
+                            // No parseable releases (repo has no GitHub releases, or
+                            // none of them match this package's tag prefix): report a
+                            // clean "no releases" result instead of attempting recipe
+                            // generation.
+                            if releases.is_empty() {
+                                results.push(package_generation::PackageResult::NoReleases {
+                                    repository: repo_string.clone(),
+                                    name: package.name.clone(),
+                                });
+                                continue;
+                            }
+
                             // Check if any release version is not yet in conda.
                             // If everything is already imported, skip the extra
                             // repo.get() API call.
@@ -212,7 +224,7 @@ fn main() -> Result<(), anyhow::Error> {
                                     .any(|r| r.package_record.version == vws)
                             });
 
-                            if !has_new && !releases.is_empty() {
+                            if !has_new {
                                 results.push(package_generation::PackageResult::Ok {
                                     repository: repo_string.clone(),
                                     name: package.name.clone(),
@@ -299,7 +311,10 @@ fn main() -> Result<(), anyhow::Error> {
                         package_generation::PackageResult::GithubFailed {
                             repository, ..
                         } => repository,
-                        package_generation::PackageResult::Ok { repository, .. } => repository,
+                        package_generation::PackageResult::Ok { repository, .. }
+                        | package_generation::PackageResult::NoReleases {
+                            repository, ..
+                        } => repository,
                     };
                     new_state.mark_checked(key);
                 }

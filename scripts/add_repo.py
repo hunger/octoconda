@@ -135,12 +135,7 @@ def check_with_octoconda(
     config_fd, config_path = tempfile.mkstemp(prefix="octoconda-add-repo.", suffix=".toml")
     try:
         with os.fdopen(config_fd, "w") as f:
-            f.write("[conda]\n")
-            f.write(f'channel = "{conda_channel}"\n')
-            f.write("max-import-releases = 1\n\n")
-            for slug in slugs:
-                f.write("[[packages]]\n")
-                f.write(f'repository = "{slug}"\n\n')
+            _write_check_config(f, slugs, conda_channel)
 
         cmd = octoconda_command() + [
             "--config-file", config_path,
@@ -153,12 +148,12 @@ def check_with_octoconda(
                 f"stderr tail:\n{result.stderr[-2000:]}",
                 file=sys.stderr,
             )
+        status_path = work_dir / "status.txt"
 
         # Parse the report octoconda writes to status.txt to extract per-repo
         # skip reasons (GitHub errors, no platform binary, etc.). The format
         # comes from src/package_generation.rs::report_results.
         skip_reasons: dict[str, str] = {}
-        status_path = work_dir / "status.txt"
         if status_path.is_file():
             skip_reasons = parse_skip_reasons(status_path.read_text(), slugs)
 
@@ -180,7 +175,7 @@ def check_with_octoconda(
 
 
 _REPORT_SECTION_RE = re.compile(
-    r"^(GitHub errors|Recipe generation failures|No platform binary in release)",
+    r"^(GitHub errors|Recipe generation failures|No platform binary in release|No GitHub releases)",
 )
 
 
@@ -200,7 +195,41 @@ def parse_skip_reasons(report: str, slugs: list[str]) -> dict[str, str]:
         for token in re.findall(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", raw_line):
             if token.lower() in slug_set and token not in reasons:
                 reasons[token] = current_section
+
+    # A repo with no GitHub releases at all is listed under the "No GitHub
+    # releases" section (the generic token scan above already tags it, but
+    # normalize the reason so it reads clearly).
+    for slug in slugs:
+        if reasons.get(slug) == "No GitHub releases":
+            reasons[slug] = "no GitHub releases"
     return reasons
+
+
+def _write_check_config(f, slugs: list[str], conda_channel: str) -> None:
+    """Write the temporary octoconda config used by check_with_octoconda."""
+    f.write("[conda]\n")
+    f.write(f'channel = "{conda_channel}"\n')
+    f.write("max-import-releases = 1\n\n")
+    for slug in slugs:
+        repo = slug.split("/", 1)[1]
+        # Emit two variants per candidate so the check is agnostic to the tag
+        # prefix convention:
+        #   A: no tag-prefix -> matches `vX.Y.Z`, `<repo>_vX.Y.Z`,
+        #      `<repo>-vX.Y.Z` (default auto-stripping)
+        #   B: sub-package with tag-prefix = "<repo>_" and release-prefix ""
+        #      -> matches `<repo>_vX.Y.Z` even when the asset names don't start
+        #      with the repo name.
+        # Variant B's explicit name must differ from variant A's implicit
+        # name (the default package name for a bare entry is the repo
+        # basename) or octoconda rejects the config as a duplicate.
+        f.write("[[packages]]\n")
+        f.write(f'repository = "{slug}"\n\n')
+        f.write("[[packages]]\n")
+        f.write(f'repository = "{slug}"\n')
+        f.write("[[packages.packages]]\n")
+        f.write(f'name = "{repo}-prefix"\n')
+        f.write('release-prefix = ""\n')
+        f.write(f'tag-prefix = "{repo}_"\n\n')
 
 
 def add_repos_to_config(config_path: str, new_slugs: list[str],
@@ -268,6 +297,38 @@ def add_repos_to_config(config_path: str, new_slugs: list[str],
     print(f"Added {len(new_slugs)} repo(s) to {config_path}", file=sys.stderr)
 
 
+def _test_check_config_emits_both_prefix_variants():
+    import io
+    out = io.StringIO()
+    _write_check_config(out, ["orhun/git-cliff"], "https://example.invalid/label")
+    content = out.getvalue()
+    # Variant A: bare entry without tag-prefix.
+    assert 'repository = "orhun/git-cliff"\n\n' in content
+    # Variant B: sub-package with the `<repo>_` tag prefix and disabled
+    # asset-name prefix matching.
+    assert 'tag-prefix = "git-cliff_"' in content
+    assert 'release-prefix = ""' in content
+    assert 'name = "git-cliff-prefix"' in content
+    # Both variants must be distinct [[packages]] entries (two per slug).
+    assert content.count('repository = "orhun/git-cliff"') == 2
+
+
+def _test_parse_skip_reasons_sections():
+    report = (
+        "GitHub errors (1 packages):\n"
+        "  https://github.com/owner/no-perm\n"
+        "  owner/no-perm: rate limited\n"
+        "\n"
+        "No GitHub releases (2 packages):\n"
+        "  jupyter/nbclassic\n"
+        "  orhun/git-cliff\n"
+        "\n"
+    )
+    reasons = parse_skip_reasons(report, ["owner/no-perm", "jupyter/nbclassic"])
+    assert reasons["owner/no-perm"] == "GitHub errors", reasons
+    assert reasons["jupyter/nbclassic"] == "no GitHub releases", reasons
+
+
 def ensure_github_token() -> None:
     """Ensure GITHUB_TOKEN is set in this process's environment so the
     octoconda subprocess inherits it. Falls back to GH_TOKEN, then to
@@ -301,7 +362,11 @@ def main():
     parser = argparse.ArgumentParser(
         description="Download a web page and extract GitHub repository URLs."
     )
-    parser.add_argument("url", help="URL of the page to scan")
+    parser.add_argument(
+        "urls", nargs="+",
+        help="One or more URLs; each is either a GitHub repo URL (used directly) "
+             "or a web page to scan for GitHub repo URLs.",
+    )
     parser.add_argument(
         "-c", "--config",
         default="./config.toml",
@@ -316,15 +381,16 @@ def main():
 
     known, known_names = load_known_repos(args.config)
 
-    input_url = normalize(args.url)
-
-    if is_repo_url(input_url):
-        # Input is a GitHub repo URL itself, use it directly
-        repos = [input_url]
-    else:
-        # Download and parse the page for GitHub repo URLs
+    repos: list[str] = []
+    for url in args.urls:
+        normalized = normalize(url)
+        if is_repo_url(normalized):
+            # A GitHub repo URL itself — use it directly.
+            repos.append(normalized)
+            continue
+        # Otherwise treat the input as a web page to scan for GitHub URLs.
         resp = requests.get(
-            args.url,
+            url,
             headers={
                 "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0",
                 "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
@@ -342,7 +408,7 @@ def main():
         raw_urls = set(re.findall(r"https?://github\.com/[A-Za-z0-9_./-]+", resp.text))
 
         candidates = href_urls | raw_urls
-        repos = sorted({normalize(u) for u in candidates if is_repo_url(u)})
+        repos.extend(sorted({normalize(u) for u in candidates if is_repo_url(u)}))
 
     # Filter out repos already in config.toml
     repos = [r for r in repos if repo_slug(r).lower() not in known]
@@ -351,10 +417,21 @@ def main():
         print("No new GitHub repository URLs found.", file=sys.stderr)
         return
 
+    # Deduplicate discovered URLs (case-insensitive, preserving order). This
+    # matters for scraped pages where the same repo appears via several link
+    # forms (http/https, .git suffix, trailing slash).
+    seen_urls: set[str] = set()
+    unique_repos: list[str] = []
+    for r in repos:
+        key = normalize(r).lower()
+        if key not in seen_urls:
+            seen_urls.add(key)
+            unique_repos.append(normalize(r))
+
     # Deduplicate candidate slugs (preserving order).
     seen: set[str] = set()
     candidate_slugs: list[str] = []
-    for r in repos:
+    for r in unique_repos:
         slug = repo_slug(r)
         if slug.lower() not in seen:
             seen.add(slug.lower())
@@ -391,5 +468,26 @@ def main():
         print("(dry run, config.toml not modified)", file=sys.stderr)
 
 
+def _run_self_tests():
+    """Run the embedded unit tests (invoked via `pixi run test-add-repo`)."""
+    import traceback
+
+    failures = 0
+    for name, fn in sorted(globals().items()):
+        if name.startswith("_test_") and callable(fn):
+            try:
+                fn()
+                print(f"ok {name}")
+            except Exception:
+                failures += 1
+                print(f"FAIL {name}")
+                traceback.print_exc()
+    if failures:
+        sys.exit(1)
+
+
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) > 1 and sys.argv[1] == "--self-test":
+        _run_self_tests()
+    else:
+        main()
