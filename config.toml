@@ -807,6 +807,9 @@ repository = "caddyserver/caddy"
 repository = "cameron-martin/bazel-lsp"
 
 [[packages]]
+repository = "can1357/oh-my-pi"
+
+[[packages]]
 repository = "Canop/dysk"
 # BROKEN: Every architecture bundled in one zip file
 deprecated = true
@@ -4677,6 +4680,9 @@ repository = "rs/curlie"
 
 [[packages]]
 repository = "rsadsb/adsb_deku"
+
+[[packages]]
+repository = "rtk-ai/rtk"
 
 [[packages]]
 repository = "rui314/mold"
