@@ -173,10 +173,10 @@ repository = "some-org/tool"
 platforms = { linux-64 = ["custom-linux-x64-regex"], win-64 = "null" }
 
 [[packages]]
-repository = "xataio/cli"
-name = "xata-cli"
-release-prefix = "xata"
-executable-name = "xata"
+repository = "owner/repo"
+name = "tool-cli"
+release-prefix = "tool"
+executable-name = "tool"
 ```
 
 ## Platform Patterns

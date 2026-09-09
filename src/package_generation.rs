@@ -804,13 +804,13 @@ mod tests {
     #[test]
     fn test_recipe_executable_name_and_expose() {
         let repository = serde_json::from_value(serde_json::json!({
-            "id": 1, "name": "cli", "url": "https://example.invalid/"
+            "id": 1, "name": "repo", "url": "https://example.invalid/"
         }))
         .unwrap();
         let asset = serde_json::from_value(serde_json::json!({
             "url": "https://example.invalid/asset",
-            "browser_download_url": "https://example.invalid/xata-linux-x64",
-            "id": 1, "node_id": "n", "name": "xata-linux-x64",
+            "browser_download_url": "https://example.invalid/tool-linux-x64",
+            "id": 1, "node_id": "n", "name": "tool-linux-x64",
             "state": "uploaded", "content_type": "application/octet-stream",
             "size": 1, "download_count": 0,
             "created_at": "2026-01-01T00:00:00Z", "updated_at": "2026-01-01T00:00:00Z"
@@ -818,14 +818,14 @@ mod tests {
         .unwrap();
 
         let config: crate::config_file::TomlConfig = toml::from_str(
-            "[conda]\nchannel = 'test'\n[[packages]]\nrepository = 'xataio/cli'\nname = 'xata-cli'",
+            "[conda]\nchannel = 'test'\n[[packages]]\nrepository = 'owner/repo'\nname = 'tool-cli'",
         )
         .unwrap();
         let mut package = crate::config_file::Config::try_from(config)
             .unwrap()
             .packages
             .remove(0);
-        for executable_name in [None, Some("xata")] {
+        for executable_name in [None, Some("tool")] {
             for expose in [false, true] {
                 package.executable_name = executable_name.map(str::to_owned);
                 package.expose = if expose {
@@ -846,13 +846,13 @@ mod tests {
                 )
                 .unwrap();
                 let recipe = std::fs::read_to_string(recipe_dir.join("recipe.yaml")).unwrap();
-                assert!(recipe.contains("  name: xata-cli\n"), "{recipe}");
+                assert!(recipe.contains("  name: tool-cli\n"), "{recipe}");
                 assert!(
-                    recipe.contains("  file_name: \"xata-cli-1.0.0-linux-64\""),
+                    recipe.contains("  file_name: \"tool-cli-1.0.0-linux-64\""),
                     "{recipe}"
                 );
                 assert_eq!(
-                    recipe.contains("      OCTOCONDA_EXECUTABLE_NAME: \"xata\""),
+                    recipe.contains("      OCTOCONDA_EXECUTABLE_NAME: \"tool\""),
                     executable_name.is_some(),
                     "{recipe}"
                 );
@@ -878,19 +878,19 @@ mod tests {
         use std::process::Command;
 
         let binary = b"#!/bin/sh\nexit 0\n";
-        for name in [None, Some("xata"), Some("xata-1.0.0"), Some("bin")] {
+        for name in [None, Some("tool"), Some("tool-1.0.0"), Some("bin")] {
             let work_dir = tempfile::tempdir().unwrap();
             let prefix = work_dir.path().join("prefix");
             std::fs::create_dir(&prefix).unwrap();
             generate_build_script(work_dir.path()).unwrap();
-            std::fs::write(work_dir.path().join("xata-cli-1.0.0-linux-64"), binary).unwrap();
+            std::fs::write(work_dir.path().join("tool-cli-1.0.0-linux-64"), binary).unwrap();
 
             let mut command = Command::new("bash");
             command
                 .arg("build.sh")
                 .current_dir(work_dir.path())
                 .env("PREFIX", &prefix)
-                .env("PKG_NAME", "xata-cli")
+                .env("PKG_NAME", "tool-cli")
                 .env("PKG_VERSION", "1.0.0")
                 .env("target_platform", "linux-64")
                 .env_remove("OCTOCONDA_EXECUTABLE_NAME")
@@ -906,7 +906,7 @@ mod tests {
             );
 
             let bin = prefix.join("bin");
-            let executable = bin.join(name.unwrap_or("xata-cli"));
+            let executable = bin.join(name.unwrap_or("tool-cli"));
             assert_eq!(std::fs::read(&executable).unwrap(), binary);
             assert_eq!(
                 std::fs::metadata(executable).unwrap().permissions().mode() & 0o777,

@@ -466,19 +466,19 @@ pub mod tests {
     #[test]
     fn test_executable_name_parses_without_changing_package_or_asset_names() {
         let entry: TomlPackage = toml::from_str(
-            r#"repository = "xataio/cli"
-name = "xata-cli"
-release-prefix = "xata"
-executable-name = "Xata_2.0-cli"
+            r#"repository = "owner/repo"
+name = "tool-cli"
+release-prefix = "tool"
+executable-name = "Tool_2.0-cli"
 "#,
         )
         .unwrap();
         let packages = expand_toml_package(entry).unwrap();
-        assert_eq!(packages[0].name, "xata-cli");
-        assert_eq!(packages[0].release_prefix.as_deref(), Some("xata"));
-        assert_eq!(packages[0].executable_name.as_deref(), Some("Xata_2.0-cli"));
+        assert_eq!(packages[0].name, "tool-cli");
+        assert_eq!(packages[0].release_prefix.as_deref(), Some("tool"));
+        assert_eq!(packages[0].executable_name.as_deref(), Some("Tool_2.0-cli"));
 
-        let entry = toml::from_str("repository = 'xataio/cli'\nname = 'xata-cli'").unwrap();
+        let entry = toml::from_str("repository = 'owner/repo'\nname = 'tool-cli'").unwrap();
         assert!(
             expand_toml_package(entry).unwrap()[0]
                 .executable_name
@@ -520,12 +520,12 @@ name = "first-cli"
             "",
             ".",
             "..",
-            "-xata",
-            "../xata",
-            "/xata",
-            r"bin\xata",
-            "xata\n",
-            "xata cli",
+            "-tool",
+            "../tool",
+            "/tool",
+            r"bin\tool",
+            "tool\n",
+            "tool cli",
         ] {
             // Exercise validation through both config expansion paths.
             for entry in [
