@@ -3256,6 +3256,9 @@ repository = "kreuzwerker/envplate"
 repository = "kreuzwerker/m1-terraform-provider-helper"
 
 [[packages]]
+repository = "kristoff-it/zine"
+
+[[packages]]
 repository = "ktock/buildg"
 
 [[packages]]
@@ -6498,6 +6501,9 @@ repository = "zellij-org/zellij"
 
 [[packages]]
 repository = "zerocore-ai/microsandbox"
+
+[[packages]]
+repository = "ziex-dev/ziex"
 
 [[packages]]
 repository = "zitadel/zitadel"
