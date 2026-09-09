@@ -6284,6 +6284,9 @@ repository = "westpoint-io/lazyrsync"
 repository = "wfxr/csview"
 
 [[packages]]
+repository = "wgsl-analyzer/wgsl-analyzer"
+
+[[packages]]
 repository = "whalebrew/whalebrew"
 
 [[packages]]
