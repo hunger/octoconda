@@ -3,6 +3,7 @@ set -e
 
 REPO="${1:?Usage: build_one.sh <owner/repo>}"
 OUTPUT_DIR="test-output"
+VERIFIER="$(dirname "$(realpath "${BASH_SOURCE[0]}")")/verify_package.py"
 
 # Wipe any artefacts from a previous run so the generator's File::create_new
 # calls for build.sh / env.sh don't fail, and stale recipes from other repos
@@ -34,7 +35,7 @@ for recipe in "${RECIPES[@]}"; do
   platform=$(basename "$PLATFORM_DIR")
 
   echo "******* ${package} [${platform}] *******"
-  if (cd "${PACKAGE_DIR}" && rattler-build build --recipe recipe.yaml --target-platform="${platform}" --output-dir="${OUTPUT_DIR}/packages"); then
+  if python3 "${VERIFIER}" build "${recipe}" --target-platform="${platform}" --output-dir="${OUTPUT_DIR}/packages/${platform}/${package}"; then
     SUCCESS=$((SUCCESS + 1))
   else
     FAILED=$((FAILED + 1))
@@ -43,3 +44,4 @@ done
 
 echo
 echo "Done: ${SUCCESS} succeeded, ${FAILED} failed (${RECIPE_COUNT} total)"
+test "${FAILED}" -eq 0

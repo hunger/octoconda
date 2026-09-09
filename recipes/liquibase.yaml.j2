@@ -38,6 +38,10 @@ tests:
         - liquibase --version
 
 extra:
+[% if target_platform == "win-64" %]
+  generated-launchers:
+    Scripts/liquibase.bat: "4bfdfdd2fe9847d1bf1d2b71ab843ce8396e92ec33850c226e86752ab7c648e2"
+[% endif %]
   upstream-forge: github.com
 [% if source_sha256 %]
   upstream-sha256: [[ source_sha256 | tojson ]]

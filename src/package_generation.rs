@@ -91,7 +91,7 @@ pub enum PackageResult {
         name: String,
     },
 }
-  
+
 impl PackageResult {
     fn display_name(&self) -> String {
         match self {
@@ -104,7 +104,7 @@ impl PackageResult {
             } => display_name(repository, name),
         }
     }
-  
+
     fn repository(&self) -> &str {
         match self {
             PackageResult::GithubFailed { repository, .. }
@@ -803,6 +803,15 @@ tests:
         recipe_file.display(),
     ))?;
 
+    let upstream_assets = serde_json::json!([{
+        "url": asset.browser_download_url.as_str(),
+        "sha256": extract_digest(asset).map(|(_, value)| value),
+    }]);
+    let manifest = std::fs::File::create_new(recipe_dir.join("upstream-assets.json"))
+        .context("Failed to create upstream asset manifest")?;
+    serde_json::to_writer_pretty(manifest, &upstream_assets)
+        .context("Failed to write upstream asset manifest")?;
+
     Ok(recipe_dir)
 }
 
@@ -910,6 +919,21 @@ mod tests {
                 assert!(recipe.contains("- liquibase --version"));
                 assert!(recipe.contains(&format!("license: \"{license}\"")));
                 assert!(recipe.contains("license_file: LICENSE.txt"));
+                assert_eq!(
+                    recipe.contains("generated-launchers:"),
+                    platform == Platform::Win64,
+                );
+                let manifest: serde_json::Value = serde_json::from_str(
+                    &std::fs::read_to_string(recipe_dir.join("upstream-assets.json")).unwrap(),
+                )
+                .unwrap();
+                assert_eq!(
+                    manifest,
+                    serde_json::json!([{
+                        "url": "https://example.invalid/liquibase.tar.gz",
+                        "sha256": null,
+                    }]),
+                );
                 assert_eq!(
                     std::fs::read_to_string(recipe_dir.join("build.sh")).unwrap(),
                     include_str!("../scripts/build_liquibase.sh")

@@ -153,6 +153,33 @@ verbatim, not templated, and receive rattler-build's usual environment variables
 Only trusted configuration and scripts should be used. See
 [recipes/liquibase.yaml.j2](recipes/liquibase.yaml.j2) for a complete example.
 
+## Package Integrity
+
+Local `build-one` runs and CI publishing verify the completed Conda archives
+before declaring success or uploading. Every payload file and bundled license
+must have the same SHA-256 as a file in one of the selected upstream release
+assets. Renames and internal symlinks are allowed; modified or added bytes fail
+verification. Generated Conda metadata under `info/` is excluded, except for
+`info/licenses/`. Broken links and links outside the package are rejected.
+
+Generated launcher scripts may be declared in a recipe's
+`extra.generated-launchers` mapping, from exact package-relative path to SHA-256.
+These are explicit, byte-pinned exceptions, not filename patterns: a missing or
+modified launcher fails verification too.
+
+The generator records upstream URLs and available checksums separately in
+`upstream-assets.json`, so custom recipes do not choose their own verification
+sources. The verifier downloads and hashes these assets before running the build,
+checks upstream checksums when supplied, and publishes only the verified archives.
+This host-side check also covers cross-built packages without executing them.
+It requires Python 3.12+, `file`, `7zz`, and `rattler-build`, available in the
+project's Pixi environment and CI runners.
+
+Run the regression tests with `pixi run test-package-integrity`. To check an
+existing archive against local downloads, use
+`pixi run python scripts/verify_package.py verify PACKAGE.conda --source ASSET`;
+repeat `--source` for additional upstream assets.
+
 ## Platform Patterns
 
 Octoconda ships with built-in regex patterns that match common binary naming

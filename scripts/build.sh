@@ -106,12 +106,11 @@ for f in *; do
                 mv "${f}" bin
                 ;;
             *.[1-9]|*.[1-9][a-z])
-                # Man page — compress and move to share/man/manN/
+                # Man page — move unchanged to share/man/manN/
                 section="${f##*.}"
                 section="${section%[a-z]}"
                 mkdir -p "share/man/man${section}"
-                gzip -c "${f}" > "share/man/man${section}/${f}.gz"
-                rm "${f}"
+                mv "${f}" "share/man/man${section}/"
                 ;;
             *.[1-9].gz|*.[1-9][a-z].gz)
                 # Already-compressed man page — move to share/man/manN/

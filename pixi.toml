@@ -8,6 +8,7 @@ version = "0.1.0"
 [tasks]
 add-repo = { cmd = "python scripts/add_repo.py" }
 test-add-repo = { cmd = "python scripts/add_repo.py --self-test" }
+test-package-integrity = { cmd = "python scripts/verify_package.py --self-test" }
 mastodon-repos = { cmd = "python scripts/mastodon_repos.py" }
 rebalance-repos = { cmd = "python scripts/rebalance_repos.py" }
 build-one = { cmd = "bash scripts/build_one.sh" }

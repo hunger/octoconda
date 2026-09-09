@@ -8,6 +8,7 @@ test -f "./env.sh" && source "./env.sh"
 test -f "build.sh" || exit 1
 
 CURRENT="${PWD}"
+VERIFIER="$(dirname "$(realpath "${BASH_SOURCE[0]}")")/verify_package.py"
 
 echo "Build and upload all conda recipes in ${CURRENT}"
 
@@ -30,11 +31,10 @@ for recipe in "${RECIPES[@]}"; do
   platform=$(basename "$PLATFORM_DIR")
 
   echo "******* ${package} [${platform}] (${count}/${RECIPE_COUNT}, ${FAILED_PACKAGES} not OK) ******"
-  BUILD_OUTPUT=$(cd "${PACKAGE_DIR}" \
-      && rattler-build publish \
-          --to "https://prefix.dev/${TARGET_CHANNEL}" \
-          --generate-attestation \
-          --target-platform="${platform}" 2>&1) \
+    BUILD_OUTPUT=$(python3 "${VERIFIER}" build "${recipe}" \
+      --target-platform="${platform}" \
+      --output-dir="${PACKAGE_DIR}/output" \
+      --publish-to="https://prefix.dev/${TARGET_CHANNEL}" 2>&1) \
     && SUCCESS_PACKAGES=$((SUCCESS_PACKAGES + 1)) \
     || { FAILED_PACKAGES=$((FAILED_PACKAGES + 1)); echo "${BUILD_OUTPUT}"; }
   count=$((count + 1))
