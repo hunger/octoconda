@@ -85,6 +85,8 @@ be packaged.
 | `release-prefix` | no       | Expected prefix of release binary filenames. Defaults to the package name. Set to `""` to disable prefix matching.                                                                                                                                                                                  |
 | `tag-prefix`     | no       | Custom prefix to strip from release tags before version parsing. When set, only tags starting with this prefix are considered and the prefix is removed to extract the version.                                                                                                                     |
 | `platforms`      | no       | Override the default platform detection patterns. See [Platform Patterns](#platform-patterns) below.                                                                                                                                                                                                |
+| `recipe-template` | no      | Path to a custom recipe template, relative to the configuration file. Replaces the generated recipe. See [Recipe Overrides](#recipe-overrides). |
+| `build-script`   | no       | Path to a custom Bash build script, relative to the configuration file. Copied into each recipe directory as `build.sh`. |
 | `expose`         | no       | List of extra top-level directory names to preserve in the conda package. By default only standard conda directories (`bin/`, `lib/`, `include/`, `share/`, `etc/`, `ssl/`) are kept; everything else is moved to `extras/`. Use for packages like JDKs that ship additional directories (e.g. `["conf", "jmods"]`). |
 
 ### Minimal Example
@@ -114,6 +116,42 @@ name = "oxlint"
 repository = "some-org/tool"
 platforms = { linux-64 = ["custom-linux-x64-regex"], win-64 = "null" }
 ```
+
+## Recipe Overrides
+
+`recipe-template` and `build-script` are independent, optional settings. Omitting
+either preserves its default behavior. For entries with a `[[packages.packages]]`
+list, set overrides on individual sub-packages, not the parent repository.
+Paths may also be absolute; missing files and directories are rejected when
+loading configuration. Override files are read at runtime, so distribute them
+alongside your configuration, not just the Octoconda binary. No CI changes are
+needed here because the publishing jobs check out the repository.
+
+Templates use [MiniJinja](https://docs.rs/minijinja/latest/minijinja/) with
+`[[ expression ]]` for values, `[% if condition %] ... [% endif %]` for blocks,
+and `[# comment #]` for comments. Use `| tojson` when inserting string values:
+it produces quoted, escaped strings valid in YAML. Unknown variables are errors.
+Native rattler-build `${{ ... }}` expressions are left unchanged.
+
+The following values are available to every template:
+
+| Value | Meaning |
+| ----- | ------- |
+| `name`, `version`, `build_number` | Conda package identity and build number. |
+| `version_major` | First dot-separated component of `version`, as a string. |
+| `target_platform` | Target Conda platform, such as `linux-64`. |
+| `source_url`, `source_file_name` | Selected release asset URL and the generated download filename. |
+| `source_sha256` | GitHub-provided SHA-256, or `none` if unavailable. |
+| `upstream_repository` | Configured `owner/repo`. |
+| `homepage`, `repository_url`, `license` | GitHub repository metadata, or `none` if unavailable. License IDs are normalized as for default recipes. |
+| `summary` | Trimmed GitHub description, or an empty string. |
+| `build_extra` | Preformatted YAML for the existing `expose` setting; insert directly under `build` without quoting. |
+
+A template replaces the entire recipe: it owns source checksums, dependencies,
+license declarations, tests, and provenance fields. Build scripts are copied
+verbatim, not templated, and receive rattler-build's usual environment variables.
+Only trusted configuration and scripts should be used. See
+[recipes/liquibase.yaml.j2](recipes/liquibase.yaml.j2) for a complete example.
 
 ## Platform Patterns
 

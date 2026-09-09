@@ -6,6 +6,7 @@ edition = "2024"
 [dependencies]
 anyhow = "1.0.100"
 clap = { version = "4.5.51", features = ["derive"] }
+minijinja = { version = "2.24.0", features = ["custom_syntax", "json"] }
 octocrab = { version = "0.54.0", features = ["stream"] }
 
 rattler = "0.41.0"

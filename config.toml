@@ -3340,6 +3340,13 @@ repository = "lintnet/lintnet"
 repository = "linuxkit/linuxkit"
 
 [[packages]]
+repository = "liquibase/liquibase"
+release-prefix = "liquibase"
+recipe-template = "recipes/liquibase.yaml.j2"
+build-script = "scripts/build_liquibase.sh"
+platforms = { linux-32 = "null", linux-64 = ['\d+\.\d+\.\d+\.tar\.gz$'], linux-aarch64 = ['\d+\.\d+\.\d+\.tar\.gz$'], osx-64 = ['\d+\.\d+\.\d+\.tar\.gz$'], osx-arm64 = ['\d+\.\d+\.\d+\.tar\.gz$'], win-32 = "null", win-64 = ['\d+\.\d+\.\d+\.tar\.gz$'], win-arm64 = "null" }
+
+[[packages]]
 repository = "liquidmetal-dev/flintlock"
 
 [[packages]]

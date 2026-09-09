@@ -4,7 +4,7 @@
 use std::{
     collections::{HashMap, HashSet},
     convert::TryFrom,
-    path::Path,
+    path::{Path, PathBuf},
 };
 
 use anyhow::{Context, anyhow};
@@ -37,6 +37,8 @@ pub struct TomlSubPackage {
     pub platforms: Option<HashMap<Platform, StringOrList>>,
     #[serde(default)]
     pub expose: Option<Vec<String>>,
+    #[serde(flatten)]
+    pub recipe: RecipeOverrides,
 }
 
 #[derive(Deserialize)]
@@ -53,6 +55,15 @@ pub struct TomlPackage {
     pub packages: Option<Vec<TomlSubPackage>>,
     #[serde(default)]
     pub expose: Option<Vec<String>>,
+    #[serde(flatten)]
+    pub recipe: RecipeOverrides,
+}
+
+#[derive(Clone, Debug, Default, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub struct RecipeOverrides {
+    pub recipe_template: Option<PathBuf>,
+    pub build_script: Option<PathBuf>,
 }
 
 #[derive(Clone, Debug)]
@@ -63,6 +74,7 @@ pub struct Package {
     pub tag_prefix: Option<String>,
     platform_pattern: HashMap<Platform, Vec<String>>,
     pub expose: Vec<String>,
+    pub recipe: RecipeOverrides,
 }
 
 impl Package {
@@ -243,6 +255,13 @@ fn expand_toml_package(value: TomlPackage) -> anyhow::Result<Vec<Package>> {
             );
         }
 
+        if value.recipe.recipe_template.is_some() || value.recipe.build_script.is_some() {
+            anyhow::bail!(
+                "Repository \"{}\": set recipe-template and build-script on individual sub-packages",
+                value.repository,
+            );
+        }
+
         sub_packages
             .into_iter()
             .map(|sp| {
@@ -254,6 +273,7 @@ fn expand_toml_package(value: TomlPackage) -> anyhow::Result<Vec<Package>> {
                     tag_prefix: sp.tag_prefix,
                     platform_pattern: resolve_platforms(sp.platforms),
                     expose: sp.expose.unwrap_or_default(),
+                    recipe: sp.recipe,
                 })
             })
             .collect()
@@ -266,6 +286,7 @@ fn expand_toml_package(value: TomlPackage) -> anyhow::Result<Vec<Package>> {
             tag_prefix: value.tag_prefix,
             platform_pattern: resolve_platforms(value.platforms),
             expose: value.expose.unwrap_or_default(),
+            recipe: value.recipe,
         }])
     }
 }
@@ -395,12 +416,103 @@ pub fn parse_config(path: &Path) -> anyhow::Result<Config> {
         path.display()
     ))?;
 
-    config.try_into()
+    let mut config: Config = config.try_into()?;
+    let config_dir = path.parent().unwrap_or_else(|| Path::new("."));
+    for package in &mut config.packages {
+        for (setting, override_path) in [
+            ("recipe-template", &mut package.recipe.recipe_template),
+            ("build-script", &mut package.recipe.build_script),
+        ] {
+            if let Some(override_path) = override_path {
+                let resolved = config_dir.join(&*override_path);
+                *override_path = resolved.canonicalize().with_context(|| {
+                    format!(
+                        "Package \"{}\": failed to resolve {setting} {}",
+                        package.name,
+                        resolved.display(),
+                    )
+                })?;
+                if !override_path.is_file() {
+                    anyhow::bail!(
+                        "Package \"{}\": {setting} {} is not a file",
+                        package.name,
+                        override_path.display(),
+                    );
+                }
+            }
+        }
+    }
+    Ok(config)
 }
 
 #[cfg(test)]
 pub mod tests {
     use super::*;
+
+    #[test]
+    fn test_recipe_overrides() {
+        let directory = tempfile::tempdir().unwrap();
+        let template_path = directory.path().join("custom.yaml");
+        let script_path = directory.path().join("custom.sh");
+        std::fs::write(&template_path, "package: {}").unwrap();
+        std::fs::write(&script_path, "exit 0").unwrap();
+        let config_path = directory.path().join("config.toml");
+        std::fs::write(
+            &config_path,
+            r#"[conda]
+channel = "test-channel"
+[[packages]]
+repository = "example/standalone"
+recipe-template = "custom.yaml"
+build-script = "custom.sh"
+[[packages]]
+repository = "example/multiple"
+[[packages.packages]]
+name = "custom"
+recipe-template = "custom.yaml"
+[[packages.packages]]
+name = "ordinary"
+"#,
+        )
+        .unwrap();
+        let config = parse_config(&config_path).unwrap();
+        assert_eq!(
+            config.packages[0].recipe.recipe_template,
+            Some(template_path.clone())
+        );
+        assert_eq!(config.packages[0].recipe.build_script, Some(script_path));
+        assert_eq!(
+            config.packages[1].recipe.recipe_template,
+            Some(template_path)
+        );
+        assert!(config.packages[1].recipe.build_script.is_none());
+        assert!(config.packages[2].recipe.recipe_template.is_none());
+        std::fs::remove_file(directory.path().join("custom.yaml")).unwrap();
+        let error = parse_config(&config_path).unwrap_err().to_string();
+        assert!(error.contains("standalone"));
+        assert!(error.contains("recipe-template"));
+    }
+
+    #[test]
+    fn test_recipe_overrides_rejected_on_repository_group() {
+        let config: TomlConfig = toml::from_str(
+            r#"[conda]
+channel = "test-channel"
+[[packages]]
+repository = "example/multiple"
+build-script = "custom.sh"
+[[packages.packages]]
+name = "custom"
+"#,
+        )
+        .unwrap();
+        assert!(
+            Config::try_from(config)
+                .unwrap_err()
+                .to_string()
+                .contains("individual sub-packages")
+        );
+    }
 
     pub fn get_patterns_for(release_prefix: &str) -> HashMap<Platform, Vec<regex::Regex>> {
         let rp = if release_prefix.is_empty() {
@@ -418,6 +530,7 @@ pub mod tests {
             deprecated: false,
             packages: None,
             expose: None,
+            recipe: RecipeOverrides::default(),
         };
         let mut packages = expand_toml_package(toml).unwrap();
         packages.remove(0).platform_pattern().unwrap()
@@ -445,6 +558,7 @@ pub mod tests {
                 deprecated: false,
                 packages: None,
                 expose: None,
+                recipe: RecipeOverrides::default(),
             },
             TomlPackage {
                 name: None,
@@ -455,6 +569,7 @@ pub mod tests {
                 deprecated: false,
                 packages: None,
                 expose: None,
+                recipe: RecipeOverrides::default(),
             },
         ]);
         let err = Config::try_from(config).unwrap_err();
@@ -476,6 +591,7 @@ pub mod tests {
                 deprecated: false,
                 packages: None,
                 expose: None,
+                recipe: RecipeOverrides::default(),
             },
             TomlPackage {
                 name: Some("foo".to_string()),
@@ -486,6 +602,7 @@ pub mod tests {
                 deprecated: false,
                 packages: None,
                 expose: None,
+                recipe: RecipeOverrides::default(),
             },
         ]);
         let err = Config::try_from(config).unwrap_err();
@@ -507,6 +624,7 @@ pub mod tests {
                 deprecated: false,
                 packages: None,
                 expose: None,
+                recipe: RecipeOverrides::default(),
             },
             TomlPackage {
                 name: Some("foo".to_string()),
@@ -517,6 +635,7 @@ pub mod tests {
                 deprecated: false,
                 packages: None,
                 expose: None,
+                recipe: RecipeOverrides::default(),
             },
         ]);
         let err = Config::try_from(config).unwrap_err();
@@ -538,6 +657,7 @@ pub mod tests {
                 deprecated: false,
                 packages: None,
                 expose: None,
+                recipe: RecipeOverrides::default(),
             },
             TomlPackage {
                 name: None,
@@ -548,6 +668,7 @@ pub mod tests {
                 deprecated: false,
                 packages: None,
                 expose: None,
+                recipe: RecipeOverrides::default(),
             },
         ]);
         Config::try_from(config).unwrap();
@@ -565,6 +686,7 @@ pub mod tests {
                 deprecated: true,
                 packages: None,
                 expose: None,
+                recipe: RecipeOverrides::default(),
             },
             TomlPackage {
                 name: None,
@@ -575,6 +697,7 @@ pub mod tests {
                 deprecated: false,
                 packages: None,
                 expose: None,
+                recipe: RecipeOverrides::default(),
             },
         ]);
         let cfg = Config::try_from(config).unwrap();
@@ -594,6 +717,7 @@ pub mod tests {
                 deprecated: true,
                 packages: None,
                 expose: None,
+                recipe: RecipeOverrides::default(),
             },
             TomlPackage {
                 name: None,
@@ -604,6 +728,7 @@ pub mod tests {
                 deprecated: true,
                 packages: None,
                 expose: None,
+                recipe: RecipeOverrides::default(),
             },
         ]);
         let cfg = Config::try_from(config).unwrap();
@@ -626,6 +751,7 @@ pub mod tests {
                     tag_prefix: None,
                     platforms: None,
                     expose: None,
+                    recipe: RecipeOverrides::default(),
                 },
                 TomlSubPackage {
                     name: "oxlint".to_string(),
@@ -633,10 +759,12 @@ pub mod tests {
                     tag_prefix: None,
                     platforms: None,
                     expose: None,
+                    recipe: RecipeOverrides::default(),
                 },
             ]),
 
             expose: None,
+            recipe: RecipeOverrides::default(),
         }]);
         let cfg = Config::try_from(config).unwrap();
         assert_eq!(cfg.packages.len(), 2);
@@ -661,9 +789,11 @@ pub mod tests {
                 tag_prefix: None,
                 platforms: None,
                 expose: None,
+                recipe: RecipeOverrides::default(),
             }]),
 
             expose: None,
+            recipe: RecipeOverrides::default(),
         }]);
         let err = Config::try_from(config).unwrap_err();
         assert!(
@@ -684,6 +814,7 @@ pub mod tests {
                 deprecated: false,
                 packages: None,
                 expose: None,
+                recipe: RecipeOverrides::default(),
             },
             TomlPackage {
                 name: None,
@@ -698,9 +829,11 @@ pub mod tests {
                     tag_prefix: None,
                     platforms: None,
                     expose: None,
+                    recipe: RecipeOverrides::default(),
                 }]),
 
                 expose: None,
+                recipe: RecipeOverrides::default(),
             },
         ]);
         let err = Config::try_from(config).unwrap_err();
@@ -721,6 +854,7 @@ pub mod tests {
             deprecated: false,
             packages: None,
             expose: Some(vec!["conf".to_string(), "jmods".to_string()]),
+            recipe: RecipeOverrides::default(),
         }]);
         let cfg = Config::try_from(config).unwrap();
         assert_eq!(cfg.packages.len(), 1);
@@ -741,6 +875,7 @@ pub mod tests {
             deprecated: false,
             packages: None,
             expose: Some(vec!["conf".to_string()]),
+            recipe: RecipeOverrides::default(),
         }]);
         let cfg = Config::try_from(config).unwrap();
         assert_eq!(cfg.packages[0].expose, vec!["conf".to_string()]);

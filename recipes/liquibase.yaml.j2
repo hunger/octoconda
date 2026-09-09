@@ -1,0 +1,63 @@
+package:
+  name: [[ name | tojson ]]
+  version: [[ version | tojson ]]
+
+source:
+  url: [[ source_url | tojson ]]
+[% if source_sha256 %]
+  sha256: [[ source_sha256 | tojson ]]
+[% endif %]
+  file_name: [[ source_file_name | tojson ]]
+
+build:
+  number: [[ build_number ]]
+  dynamic_linking:
+    binary_relocation: false
+  prefix_detection:
+    ignore: true
+[[ build_extra ]]
+
+requirements:
+  build:
+    - 7zip
+  run:
+    - openjdk >=17
+
+tests:
+  - package_contents:
+      files:
+        not_exists:
+          - .*
+          - share/liquibase/internal/**/liquibase-commercial*.jar
+          - share/liquibase/internal/**/liquibase-checks.jar
+      bin:
+        - "*"
+  - if: build_platform == target_platform
+    then:
+      script:
+        - liquibase --version
+
+extra:
+  upstream-forge: github.com
+[% if source_sha256 %]
+  upstream-sha256: [[ source_sha256 | tojson ]]
+[% endif %]
+  upstream-version: [[ version | tojson ]]
+  upstream-repository: [[ upstream_repository | tojson ]]
+  release-download-url: [[ source_url | tojson ]]
+
+about:
+  description: [[ summary | tojson ]]
+  summary: [[ summary | tojson ]]
+[% if homepage %]
+  homepage: [[ homepage | tojson ]]
+[% endif %]
+[% if repository_url %]
+  repository: [[ repository_url | tojson ]]
+[% endif %]
+[% if version_major | int >= 5 %]
+  license: "FSL-1.1-ALv2"
+[% else %]
+  license: "Apache-2.0"
+[% endif %]
+  license_file: LICENSE.txt

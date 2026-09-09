@@ -667,6 +667,26 @@ about:
     )
 }
 
+fn render_recipe_template(path: &Path, context: minijinja::Value) -> anyhow::Result<String> {
+    let source = std::fs::read_to_string(path)
+        .with_context(|| format!("Failed to read recipe template {}", path.display()))?;
+    let mut environment = minijinja::Environment::new();
+    environment.set_syntax(
+        minijinja::syntax::SyntaxConfig::builder()
+            .variable_delimiters("[[", "]]")
+            .block_delimiters("[%", "%]")
+            .comment_delimiters("[#", "#]")
+            .build()?,
+    );
+    environment.set_undefined_behavior(minijinja::UndefinedBehavior::Strict);
+    environment.set_trim_blocks(true);
+    environment.set_lstrip_blocks(true);
+    environment.set_keep_trailing_newline(true);
+    environment
+        .render_str(&source, context)
+        .with_context(|| format!("Failed to render recipe template {}", path.display()))
+}
+
 fn generate_rattler_build_recipe(
     work_dir: &Path,
     package: &Package,
@@ -681,16 +701,14 @@ fn generate_rattler_build_recipe(
     let recipe_dir = platform_dir.join(format!("{package_name}-{package_version}-{build_number}",));
     std::fs::create_dir_all(&recipe_dir).context("Failed to create recipe directory")?;
 
-    let build_script_source = work_dir.join("build.sh");
+    let build_script_source = package
+        .recipe
+        .build_script
+        .clone()
+        .unwrap_or_else(|| work_dir.join("build.sh"));
     let build_script_destination = recipe_dir.join("build.sh");
     std::fs::copy(&build_script_source, &build_script_destination).context(format!(
         "Failed to copy build script from {build_script_source:?} to {build_script_destination:?}"
-    ))?;
-
-    let recipe_file = recipe_dir.join("recipe.yaml");
-    let mut file = std::fs::File::create_new(&recipe_file).context(format!(
-        "Failed to create recipe file \"{}\"",
-        recipe_file.display()
     ))?;
 
     let url = asset.browser_download_url.to_string();
@@ -702,10 +720,6 @@ fn generate_rattler_build_recipe(
     let pn = package_name;
 
     let archive = format!("{pn}-{package_version}-{target_platform}");
-
-    let url = yaml_escape(&url);
-    let package_version = yaml_escape(package_version);
-    let archive = yaml_escape(&archive);
 
     let build_extra_section = if !package.expose.is_empty() {
         let standard_dirs = ["bin", "etc", "extras", "include", "lib", "share", "ssl"];
@@ -726,8 +740,32 @@ fn generate_rattler_build_recipe(
         String::new()
     };
 
-    let content = format!(
-        r#"package:
+    let content = if let Some(template) = &package.recipe.recipe_template {
+        render_recipe_template(
+            template,
+            minijinja::context! {
+                name => package_name,
+                version => package_version,
+                version_major => package_version.split('.').next().unwrap_or(package_version),
+                build_number => build_number,
+                target_platform => target_platform.to_string(),
+                source_url => url,
+                source_sha256 => extract_digest(asset).map(|(_, value)| value),
+                source_file_name => archive,
+                upstream_repository => package.repository.to_string(),
+                homepage => repository.homepage.as_deref(),
+                repository_url => repository.html_url.as_ref().map(|url| url.as_str()),
+                summary => repository.description.as_deref().unwrap_or_default().trim(),
+                license => repository.license.as_ref().map(|license| fix_spdx_license(&license.spdx_id)),
+                build_extra => build_extra_section,
+            },
+        )?
+    } else {
+        let url = yaml_escape(&url);
+        let package_version = yaml_escape(package_version);
+        let archive = yaml_escape(&archive);
+        format!(
+            r#"package:
   name: {pn}
   version: "{package_version}"
 
@@ -752,8 +790,14 @@ tests:
         - "*"
 
 {about}"#,
-    );
+        )
+    };
 
+    let recipe_file = recipe_dir.join("recipe.yaml");
+    let mut file = std::fs::File::create_new(&recipe_file).context(format!(
+        "Failed to create recipe file \"{}\"",
+        recipe_file.display()
+    ))?;
     file.write_all(content.as_bytes()).context(format!(
         "Failed to populate recipe file \"{}\"",
         recipe_file.display(),
@@ -790,6 +834,198 @@ mod tests {
     use super::*;
 
     use crate::config_file::tests::get_patterns_for;
+
+    #[test]
+    fn test_recipe_template_rendering() {
+        let directory = tempfile::tempdir().unwrap();
+        let template = directory.path().join("custom.yaml");
+        let value = "quoted \"value\"\nwith \\ and [[ untouched ]]";
+        std::fs::write(&template, "[[ value | tojson ]]\n${{ target_platform }}\n").unwrap();
+        let rendered = render_recipe_template(&template, minijinja::context! { value }).unwrap();
+        assert_eq!(
+            serde_json::from_str::<String>(rendered.lines().next().unwrap()).unwrap(),
+            value,
+        );
+        assert!(rendered.ends_with("\n${{ target_platform }}\n"));
+        for invalid in ["[[ unknown_variable ]]", "[% if %]"] {
+            std::fs::write(&template, invalid).unwrap();
+            let error = render_recipe_template(&template, minijinja::context! {}).unwrap_err();
+            assert!(error.to_string().contains("custom.yaml"));
+        }
+        std::fs::remove_file(&template).unwrap();
+        assert!(render_recipe_template(&template, minijinja::context! {}).is_err());
+    }
+
+    #[test]
+    fn test_recipe_overrides_render_liquibase() {
+        let config = crate::config_file::parse_config(Path::new("config.toml")).unwrap();
+        let mut package = config
+            .packages
+            .into_iter()
+            .find(|package| package.name == "liquibase")
+            .unwrap();
+        let repository = serde_json::from_value(serde_json::json!({
+            "id": 1,
+            "name": "liquibase",
+            "url": "https://api.github.com/repos/liquibase/liquibase"
+        }))
+        .unwrap();
+        let asset = serde_json::from_value(serde_json::json!({
+            "id": 1,
+            "node_id": "asset",
+            "name": "liquibase.tar.gz",
+            "url": "https://example.invalid/asset",
+            "browser_download_url": "https://example.invalid/liquibase.tar.gz",
+            "content_type": "application/gzip",
+            "state": "uploaded",
+            "size": 1,
+            "download_count": 0,
+            "created_at": "2026-01-01T00:00:00Z",
+            "updated_at": "2026-01-01T00:00:00Z"
+        }))
+        .unwrap();
+        let work_dir = tempfile::tempdir().unwrap();
+        generate_build_script(work_dir.path()).unwrap();
+        for (version, license) in [("4.33.0", "Apache-2.0"), ("5.0.4", "FSL-1.1-ALv2")] {
+            for platform in [Platform::Linux64, Platform::Win64] {
+                let recipe_dir = generate_rattler_build_recipe(
+                    work_dir.path(),
+                    &package,
+                    version,
+                    0,
+                    &platform,
+                    &repository,
+                    &asset,
+                )
+                .unwrap();
+                let recipe = std::fs::read_to_string(recipe_dir.join("recipe.yaml")).unwrap();
+                assert!(
+                    recipe.contains(
+                        "requirements:\n  build:\n    - 7zip\n  run:\n    - openjdk >=17"
+                    )
+                );
+                assert!(recipe.contains("if: build_platform == target_platform"));
+                assert!(recipe.contains("share/liquibase/internal/**/liquibase-commercial*.jar"));
+                assert!(recipe.contains("share/liquibase/internal/**/liquibase-checks.jar"));
+                assert!(recipe.contains("- liquibase --version"));
+                assert!(recipe.contains(&format!("license: \"{license}\"")));
+                assert!(recipe.contains("license_file: LICENSE.txt"));
+                assert_eq!(
+                    std::fs::read_to_string(recipe_dir.join("build.sh")).unwrap(),
+                    include_str!("../scripts/build_liquibase.sh")
+                );
+            }
+        }
+        package.repository.owner = "other".to_string();
+        package.name = "renamed".to_string();
+        let recipe_dir = generate_rattler_build_recipe(
+            work_dir.path(),
+            &package,
+            "1.0.0",
+            0,
+            &Platform::Linux64,
+            &repository,
+            &asset,
+        )
+        .unwrap();
+        let recipe = std::fs::read_to_string(recipe_dir.join("recipe.yaml")).unwrap();
+        assert!(recipe.contains("name: \"renamed\""));
+        assert!(recipe.contains("openjdk"));
+        assert_eq!(
+            std::fs::read_to_string(recipe_dir.join("build.sh")).unwrap(),
+            include_str!("../scripts/build_liquibase.sh")
+        );
+        let custom_template = package.recipe.recipe_template.take();
+        let custom_script = package.recipe.build_script.take();
+        let recipe_dir = generate_rattler_build_recipe(
+            work_dir.path(),
+            &package,
+            "1.0.1",
+            0,
+            &Platform::Linux64,
+            &repository,
+            &asset,
+        )
+        .unwrap();
+        let recipe = std::fs::read_to_string(recipe_dir.join("recipe.yaml")).unwrap();
+        assert!(!recipe.contains("openjdk"));
+        assert!(!recipe.contains("liquibase --version"));
+        assert!(!recipe.contains("license_file:"));
+        assert_eq!(
+            std::fs::read_to_string(recipe_dir.join("build.sh")).unwrap(),
+            include_str!("../scripts/build.sh")
+        );
+        package.recipe.build_script = custom_script;
+        let recipe_dir = generate_rattler_build_recipe(
+            work_dir.path(),
+            &package,
+            "1.0.2",
+            0,
+            &Platform::Linux64,
+            &repository,
+            &asset,
+        )
+        .unwrap();
+        let recipe = std::fs::read_to_string(recipe_dir.join("recipe.yaml")).unwrap();
+        assert!(!recipe.contains("openjdk"));
+        assert_eq!(
+            std::fs::read_to_string(recipe_dir.join("build.sh")).unwrap(),
+            include_str!("../scripts/build_liquibase.sh")
+        );
+        package.recipe.build_script = None;
+        package.recipe.recipe_template = custom_template;
+        let recipe_dir = generate_rattler_build_recipe(
+            work_dir.path(),
+            &package,
+            "1.0.3",
+            0,
+            &Platform::Linux64,
+            &repository,
+            &asset,
+        )
+        .unwrap();
+        let recipe = std::fs::read_to_string(recipe_dir.join("recipe.yaml")).unwrap();
+        assert!(recipe.contains("openjdk"));
+        assert_eq!(
+            std::fs::read_to_string(recipe_dir.join("build.sh")).unwrap(),
+            include_str!("../scripts/build.sh")
+        );
+    }
+
+    #[test]
+    fn test_liquibase_distribution_matching() {
+        let config = crate::config_file::parse_config(Path::new("config.toml")).unwrap();
+        let package = config
+            .packages
+            .iter()
+            .find(|package| package.name == "liquibase")
+            .unwrap();
+        let platforms = package.platform_pattern().unwrap();
+        assert_eq!(platforms.len(), 5);
+        for version in ["4.33.0", "5.0.4"] {
+            let distribution = format!("liquibase-{version}.tar.gz");
+            let excluded = [
+                format!("liquibase-additional-{version}.zip"),
+                format!("liquibase-core-{version}.jar"),
+                format!("liquibase-windows-x64-installer-{version}.exe"),
+                format!("liquibase-{version}.tar.gz.asc"),
+                format!("liquibase-{version}.tar.gz.sha256"),
+            ];
+            for platform in [
+                Platform::Linux64,
+                Platform::LinuxAarch64,
+                Platform::Osx64,
+                Platform::OsxArm64,
+                Platform::Win64,
+            ] {
+                let patterns = &platforms[&platform];
+                assert_eq!(match_platform_names(patterns, &[&distribution]), Some(0));
+                for asset in &excluded {
+                    assert_eq!(match_platform_names(patterns, &[asset]), None);
+                }
+            }
+        }
+    }
 
     fn zoxide_names() -> Vec<&'static str> {
         vec![
