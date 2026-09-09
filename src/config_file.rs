@@ -30,6 +30,8 @@ pub enum StringOrList {
 #[derive(Deserialize)]
 pub struct TomlSubPackage {
     pub name: String,
+    #[serde(rename = "executable-name")]
+    pub executable_name: Option<String>,
     #[serde(rename = "release-prefix")]
     pub release_prefix: Option<String>,
     #[serde(rename = "tag-prefix")]
@@ -42,6 +44,8 @@ pub struct TomlSubPackage {
 #[derive(Deserialize)]
 pub struct TomlPackage {
     pub name: Option<String>,
+    #[serde(rename = "executable-name")]
+    pub executable_name: Option<String>,
     #[serde(rename = "release-prefix")]
     pub release_prefix: Option<String>,
     #[serde(rename = "tag-prefix")]
@@ -58,6 +62,7 @@ pub struct TomlPackage {
 #[derive(Clone, Debug)]
 pub struct Package {
     pub name: String,
+    pub executable_name: Option<String>,
     pub repository: Repository,
     release_prefix: Option<String>,
     pub tag_prefix: Option<String>,
@@ -223,9 +228,13 @@ fn expand_toml_package(value: TomlPackage) -> anyhow::Result<Vec<Package>> {
     let repository = Repository::try_from(value.repository.as_str())?;
 
     if let Some(sub_packages) = value.packages {
-        if value.name.is_some() || value.release_prefix.is_some() || value.tag_prefix.is_some() {
+        if value.name.is_some()
+            || value.executable_name.is_some()
+            || value.release_prefix.is_some()
+            || value.tag_prefix.is_some()
+        {
             anyhow::bail!(
-                "Repository \"{}\": top-level \"name\", \"release-prefix\", \
+                "Repository \"{}\": top-level \"name\", \"executable-name\", \"release-prefix\", \
                  and \"tag-prefix\" cannot be combined with a \"packages\" list",
                 value.repository,
             );
@@ -251,6 +260,7 @@ fn expand_toml_package(value: TomlPackage) -> anyhow::Result<Vec<Package>> {
                 let name = conda_package_name(Some(&sp.name), &repository.repo);
                 Ok(Package {
                     name,
+                    executable_name: validate_executable_name(sp.executable_name)?,
                     repository: repository.clone(),
                     release_prefix: sp.release_prefix,
                     tag_prefix: sp.tag_prefix,
@@ -263,6 +273,7 @@ fn expand_toml_package(value: TomlPackage) -> anyhow::Result<Vec<Package>> {
         let name = conda_package_name(value.name.as_deref(), &repository.repo);
         Ok(vec![Package {
             name,
+            executable_name: validate_executable_name(value.executable_name)?,
             repository,
             release_prefix: value.release_prefix,
             tag_prefix: value.tag_prefix,
@@ -270,6 +281,22 @@ fn expand_toml_package(value: TomlPackage) -> anyhow::Result<Vec<Package>> {
             expose: value.expose.unwrap_or_default(),
         }])
     }
+}
+
+fn validate_executable_name(name: Option<String>) -> anyhow::Result<Option<String>> {
+    if let Some(name) = &name {
+        anyhow::ensure!(
+            !name.is_empty()
+                && !name.starts_with('-')
+                && name != "."
+                && name != ".."
+                && name
+                    .bytes()
+                    .all(|c| c.is_ascii_alphanumeric() || b"._-".contains(&c)),
+            "Invalid executable-name {name:?}: expected a filename containing only ASCII letters, digits, '.', '_' or '-' (not '.' or '..', and not starting with '-')",
+        );
+    }
+    Ok(name)
 }
 
 fn max_import_releases_default() -> usize {
@@ -417,6 +444,7 @@ pub mod tests {
             tag_prefix: None,
             repository: "foo/bar".to_string(),
             platforms: None,
+            executable_name: None,
             deprecated: false,
             packages: None,
             expose: None,
@@ -436,6 +464,84 @@ pub mod tests {
     }
 
     #[test]
+    fn test_executable_name_parses_without_changing_package_or_asset_names() {
+        let entry: TomlPackage = toml::from_str(
+            r#"repository = "owner/repo"
+name = "tool-cli"
+release-prefix = "tool"
+executable-name = "Tool_2.0-cli"
+"#,
+        )
+        .unwrap();
+        let packages = expand_toml_package(entry).unwrap();
+        assert_eq!(packages[0].name, "tool-cli");
+        assert_eq!(packages[0].release_prefix.as_deref(), Some("tool"));
+        assert_eq!(packages[0].executable_name.as_deref(), Some("Tool_2.0-cli"));
+
+        let entry = toml::from_str("repository = 'owner/repo'\nname = 'tool-cli'").unwrap();
+        assert!(
+            expand_toml_package(entry).unwrap()[0]
+                .executable_name
+                .is_none()
+        );
+    }
+
+    #[test]
+    fn test_executable_name_on_sub_packages() {
+        let entry = toml::from_str(
+            r#"repository = "owner/repo"
+[[packages]]
+name = "first-cli"
+executable-name = "first"
+[[packages]]
+name = "second-cli"
+"#,
+        )
+        .unwrap();
+        let packages = expand_toml_package(entry).unwrap();
+        assert_eq!(packages[0].executable_name.as_deref(), Some("first"));
+        assert!(packages[1].executable_name.is_none());
+
+        let entry = toml::from_str(
+            r#"repository = "owner/repo"
+executable-name = "ambiguous"
+[[packages]]
+name = "first-cli"
+"#,
+        )
+        .unwrap();
+        let err = expand_toml_package(entry).unwrap_err();
+        assert!(err.to_string().contains("cannot be combined"), "{err}");
+    }
+
+    #[test]
+    fn test_invalid_executable_names_rejected() {
+        for name in [
+            "",
+            ".",
+            "..",
+            "-tool",
+            "../tool",
+            "/tool",
+            r"bin\tool",
+            "tool\n",
+            "tool cli",
+        ] {
+            // Exercise validation through both config expansion paths.
+            for entry in [
+                format!("repository = 'owner/repo'\nexecutable-name = {name:?}"),
+                format!(
+                    "repository = 'owner/repo'\n[[packages]]\nname = 'cli'\nexecutable-name = {name:?}"
+                ),
+            ] {
+                let entry = toml::from_str(&entry).unwrap();
+                let err = expand_toml_package(entry).unwrap_err();
+                assert!(err.to_string().contains("Invalid executable-name"), "{err}");
+            }
+        }
+    }
+
+    #[test]
     fn test_duplicate_package_names_rejected() {
         let config = toml_config(vec![
             TomlPackage {
@@ -444,6 +550,7 @@ pub mod tests {
                 tag_prefix: None,
                 repository: "alice/foo".to_string(),
                 platforms: None,
+                executable_name: None,
                 deprecated: false,
                 packages: None,
                 expose: None,
@@ -454,6 +561,7 @@ pub mod tests {
                 tag_prefix: None,
                 repository: "bob/foo".to_string(),
                 platforms: None,
+                executable_name: None,
                 deprecated: false,
                 packages: None,
                 expose: None,
@@ -475,6 +583,7 @@ pub mod tests {
                 tag_prefix: None,
                 repository: "alice/something".to_string(),
                 platforms: None,
+                executable_name: None,
                 deprecated: false,
                 packages: None,
                 expose: None,
@@ -485,6 +594,7 @@ pub mod tests {
                 tag_prefix: None,
                 repository: "bob/other".to_string(),
                 platforms: None,
+                executable_name: None,
                 deprecated: false,
                 packages: None,
                 expose: None,
@@ -506,6 +616,7 @@ pub mod tests {
                 tag_prefix: None,
                 repository: "alice/foo".to_string(),
                 platforms: None,
+                executable_name: None,
                 deprecated: false,
                 packages: None,
                 expose: None,
@@ -516,6 +627,7 @@ pub mod tests {
                 tag_prefix: None,
                 repository: "bob/bar".to_string(),
                 platforms: None,
+                executable_name: None,
                 deprecated: false,
                 packages: None,
                 expose: None,
@@ -537,6 +649,7 @@ pub mod tests {
                 tag_prefix: None,
                 repository: "alice/foo".to_string(),
                 platforms: None,
+                executable_name: None,
                 deprecated: false,
                 packages: None,
                 expose: None,
@@ -547,6 +660,7 @@ pub mod tests {
                 tag_prefix: None,
                 repository: "bob/bar".to_string(),
                 platforms: None,
+                executable_name: None,
                 deprecated: false,
                 packages: None,
                 expose: None,
@@ -564,6 +678,7 @@ pub mod tests {
                 tag_prefix: None,
                 repository: "alice/foo".to_string(),
                 platforms: None,
+                executable_name: None,
                 deprecated: true,
                 packages: None,
                 expose: None,
@@ -574,6 +689,7 @@ pub mod tests {
                 tag_prefix: None,
                 repository: "bob/foo".to_string(),
                 platforms: None,
+                executable_name: None,
                 deprecated: false,
                 packages: None,
                 expose: None,
@@ -593,6 +709,7 @@ pub mod tests {
                 tag_prefix: None,
                 repository: "alice/foo".to_string(),
                 platforms: None,
+                executable_name: None,
                 deprecated: true,
                 packages: None,
                 expose: None,
@@ -603,6 +720,7 @@ pub mod tests {
                 tag_prefix: None,
                 repository: "bob/foo".to_string(),
                 platforms: None,
+                executable_name: None,
                 deprecated: true,
                 packages: None,
                 expose: None,
@@ -620,6 +738,7 @@ pub mod tests {
             tag_prefix: None,
             repository: "oxc-project/oxc".to_string(),
             platforms: None,
+            executable_name: None,
             deprecated: false,
             packages: Some(vec![
                 TomlSubPackage {
@@ -627,6 +746,7 @@ pub mod tests {
                     release_prefix: Some("oxfmt".to_string()),
                     tag_prefix: None,
                     platforms: None,
+                    executable_name: None,
                     expose: None,
                 },
                 TomlSubPackage {
@@ -634,6 +754,7 @@ pub mod tests {
                     release_prefix: Some("oxlint".to_string()),
                     tag_prefix: None,
                     platforms: None,
+                    executable_name: None,
                     expose: None,
                 },
             ]),
@@ -656,12 +777,14 @@ pub mod tests {
             tag_prefix: None,
             repository: "owner/repo".to_string(),
             platforms: None,
+            executable_name: None,
             deprecated: false,
             packages: Some(vec![TomlSubPackage {
                 name: "pkg".to_string(),
                 release_prefix: None,
                 tag_prefix: None,
                 platforms: None,
+                executable_name: None,
                 expose: None,
             }]),
 
@@ -683,6 +806,7 @@ pub mod tests {
                 tag_prefix: None,
                 repository: "alice/foo".to_string(),
                 platforms: None,
+                executable_name: None,
                 deprecated: false,
                 packages: None,
                 expose: None,
@@ -693,12 +817,14 @@ pub mod tests {
                 tag_prefix: None,
                 repository: "oxc-project/oxc".to_string(),
                 platforms: None,
+                executable_name: None,
                 deprecated: false,
                 packages: Some(vec![TomlSubPackage {
                     name: "foo".to_string(),
                     release_prefix: None,
                     tag_prefix: None,
                     platforms: None,
+                    executable_name: None,
                     expose: None,
                 }]),
 
@@ -720,6 +846,7 @@ pub mod tests {
             tag_prefix: None,
             repository: "graalvm/graalvm-ce-builds".to_string(),
             platforms: None,
+            executable_name: None,
             deprecated: false,
             packages: None,
             expose: Some(vec!["conf".to_string(), "jmods".to_string()]),
@@ -740,6 +867,7 @@ pub mod tests {
             tag_prefix: None,
             repository: "owner/repo".to_string(),
             platforms: None,
+            executable_name: None,
             deprecated: false,
             packages: None,
             expose: Some(vec!["conf".to_string()]),
