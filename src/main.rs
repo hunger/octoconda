@@ -168,8 +168,7 @@ fn main() -> Result<(), anyhow::Error> {
                     let work_dir = temporary_directory.path();
                     async move {
                         let repo_ref = &group[0].repository;
-                        let repo_string =
-                            format!("{}/{}", repo_ref.owner, repo_ref.repo);
+                        let repo_string = format!("{}/{}", repo_ref.owner, repo_ref.repo);
 
                         let raw_releases = match gh.fetch_releases(repo_ref).await {
                             Ok(r) => r,
@@ -211,17 +210,13 @@ fn main() -> Result<(), anyhow::Error> {
                             // Check if any release version is not yet in conda.
                             // If everything is already imported, skip the extra
                             // repo.get() API call.
-                            let pkg_records =
-                                conda::find_by_name(repo_packages, &package.name);
+                            let pkg_records = conda::find_by_name(repo_packages, &package.name);
                             let has_new = releases.iter().any(|(_, (vs, _))| {
-                                let Ok(v) = rattler_conda_types::Version::from_str(vs)
-                                else {
+                                let Ok(v) = rattler_conda_types::Version::from_str(vs) else {
                                     return false;
                                 };
                                 let vws = VersionWithSource::new(v, vs);
-                                !pkg_records
-                                    .iter()
-                                    .any(|r| r.package_record.version == vws)
+                                !pkg_records.iter().any(|r| r.package_record.version == vws)
                             });
 
                             if !has_new {
@@ -308,13 +303,13 @@ fn main() -> Result<(), anyhow::Error> {
                 let mut new_state = cached_state;
                 for pkg in &result {
                     let key = match pkg {
-                        package_generation::PackageResult::GithubFailed {
-                            repository, ..
-                        } => repository,
+                        package_generation::PackageResult::GithubFailed { repository, .. } => {
+                            repository
+                        }
                         package_generation::PackageResult::Ok { repository, .. }
-                        | package_generation::PackageResult::NoReleases {
-                            repository, ..
-                        } => repository,
+                        | package_generation::PackageResult::NoReleases { repository, .. } => {
+                            repository
+                        }
                     };
                     new_state.mark_checked(key);
                 }

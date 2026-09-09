@@ -91,7 +91,7 @@ pub enum PackageResult {
         name: String,
     },
 }
-  
+
 impl PackageResult {
     fn display_name(&self) -> String {
         match self {
@@ -104,7 +104,7 @@ impl PackageResult {
             } => display_name(repository, name),
         }
     }
-  
+
     fn repository(&self) -> &str {
         match self {
             PackageResult::GithubFailed { repository, .. }
@@ -178,7 +178,7 @@ struct RecipeErrorMessage {
 #[derive(Clone, Default)]
 struct ReportData {
     github_errors: BTreeMap<String, Vec<String>>, // message -> repositories
-    no_releases: BTreeSet<String>,               // display names with no parseable releases
+    no_releases: BTreeSet<String>,                // display names with no parseable releases
     no_recipe: Vec<RecipeErrorMessage>,
 
     recipe_generated: BTreeMap<(String, String), Vec<String>>, // display, platform -> [version]
@@ -1605,7 +1605,10 @@ mod tests {
             name: "git-cliff".to_string(),
         }];
         let report = report_results(&results, 1, &[], 1, 5);
-        assert!(report.contains("No GitHub releases (1 packages):"), "{report}");
+        assert!(
+            report.contains("No GitHub releases (1 packages):"),
+            "{report}"
+        );
         assert!(report.contains("orhun/git-cliff"), "{report}");
     }
 

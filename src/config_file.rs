@@ -161,7 +161,9 @@ fn default_platforms() -> HashMap<Platform, Vec<String>> {
             format!(
                 "{arch}([\\._-]pc)?[\\._-]{WINDOWS}([\\._-]msvc)?{VER}([\\._-]exe)?({ARCHIVE}|\\.exe)?$"
             ),
-            format!("{WINDOWS}([\\._-]msvc)?[\\._-]{arch}{VER}([\\._-]bin)?([\\._-]exe)?({ARCHIVE}|\\.exe)?$"),
+            format!(
+                "{WINDOWS}([\\._-]msvc)?[\\._-]{arch}{VER}([\\._-]bin)?([\\._-]exe)?({ARCHIVE}|\\.exe)?$"
+            ),
             format!(
                 "{arch}([\\._-]pc)?[\\._-]{WINDOWS}[\\._-]gnu(llvm)?{VER}([\\._-]exe)?({ARCHIVE}|\\.exe)?$"
             ),
