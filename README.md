@@ -137,10 +137,13 @@ be packaged.
 | ---------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `repository`     | yes      | GitHub repository in `owner/repo` format.                                                                                                                                                                                                                                                           |
 | `name`           | no       | Package name used in the Conda channel. Defaults to the repository name (the part after `/`).                                                                                                                                                                                                       |
+| `executable-name` | no       | Command name for bare binaries, including compressed binaries. Defaults to the package name. Does not affect archives. Omit `.exe`; Windows PE binaries get it automatically. |
 | `release-prefix` | no       | Expected prefix of release binary filenames. Defaults to the package name. Set to `""` to disable prefix matching.                                                                                                                                                                                  |
 | `tag-prefix`     | no       | Custom prefix to strip from release tags before version parsing. When set, only tags starting with this prefix are considered and the prefix is removed to extract the version.                                                                                                                     |
 | `platforms`      | no       | Override the default platform detection patterns. See [Platform Patterns](#platform-patterns) below.                                                                                                                                                                                                |
 | `expose`         | no       | List of extra top-level directory names to preserve in the conda package. By default only standard conda directories (`bin/`, `lib/`, `include/`, `share/`, `etc/`, `ssl/`) are kept; everything else is moved to `extras/`. Use for packages like JDKs that ship additional directories (e.g. `["conf", "jmods"]`). |
+
+>`executable-name`: must be nonempty and contain only ASCII letters, digits, `.`, `_`, or `-`; it cannot start with `-` or equal `.` or `..`. For repositories with a `[[packages.packages]]` list, set it on the individual sub-packages rather than the parent entry.
 
 ### Minimal Example
 
@@ -168,6 +171,12 @@ name = "oxlint"
 [[packages]]
 repository = "some-org/tool"
 platforms = { linux-64 = ["custom-linux-x64-regex"], win-64 = "null" }
+
+[[packages]]
+repository = "xataio/cli"
+name = "xata-cli"
+release-prefix = "xata"
+executable-name = "xata"
 ```
 
 ## Platform Patterns

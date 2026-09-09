@@ -6,6 +6,8 @@ WORK_DIR="${PWD}"
 
 SRC="${PKG_NAME}-${PKG_VERSION}-${target_platform}"
 SRC_FILE="${WORK_DIR}/${SRC}"
+EXECUTABLE_NAME="${OCTOCONDA_EXECUTABLE_NAME:-${PKG_NAME}}"
+BARE_EXECUTABLE=""
 
 if ! test -f "$SRC_FILE"; then
     echo "${SRC} not found"
@@ -35,14 +37,17 @@ while [ "$STEP" -lt "$MAX_STEPS" ]; do
             ;;
         *PE32+* | *PE32*)
             mkdir -p "${PREFIX}/bin"
-            cp "$SRC_FILE" "${PREFIX}/bin/${PKG_NAME}.exe"
-            chmod 755 "${PREFIX}/bin/${PKG_NAME}.exe"
+            cp "$SRC_FILE" "${PREFIX}/bin/${EXECUTABLE_NAME}.exe"
+            chmod 755 "${PREFIX}/bin/${EXECUTABLE_NAME}.exe"
+            BARE_EXECUTABLE="${EXECUTABLE_NAME}.exe"
             break
             ;;
         *)
             # Bare binary or unknown — copy as executable
-            cp "$SRC_FILE" "${PREFIX}/${PKG_NAME}"
-            chmod 755 "${PREFIX}/${PKG_NAME}"
+            mkdir -p "${PREFIX}/bin"
+            cp "$SRC_FILE" "${PREFIX}/bin/${EXECUTABLE_NAME}"
+            chmod 755 "${PREFIX}/bin/${EXECUTABLE_NAME}"
+            BARE_EXECUTABLE="${EXECUTABLE_NAME}"
             break
             ;;
     esac
@@ -155,6 +160,10 @@ done
 cd "${PREFIX}/bin" || exit
 
 for f in *; do
+    # An explicit bare-binary name must not be shortened as a versioned filename.
+    if [ -n "${OCTOCONDA_EXECUTABLE_NAME:-}" ] && [ "$f" = "$BARE_EXECUTABLE" ]; then
+        continue
+    fi
     if [[ "$f" == *"-${PKG_VERSION}"* ]]; then
         short="${f%%-*}"
         mv "${f}" "${short}"
