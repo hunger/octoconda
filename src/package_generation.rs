@@ -594,11 +594,39 @@ fn yaml_escape(s: &str) -> String {
         .replace('\t', "\\t")
 }
 
+/// Return `candidate` if it is a well-formed absolute `http`/`https` URL with a host.
+fn valid_http_url(candidate: &str) -> Option<&str> {
+    let candidate = candidate.trim();
+    let url = url::Url::parse(candidate).ok()?;
+    if !matches!(url.scheme(), "http" | "https") || url.host_str().is_none() {
+        return None;
+    }
+    Some(candidate)
+}
+
+/// The canonical GitHub URL of the repository. Prefers what the API reports, but
+/// falls back to a URL built from the configured `owner/repo` if that is missing
+/// or unusable.
+fn github_repository_url(
+    package_repository: &crate::types::Repository,
+    repository: &octocrab::models::Repository,
+) -> String {
+    repository
+        .html_url
+        .as_ref()
+        .map(|u| u.as_str())
+        .and_then(valid_http_url)
+        .map(str::to_owned)
+        .unwrap_or_else(|| format!("https://github.com/{package_repository}"))
+}
+
 fn extract_about(
     package_version: &str,
+    package_repository: &crate::types::Repository,
     repository: &octocrab::models::Repository,
     asset: &octocrab::models::repos::Asset,
 ) -> String {
+    let repository_url = github_repository_url(package_repository, repository);
     let extra_section = {
         let upstream_digest = extract_digest(asset)
             .map(|(algo, digest)| format!("\n  upstream-{algo}: \"{}\"", yaml_escape(&digest)))
@@ -622,18 +650,15 @@ fn extract_about(
     };
 
     let about_section = {
-        let homepage = if let Some(homepage) = &repository.homepage
-            && !homepage.is_empty()
-        {
-            format!("  homepage: \"{}\"\n", yaml_escape(homepage))
-        } else {
-            String::new()
-        };
-        let repository_line = if let Some(repository_url) = repository.html_url.as_ref() {
-            format!("  repository: \"{repository_url}\"\n")
-        } else {
-            String::new()
-        };
+        // Anything that is not a proper URL is replaced by the repository URL so
+        // the recipe never carries a broken link.
+        let homepage = repository
+            .homepage
+            .as_deref()
+            .and_then(valid_http_url)
+            .unwrap_or(&repository_url);
+        let homepage = format!("  homepage: \"{}\"\n", yaml_escape(homepage));
+        let repository_line = format!("  repository: \"{}\"\n", yaml_escape(&repository_url));
 
         let license = if let Some(license) = &repository.license {
             let license_info = fix_spdx_license(&license.spdx_id);
@@ -698,7 +723,7 @@ fn generate_rattler_build_recipe(
         .map(|(algo, value)| format!("\n  {algo}: {value}"))
         .unwrap_or_default();
 
-    let about = extract_about(package_version, repository, asset);
+    let about = extract_about(package_version, &package.repository, repository, asset);
     let pn = package_name;
 
     let archive = format!("{pn}-{package_version}-{target_platform}");
@@ -1621,5 +1646,130 @@ mod tests {
         }];
         let report = report_results(&results, 1, &[], 1, 5);
         assert!(!report.contains("No GitHub releases"), "{report}");
+    }
+
+    #[test]
+    fn test_valid_http_url_accepts_proper_urls() {
+        assert_eq!(
+            valid_http_url("https://example.com/docs"),
+            Some("https://example.com/docs")
+        );
+        assert_eq!(
+            valid_http_url("http://example.com"),
+            Some("http://example.com")
+        );
+        assert_eq!(
+            valid_http_url("  https://example.com  "),
+            Some("https://example.com")
+        );
+    }
+
+    #[test]
+    fn test_valid_http_url_rejects_improper_urls() {
+        assert_eq!(valid_http_url(""), None);
+        assert_eq!(valid_http_url("   "), None);
+        assert_eq!(valid_http_url("example.com"), None);
+        assert_eq!(valid_http_url("www.example.com/foo"), None);
+        assert_eq!(valid_http_url("not a url"), None);
+        assert_eq!(valid_http_url("ftp://example.com"), None);
+        assert_eq!(valid_http_url("mailto:someone@example.com"), None);
+        assert_eq!(valid_http_url("https://"), None);
+        assert_eq!(valid_http_url("/relative/path"), None);
+    }
+
+    fn test_github_repository(
+        homepage: Option<&str>,
+        html_url: Option<&str>,
+    ) -> octocrab::models::Repository {
+        let mut value = serde_json::json!({
+            "id": 1,
+            "name": "repo",
+            "full_name": "owner/repo",
+            "url": "https://api.github.com/repos/owner/repo",
+        });
+        if let Some(homepage) = homepage {
+            value["homepage"] = serde_json::Value::String(homepage.to_string());
+        }
+        if let Some(html_url) = html_url {
+            value["html_url"] = serde_json::Value::String(html_url.to_string());
+        }
+        serde_json::from_value(value).expect("valid repository JSON")
+    }
+
+    fn test_asset() -> octocrab::models::repos::Asset {
+        serde_json::from_value(serde_json::json!({
+            "url": "https://api.github.com/repos/owner/repo/releases/assets/1",
+            "browser_download_url": "https://github.com/owner/repo/releases/download/v1.0.0/repo-1.0.0-x86_64-unknown-linux-musl.tar.gz",
+            "id": 1,
+            "node_id": "RA_1",
+            "name": "repo-1.0.0-x86_64-unknown-linux-musl.tar.gz",
+            "label": null,
+            "state": "uploaded",
+            "content_type": "application/gzip",
+            "size": 1234,
+            "digest": null,
+            "download_count": 0,
+            "created_at": "2024-01-01T00:00:00Z",
+            "updated_at": "2024-01-01T00:00:00Z",
+            "uploader": null,
+        }))
+        .expect("valid asset JSON")
+    }
+
+    fn package_repository() -> crate::types::Repository {
+        crate::types::Repository::try_from("owner/repo").unwrap()
+    }
+
+    #[test]
+    fn test_extract_about_keeps_valid_homepage() {
+        let repo = test_github_repository(
+            Some("https://example.com/docs"),
+            Some("https://github.com/owner/repo"),
+        );
+        let about = extract_about("1.0.0", &package_repository(), &repo, &test_asset());
+        assert!(
+            about.contains("  homepage: \"https://example.com/docs\"\n"),
+            "{about}"
+        );
+        assert!(
+            about.contains("  repository: \"https://github.com/owner/repo\"\n"),
+            "{about}"
+        );
+    }
+
+    #[test]
+    fn test_extract_about_replaces_invalid_homepage_with_repository_url() {
+        for bad in ["", "example.com", "not a url", "ftp://example.com"] {
+            let repo = test_github_repository(Some(bad), Some("https://github.com/owner/repo"));
+            let about = extract_about("1.0.0", &package_repository(), &repo, &test_asset());
+            assert!(
+                about.contains("  homepage: \"https://github.com/owner/repo\"\n"),
+                "homepage {bad:?}: {about}"
+            );
+        }
+    }
+
+    #[test]
+    fn test_extract_about_uses_repository_url_when_homepage_missing() {
+        let repo = test_github_repository(None, Some("https://github.com/owner/repo"));
+        let about = extract_about("1.0.0", &package_repository(), &repo, &test_asset());
+        assert!(
+            about.contains("  homepage: \"https://github.com/owner/repo\"\n"),
+            "{about}"
+        );
+    }
+
+    #[test]
+    fn test_extract_about_builds_repository_url_when_api_omits_it() {
+        let repo = test_github_repository(Some("example.com"), None);
+        let about = extract_about("1.0.0", &package_repository(), &repo, &test_asset());
+        assert!(
+            about.contains("  homepage: \"https://github.com/owner/repo\"\n"),
+            "{about}"
+        );
+        assert!(
+            about.contains("  repository: \"https://github.com/owner/repo\"\n"),
+            "{about}"
+        );
     }
 }
