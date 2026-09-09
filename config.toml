@@ -1656,6 +1656,9 @@ repository = "ekzhang/bore"
 repository = "electric-saw/kafta"
 
 [[packages]]
+repository = "elio-fm/elio"
+
+[[packages]]
 repository = "elkowar/pipr"
 
 [[packages]]
@@ -2829,6 +2832,9 @@ repository = "jez/as-tree"
 
 [[packages]]
 repository = "JFryy/qq"
+
+[[packages]]
+repository = "JFryy/systemd-lsp"
 
 [[packages]]
 repository = "jhspetersson/fselect"
@@ -5245,6 +5251,9 @@ platforms = { linux-64 = "^lsp-ai-x86_64-unknown-linux-gnu" }
 repository = "simeji/jid"
 
 [[packages]]
+repository = "simonomi/hexapoda"
+
+[[packages]]
 repository = "SimonTheLeg/konf-go"
 
 [[packages]]
@@ -6249,6 +6258,9 @@ deprecated = true
 
 [[packages]]
 repository = "watchexec/watchexec"
+
+[[packages]]
+repository = "wcampbell0x2a/heretek"
 
 [[packages]]
 repository = "weaviate/weaviate"
