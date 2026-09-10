@@ -10,16 +10,13 @@ pub struct Github {
 /// Converts a `yyyy-mm-dd[.n]` release tag to a Conda-compatible dotted version.
 /// Returns `None` when the tag does not match that exact numeric format.
 fn normalize_date_version(tag: &str) -> Option<String> {
-    let (date, hotfix) = tag.split_once('.').map_or((tag, None), |(date, hotfix)| {
-        (date, Some(hotfix))
-    });
+    let (date, hotfix) = tag
+        .split_once('.')
+        .map_or((tag, None), |(date, hotfix)| (date, Some(hotfix)));
     let mut parts = date.split('-');
-    let (Some(year), Some(month), Some(day), None) = (
-        parts.next(),
-        parts.next(),
-        parts.next(),
-        parts.next(),
-    ) else {
+    let (Some(year), Some(month), Some(day), None) =
+        (parts.next(), parts.next(), parts.next(), parts.next())
+    else {
         return None;
     };
     let is_numeric = |part: &str| part.bytes().all(|c| c.is_ascii_digit());
