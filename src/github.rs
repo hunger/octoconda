@@ -117,7 +117,14 @@ pub fn filter_releases_for_package(
             tag
         };
 
-        let (version, build) = if let Some((version, build)) = tag.split_once('-') {
+        let numeric_parts = tag.split('-').collect::<Vec<_>>();
+        let (version, build) = if numeric_parts.len() > 2
+            && numeric_parts
+                .iter()
+                .all(|part| !part.is_empty() && part.chars().all(|c| c.is_ascii_digit()))
+        {
+            (numeric_parts.join("."), String::new())
+        } else if let Some((version, build)) = tag.split_once('-') {
             (version.to_string(), build.to_string())
         } else {
             (tag, String::new())
@@ -198,6 +205,18 @@ mod tests {
         let result = filter_releases_for_package(&releases, "pkg", None, 10);
         assert_eq!(result.len(), 1);
         assert_eq!(result[0].1, ("1.2.3".to_string(), 4));
+    }
+
+    #[test]
+    fn parses_hyphenated_date_versions() {
+        let releases = vec![
+            release_with_tag("2026-09-07"),
+            release_with_tag("2026-08-31"),
+        ];
+        let result = filter_releases_for_package(&releases, "rust-analyzer", None, 10);
+        assert_eq!(result.len(), 2);
+        assert_eq!(result[0].1, ("2026.09.07".to_string(), 0));
+        assert_eq!(result[1].1, ("2026.08.31".to_string(), 0));
     }
 
     #[test]
