@@ -1622,6 +1622,10 @@ repository = "dyne/slangroom-exec"
 repository = "dyne/zenroom"
 
 [[packages]]
+repository = "dmtrKovalenko/fff"
+release-prefix = "fff-mcp"
+
+[[packages]]
 repository = "earthly/earthly"
 
 [[packages]]
