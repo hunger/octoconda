@@ -7,6 +7,31 @@ pub struct Github {
     octocrab: octocrab::Octocrab,
 }
 
+/// Converts a `yyyy-mm-dd[.n]` release tag to a Conda-compatible dotted version.
+/// Returns `None` when the tag does not match that exact numeric format.
+fn normalize_date_version(tag: &str) -> Option<String> {
+    let (date, hotfix) = tag.split_once('.').map_or((tag, None), |(date, hotfix)| {
+        (date, Some(hotfix))
+    });
+    let mut parts = date.split('-');
+    let (Some(year), Some(month), Some(day), None) = (
+        parts.next(),
+        parts.next(),
+        parts.next(),
+        parts.next(),
+    ) else {
+        return None;
+    };
+    let is_numeric = |part: &str| part.bytes().all(|c| c.is_ascii_digit());
+
+    (year.len() == 4
+        && month.len() == 2
+        && day.len() == 2
+        && [year, month, day].into_iter().all(is_numeric)
+        && hotfix.is_none_or(|part| !part.is_empty() && is_numeric(part)))
+    .then(|| tag.replace('-', "."))
+}
+
 impl Github {
     pub fn new() -> anyhow::Result<Self> {
         let octocrab = if let Ok(token) = std::env::var("GITHUB_TOKEN") {
@@ -117,13 +142,8 @@ pub fn filter_releases_for_package(
             tag
         };
 
-        let numeric_parts = tag.split('-').collect::<Vec<_>>();
-        let (version, build) = if numeric_parts.len() > 2
-            && numeric_parts
-                .iter()
-                .all(|part| !part.is_empty() && part.chars().all(|c| c.is_ascii_digit()))
-        {
-            (numeric_parts.join("."), String::new())
+        let (version, build) = if let Some(version) = normalize_date_version(&tag) {
+            (version, String::new())
         } else if let Some((version, build)) = tag.split_once('-') {
             (version.to_string(), build.to_string())
         } else {
@@ -209,14 +229,19 @@ mod tests {
 
     #[test]
     fn parses_hyphenated_date_versions() {
+        // rust-lang/rust-analyzer tags look like `2026-09-07` and `2026-08-17.4`.
         let releases = vec![
             release_with_tag("2026-09-07"),
+            release_with_tag("2026-08-17.4"),
+            release_with_tag("2026-08-10.1"),
             release_with_tag("2026-08-31"),
         ];
         let result = filter_releases_for_package(&releases, "rust-analyzer", None, 10);
-        assert_eq!(result.len(), 2);
+        assert_eq!(result.len(), 4);
         assert_eq!(result[0].1, ("2026.09.07".to_string(), 0));
-        assert_eq!(result[1].1, ("2026.08.31".to_string(), 0));
+        assert_eq!(result[1].1, ("2026.08.17.4".to_string(), 0));
+        assert_eq!(result[2].1, ("2026.08.10.1".to_string(), 0));
+        assert_eq!(result[3].1, ("2026.08.31".to_string(), 0));
     }
 
     #[test]
